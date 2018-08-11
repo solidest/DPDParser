@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2047
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DPDParser", "DPDParser\DPDParser.vcxproj", "{4BC050F3-339E-44CF-B2DB-FA7899AE5011}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4BC050F3-339E-44CF-B2DB-FA7899AE5011}.Debug|x64.ActiveCfg = Debug|x64
+		{4BC050F3-339E-44CF-B2DB-FA7899AE5011}.Debug|x64.Build.0 = Debug|x64
+		{4BC050F3-339E-44CF-B2DB-FA7899AE5011}.Debug|x86.ActiveCfg = Debug|Win32
+		{4BC050F3-339E-44CF-B2DB-FA7899AE5011}.Debug|x86.Build.0 = Debug|Win32
+		{4BC050F3-339E-44CF-B2DB-FA7899AE5011}.Release|x64.ActiveCfg = Release|x64
+		{4BC050F3-339E-44CF-B2DB-FA7899AE5011}.Release|x64.Build.0 = Release|x64
+		{4BC050F3-339E-44CF-B2DB-FA7899AE5011}.Release|x86.ActiveCfg = Release|Win32
+		{4BC050F3-339E-44CF-B2DB-FA7899AE5011}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BC1C4BB5-205C-4948-B4AE-A6D8DD28F52C}
+	EndGlobalSection
+EndGlobal
