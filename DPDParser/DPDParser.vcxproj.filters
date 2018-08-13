@@ -21,13 +21,28 @@
     <ClInclude Include="targetver.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="dpd.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DPD.tab.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="DPDParser.cpp">
+    <ClCompile Include="DPD.flex.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="DPD.tab.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Flex Include="DPD.l" />
+  </ItemGroup>
+  <ItemGroup>
+    <Bison Include="DPD.y" />
   </ItemGroup>
 </Project>
