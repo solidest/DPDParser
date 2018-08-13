@@ -135,13 +135,14 @@ union YYSTYPE
 {
 #line 13 "DPD.y" /* yacc.c:355  */
 
-	char* s;
+	char * s;
+	struct value* v;
 	struct ast *a;
 	struct protocol *pro;
 	struct segment *seg;
 	struct property *proper;
 
-#line 145 "DPD.tab.cpp" /* yacc.c:355  */
+#line 146 "DPD.tab.cpp" /* yacc.c:355  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -158,7 +159,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 162 "DPD.tab.cpp" /* yacc.c:358  */
+#line 163 "DPD.tab.cpp" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -457,9 +458,9 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    42,    42,    43,    46,    49,    50,    53,    56,    57,
-      60,    61,    64,    65,    66,    67,    68,    69,    70,    71,
-      72,    73,    74
+       0,    43,    43,    44,    47,    50,    51,    54,    57,    58,
+      61,    62,    65,    66,    67,    68,    69,    70,    71,    72,
+      73,    74,    75
 };
 #endif
 
@@ -1248,25 +1249,25 @@ yyreduce:
   switch (yyn)
     {
         case 4:
-#line 46 "DPD.y" /* yacc.c:1648  */
+#line 47 "DPD.y" /* yacc.c:1648  */
     { ; }
-#line 1254 "DPD.tab.cpp" /* yacc.c:1648  */
+#line 1255 "DPD.tab.cpp" /* yacc.c:1648  */
     break;
 
   case 7:
-#line 53 "DPD.y" /* yacc.c:1648  */
+#line 54 "DPD.y" /* yacc.c:1648  */
     { ; }
-#line 1260 "DPD.tab.cpp" /* yacc.c:1648  */
+#line 1261 "DPD.tab.cpp" /* yacc.c:1648  */
     break;
 
   case 12:
-#line 64 "DPD.y" /* yacc.c:1648  */
+#line 65 "DPD.y" /* yacc.c:1648  */
     { printf("%s", (yyvsp[0].s)); }
-#line 1266 "DPD.tab.cpp" /* yacc.c:1648  */
+#line 1267 "DPD.tab.cpp" /* yacc.c:1648  */
     break;
 
 
-#line 1270 "DPD.tab.cpp" /* yacc.c:1648  */
+#line 1271 "DPD.tab.cpp" /* yacc.c:1648  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1494,7 +1495,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 78 "DPD.y" /* yacc.c:1907  */
+#line 79 "DPD.y" /* yacc.c:1907  */
 
 int main() {
 	yyin = stdin;

@@ -11,7 +11,8 @@ extern FILE* yyin;
 %}
 
 %union {
-	char* s;
+	char * s;
+	struct value* v;
 	struct ast *a;
 	struct protocol *pro;
 	struct segment *seg;

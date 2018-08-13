@@ -42,15 +42,19 @@ struct property {
 	struct property *next;
 };
 
+struct value {
+	enum valuetype vtype;
+	int lineno;
+	char* v;
+};
+
 enum valuetype {
 	value_int = 1,
 	value_float,
 	value_str,
 	value_range,
 	value_property,
-	value_switch_case,
-	value_switch_default
+	value_id
 };
-
 
 

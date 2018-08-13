@@ -71,13 +71,14 @@ union YYSTYPE
 {
 #line 13 "DPD.y" /* yacc.c:1910  */
 
-	char* s;
+	char * s;
+	struct value* v;
 	struct ast *a;
 	struct protocol *pro;
 	struct segment *seg;
 	struct property *proper;
 
-#line 81 "DPD.tab.h" /* yacc.c:1910  */
+#line 82 "DPD.tab.h" /* yacc.c:1910  */
 };
 
 typedef union YYSTYPE YYSTYPE;
