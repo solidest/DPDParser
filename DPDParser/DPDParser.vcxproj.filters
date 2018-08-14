@@ -38,6 +38,9 @@
     <ClCompile Include="DPD.tab.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="dpd.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Flex Include="DPD.l" />

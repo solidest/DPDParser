@@ -47,20 +47,35 @@ extern int yydebug;
   {
     PROTOCOL = 258,
     SEGMENT = 259,
-    SEGMENT_TYPE = 260,
-    EQUAL = 261,
-    SEGMENT_PROPERTY = 262,
-    VALUE_PROPERTY = 263,
-    VALUE_INT = 264,
-    VALUE_FLOAT = 265,
-    VALUE_STRING = 266,
-    VALUE_RANGE = 267,
-    DEFAULT = 268,
-    SWITCH = 269,
-    CASE = 270,
-    IDENTIFIER = 271,
-    COMMENT = 272,
-    END = 273
+    SEGMENT_TYPE_U8 = 260,
+    SEGMENT_TYPE_U16 = 261,
+    SEGMENT_TYPE_U32 = 262,
+    SEGMENT_TYPE_I8 = 263,
+    SEGMENT_TYPE_I16 = 264,
+    SEGMENT_TYPE_I32 = 265,
+    SEGMENT_TYPE_RI = 266,
+    SEGMENT_TYPE_DOUBLE = 267,
+    SEGMENT_TYPE_FLOAT = 268,
+    SEGMENT_TYPE_BOOLEAN = 269,
+    SEGMENT_TYPE_CRC = 270,
+    SEGMENT_TYPE_ARRAY = 271,
+    SEGMENT_TYPE_STRING = 272,
+    SEGMENT_TYPE_BLOCK = 273,
+    SEGMENT_TYPE_BUFFER = 274,
+    EQUAL = 275,
+    CMP = 276,
+    SEGMENT_PROPERTY = 277,
+    VALUE_PROPERTY = 278,
+    VALUE_INT = 279,
+    VALUE_FLOAT = 280,
+    VALUE_STRING = 281,
+    VALUE_RANGE = 282,
+    DEFAULT = 283,
+    SWITCH = 284,
+    CASE = 285,
+    IDENTIFIER = 286,
+    COMMENT = 287,
+    END = 288
   };
 #endif
 
@@ -71,14 +86,17 @@ union YYSTYPE
 {
 #line 13 "DPD.y" /* yacc.c:1910  */
 
-	char * s;
-	struct value* v;
-	struct ast *a;
-	struct protocol *pro;
-	struct segment *seg;
-	struct property *proper;
+	int lineno;
+	char* propertyname;
+	char* propertyvalue;
+	char* id;
+	enum segmenttype stype;
+	struct comment* commentlist;
+	struct protocol *protocollist;
+	struct segment *segmentlist;
+	struct property *propertylist;
 
-#line 82 "DPD.tab.h" /* yacc.c:1910  */
+#line 100 "DPD.tab.h" /* yacc.c:1910  */
 };
 
 typedef union YYSTYPE YYSTYPE;

@@ -111,20 +111,35 @@ extern int yydebug;
   {
     PROTOCOL = 258,
     SEGMENT = 259,
-    SEGMENT_TYPE = 260,
-    EQUAL = 261,
-    SEGMENT_PROPERTY = 262,
-    VALUE_PROPERTY = 263,
-    VALUE_INT = 264,
-    VALUE_FLOAT = 265,
-    VALUE_STRING = 266,
-    VALUE_RANGE = 267,
-    DEFAULT = 268,
-    SWITCH = 269,
-    CASE = 270,
-    IDENTIFIER = 271,
-    COMMENT = 272,
-    END = 273
+    SEGMENT_TYPE_U8 = 260,
+    SEGMENT_TYPE_U16 = 261,
+    SEGMENT_TYPE_U32 = 262,
+    SEGMENT_TYPE_I8 = 263,
+    SEGMENT_TYPE_I16 = 264,
+    SEGMENT_TYPE_I32 = 265,
+    SEGMENT_TYPE_RI = 266,
+    SEGMENT_TYPE_DOUBLE = 267,
+    SEGMENT_TYPE_FLOAT = 268,
+    SEGMENT_TYPE_BOOLEAN = 269,
+    SEGMENT_TYPE_CRC = 270,
+    SEGMENT_TYPE_ARRAY = 271,
+    SEGMENT_TYPE_STRING = 272,
+    SEGMENT_TYPE_BLOCK = 273,
+    SEGMENT_TYPE_BUFFER = 274,
+    EQUAL = 275,
+    CMP = 276,
+    SEGMENT_PROPERTY = 277,
+    VALUE_PROPERTY = 278,
+    VALUE_INT = 279,
+    VALUE_FLOAT = 280,
+    VALUE_STRING = 281,
+    VALUE_RANGE = 282,
+    DEFAULT = 283,
+    SWITCH = 284,
+    CASE = 285,
+    IDENTIFIER = 286,
+    COMMENT = 287,
+    END = 288
   };
 #endif
 
@@ -135,14 +150,17 @@ union YYSTYPE
 {
 #line 13 "DPD.y" /* yacc.c:355  */
 
-	char * s;
-	struct value* v;
-	struct ast *a;
-	struct protocol *pro;
-	struct segment *seg;
-	struct property *proper;
+	int lineno;
+	char* propertyname;
+	char* propertyvalue;
+	char* id;
+	enum segmenttype stype;
+	struct comment* commentlist;
+	struct protocol *protocollist;
+	struct segment *segmentlist;
+	struct property *propertylist;
 
-#line 146 "DPD.tab.cpp" /* yacc.c:355  */
+#line 164 "DPD.tab.cpp" /* yacc.c:355  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -159,7 +177,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 163 "DPD.tab.cpp" /* yacc.c:358  */
+#line 181 "DPD.tab.cpp" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -401,21 +419,21 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  2
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   28
+#define YYLAST   40
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  19
+#define YYNTOKENS  34
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  8
+#define YYNNTS  9
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  22
+#define YYNRULES  36
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  35
+#define YYNSTATES  49
 
 /* YYTRANSLATE[YYX] -- Symbol number corresponding to YYX as returned
    by yylex, with out-of-bounds checking.  */
 #define YYUNDEFTOK  2
-#define YYMAXUTOK   273
+#define YYMAXUTOK   288
 
 #define YYTRANSLATE(YYX)                                                \
   ((unsigned int) (YYX) <= YYMAXUTOK ? yytranslate[YYX] : YYUNDEFTOK)
@@ -451,16 +469,18 @@ static const yytype_uint8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
        5,     6,     7,     8,     9,    10,    11,    12,    13,    14,
-      15,    16,    17,    18
+      15,    16,    17,    18,    19,    20,    21,    22,    23,    24,
+      25,    26,    27,    28,    29,    30,    31,    32,    33
 };
 
 #if YYDEBUG
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    43,    43,    44,    47,    50,    51,    54,    57,    58,
-      61,    62,    65,    66,    67,    68,    69,    70,    71,    72,
-      73,    74,    75
+       0,    67,    67,    68,    71,    74,    75,    78,    81,    82,
+      86,    87,    91,    92,    93,    94,    95,    96,    97,    98,
+      99,   100,   101,   104,   105,   106,   107,   108,   109,   110,
+     111,   112,   113,   114,   115,   116,   117
 };
 #endif
 
@@ -469,12 +489,16 @@ static const yytype_uint8 yyrline[] =
    First, the terminals, then, starting at YYNTOKENS, nonterminals.  */
 static const char *const yytname[] =
 {
-  "$end", "error", "$undefined", "PROTOCOL", "SEGMENT", "SEGMENT_TYPE",
-  "EQUAL", "SEGMENT_PROPERTY", "VALUE_PROPERTY", "VALUE_INT",
-  "VALUE_FLOAT", "VALUE_STRING", "VALUE_RANGE", "DEFAULT", "SWITCH",
-  "CASE", "IDENTIFIER", "COMMENT", "END", "$accept", "protocollist",
-  "protocol", "segmentlist", "segment", "commentlist", "propertylist",
-  "property", YY_NULLPTR
+  "$end", "error", "$undefined", "PROTOCOL", "SEGMENT", "SEGMENT_TYPE_U8",
+  "SEGMENT_TYPE_U16", "SEGMENT_TYPE_U32", "SEGMENT_TYPE_I8",
+  "SEGMENT_TYPE_I16", "SEGMENT_TYPE_I32", "SEGMENT_TYPE_RI",
+  "SEGMENT_TYPE_DOUBLE", "SEGMENT_TYPE_FLOAT", "SEGMENT_TYPE_BOOLEAN",
+  "SEGMENT_TYPE_CRC", "SEGMENT_TYPE_ARRAY", "SEGMENT_TYPE_STRING",
+  "SEGMENT_TYPE_BLOCK", "SEGMENT_TYPE_BUFFER", "EQUAL", "CMP",
+  "SEGMENT_PROPERTY", "VALUE_PROPERTY", "VALUE_INT", "VALUE_FLOAT",
+  "VALUE_STRING", "VALUE_RANGE", "DEFAULT", "SWITCH", "CASE", "IDENTIFIER",
+  "COMMENT", "END", "$accept", "protocollist", "protocol", "segmentlist",
+  "segment", "commentlist", "propertylist", "property", "segment_type", YY_NULLPTR
 };
 #endif
 
@@ -484,14 +508,16 @@ static const char *const yytname[] =
 static const yytype_uint16 yytoknum[] =
 {
        0,   256,   257,   258,   259,   260,   261,   262,   263,   264,
-     265,   266,   267,   268,   269,   270,   271,   272,   273
+     265,   266,   267,   268,   269,   270,   271,   272,   273,   274,
+     275,   276,   277,   278,   279,   280,   281,   282,   283,   284,
+     285,   286,   287,   288
 };
 # endif
 
-#define YYPACT_NINF -14
+#define YYPACT_NINF -24
 
 #define yypact_value_is_default(Yystate) \
-  (!!((Yystate) == (-14)))
+  (!!((Yystate) == (-24)))
 
 #define YYTABLE_NINF -1
 
@@ -502,10 +528,11 @@ static const yytype_uint16 yytoknum[] =
      STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-     -14,     9,   -14,   -14,    -3,   -13,   -14,   -14,    -6,   -14,
-     -14,    -2,     1,     8,   -14,     3,    17,    -5,    13,   -14,
-      -4,    10,   -14,    11,    12,   -14,   -14,   -14,   -14,   -14,
-     -14,   -14,   -14,   -14,   -14
+     -24,    19,   -24,   -24,    -3,   -11,   -24,   -24,    -9,   -24,
+     -24,    -2,    -8,    -1,   -24,   -24,   -24,   -24,   -24,   -24,
+     -24,   -24,   -24,   -24,   -24,   -24,   -24,   -24,   -24,     3,
+      12,   -10,   -23,   -24,    11,     2,   -24,     8,     9,   -24,
+     -24,   -24,   -24,   -24,   -24,   -24,   -24,   -24,   -24
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -514,21 +541,22 @@ static const yytype_int8 yypact[] =
 static const yytype_uint8 yydefact[] =
 {
        2,     8,     1,     3,     0,     0,     9,     5,     8,     4,
-       6,     0,     0,     0,    10,     7,     0,     0,     0,    11,
-       0,     0,    22,     0,     0,    12,    13,    14,    15,    16,
-      17,    18,    19,    20,    21
+       6,     0,     0,     0,    23,    24,    25,    26,    27,    28,
+      29,    30,    31,    32,    33,    34,    35,    36,    10,     7,
+       0,     0,     0,    11,     0,     0,    22,     0,     0,    12,
+      13,    14,    15,    16,    17,    18,    19,    20,    21
 };
 
   /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -14,   -14,   -14,   -14,   -14,    18,   -14,   -14
+     -24,   -24,   -24,   -24,   -24,    14,   -24,   -24,   -24
 };
 
   /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-      -1,     1,     3,     8,    10,     4,    15,    19
+      -1,     1,     3,     8,    10,     4,    29,    33,    28
 };
 
   /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -536,34 +564,40 @@ static const yytype_int8 yydefgoto[] =
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_uint8 yytable[] =
 {
-       5,    21,    12,     7,    25,    26,    27,    28,    29,     2,
-      16,    22,     9,    14,     6,     6,    17,    13,    18,    30,
-      31,    32,    23,    20,    24,     0,    11,    33,    34
+       5,    37,    12,    38,    14,    15,    16,    17,    18,    19,
+      35,    20,    21,    22,    23,    24,    25,    26,    27,     2,
+       7,    36,    11,    13,     9,    30,    44,    45,    46,     6,
+       6,    31,    34,    32,    39,    40,    41,    42,    43,    47,
+      48
 };
 
-static const yytype_int8 yycheck[] =
+static const yytype_uint8 yycheck[] =
 {
-       3,     6,     4,    16,     8,     9,    10,    11,    12,     0,
-       7,    16,    18,     5,    17,    17,    13,    16,    15,     9,
-      10,    11,     9,     6,    11,    -1,     8,    16,    16
+       3,    24,     4,    26,     5,     6,     7,     8,     9,    10,
+      20,    12,    13,    14,    15,    16,    17,    18,    19,     0,
+      31,    31,     8,    31,    33,    22,    24,    25,    26,    32,
+      32,    28,    20,    30,    23,    24,    25,    26,    27,    31,
+      31
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
      symbol of state STATE-NUM.  */
 static const yytype_uint8 yystos[] =
 {
-       0,    20,     0,    21,    24,     3,    17,    16,    22,    18,
-      23,    24,     4,    16,     5,    25,     7,    13,    15,    26,
-       6,     6,    16,     9,    11,     8,     9,    10,    11,    12,
-       9,    10,    11,    16,    16
+       0,    35,     0,    36,    39,     3,    32,    31,    37,    33,
+      38,    39,     4,    31,     5,     6,     7,     8,     9,    10,
+      12,    13,    14,    15,    16,    17,    18,    19,    42,    40,
+      22,    28,    30,    41,    20,    20,    31,    24,    26,    23,
+      24,    25,    26,    27,    24,    25,    26,    31,    31
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_uint8 yyr1[] =
 {
-       0,    19,    20,    20,    21,    22,    22,    23,    24,    24,
-      25,    25,    26,    26,    26,    26,    26,    26,    26,    26,
-      26,    26,    26
+       0,    34,    35,    35,    36,    37,    37,    38,    39,    39,
+      40,    40,    41,    41,    41,    41,    41,    41,    41,    41,
+      41,    41,    41,    42,    42,    42,    42,    42,    42,    42,
+      42,    42,    42,    42,    42,    42,    42
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
@@ -571,7 +605,8 @@ static const yytype_uint8 yyr2[] =
 {
        0,     2,     0,     2,     5,     0,     2,     5,     0,     2,
        0,     2,     3,     3,     3,     3,     3,     3,     3,     3,
-       3,     3,     2
+       3,     3,     2,     1,     1,     1,     1,     1,     1,     1,
+       1,     1,     1,     1,     1,     1,     1
 };
 
 
@@ -1249,25 +1284,193 @@ yyreduce:
   switch (yyn)
     {
         case 4:
-#line 47 "DPD.y" /* yacc.c:1648  */
+#line 71 "DPD.y" /* yacc.c:1648  */
     { ; }
-#line 1255 "DPD.tab.cpp" /* yacc.c:1648  */
+#line 1290 "DPD.tab.cpp" /* yacc.c:1648  */
     break;
 
   case 7:
-#line 54 "DPD.y" /* yacc.c:1648  */
+#line 78 "DPD.y" /* yacc.c:1648  */
     { ; }
-#line 1261 "DPD.tab.cpp" /* yacc.c:1648  */
+#line 1296 "DPD.tab.cpp" /* yacc.c:1648  */
+    break;
+
+  case 8:
+#line 81 "DPD.y" /* yacc.c:1648  */
+    { (yyval.commentlist) = NULL; }
+#line 1302 "DPD.tab.cpp" /* yacc.c:1648  */
+    break;
+
+  case 9:
+#line 82 "DPD.y" /* yacc.c:1648  */
+    { (yyval.commentlist) = union_comment((yyvsp[-1].commentlist), (yyvsp[0].commentlist)); }
+#line 1308 "DPD.tab.cpp" /* yacc.c:1648  */
+    break;
+
+  case 10:
+#line 86 "DPD.y" /* yacc.c:1648  */
+    { (yyval.propertylist) = NULL; }
+#line 1314 "DPD.tab.cpp" /* yacc.c:1648  */
+    break;
+
+  case 11:
+#line 87 "DPD.y" /* yacc.c:1648  */
+    { (yyval.propertylist) = union_property((yyvsp[-1].propertylist), (yyvsp[0].propertylist)); }
+#line 1320 "DPD.tab.cpp" /* yacc.c:1648  */
     break;
 
   case 12:
-#line 65 "DPD.y" /* yacc.c:1648  */
-    { printf("%s", (yyvsp[0].s)); }
-#line 1267 "DPD.tab.cpp" /* yacc.c:1648  */
+#line 91 "DPD.y" /* yacc.c:1648  */
+    { (yyval.propertylist) = new_property(v_property, (yyvsp[-2].propertyname), (yyvsp[0].propertyvalue), yylval.lineno); }
+#line 1326 "DPD.tab.cpp" /* yacc.c:1648  */
+    break;
+
+  case 13:
+#line 92 "DPD.y" /* yacc.c:1648  */
+    { (yyval.propertylist) = new_property(v_int, (yyvsp[-2].propertyname), (yyvsp[0].propertyvalue), yylval.lineno); }
+#line 1332 "DPD.tab.cpp" /* yacc.c:1648  */
+    break;
+
+  case 14:
+#line 93 "DPD.y" /* yacc.c:1648  */
+    { (yyval.propertylist) = new_property(v_float, (yyvsp[-2].propertyname), (yyvsp[0].propertyvalue), yylval.lineno); }
+#line 1338 "DPD.tab.cpp" /* yacc.c:1648  */
+    break;
+
+  case 15:
+#line 94 "DPD.y" /* yacc.c:1648  */
+    { (yyval.propertylist) = new_property(v_str, (yyvsp[-2].propertyname), (yyvsp[0].propertyvalue), yylval.lineno); }
+#line 1344 "DPD.tab.cpp" /* yacc.c:1648  */
+    break;
+
+  case 16:
+#line 95 "DPD.y" /* yacc.c:1648  */
+    { (yyval.propertylist) = new_property(v_range, (yyvsp[-2].propertyname), (yyvsp[0].propertyvalue), yylval.lineno); }
+#line 1350 "DPD.tab.cpp" /* yacc.c:1648  */
+    break;
+
+  case 17:
+#line 96 "DPD.y" /* yacc.c:1648  */
+    { (yyval.propertylist) = new_property(v_int, (yyvsp[-2].propertyname), (yyvsp[0].propertyvalue), yylval.lineno); }
+#line 1356 "DPD.tab.cpp" /* yacc.c:1648  */
+    break;
+
+  case 18:
+#line 97 "DPD.y" /* yacc.c:1648  */
+    { (yyval.propertylist) = new_property(v_float, (yyvsp[-2].propertyname), (yyvsp[0].propertyvalue), yylval.lineno); }
+#line 1362 "DPD.tab.cpp" /* yacc.c:1648  */
+    break;
+
+  case 19:
+#line 98 "DPD.y" /* yacc.c:1648  */
+    { (yyval.propertylist) = new_property(v_str, (yyvsp[-2].propertyname), (yyvsp[0].propertyvalue), yylval.lineno); }
+#line 1368 "DPD.tab.cpp" /* yacc.c:1648  */
+    break;
+
+  case 20:
+#line 99 "DPD.y" /* yacc.c:1648  */
+    { (yyval.propertylist) = new_property(v_case_int, (yyvsp[-1].propertyvalue), (yyvsp[0].id), yylval.lineno); }
+#line 1374 "DPD.tab.cpp" /* yacc.c:1648  */
+    break;
+
+  case 21:
+#line 100 "DPD.y" /* yacc.c:1648  */
+    { (yyval.propertylist) = new_property(v_case_str, (yyvsp[-1].propertyvalue), (yyvsp[0].id), yylval.lineno); }
+#line 1380 "DPD.tab.cpp" /* yacc.c:1648  */
+    break;
+
+  case 22:
+#line 101 "DPD.y" /* yacc.c:1648  */
+    { (yyval.propertylist) = new_property(v_switch_default, (yyvsp[-1].propertyname), (yyvsp[0].id), yylval.lineno); }
+#line 1386 "DPD.tab.cpp" /* yacc.c:1648  */
+    break;
+
+  case 23:
+#line 104 "DPD.y" /* yacc.c:1648  */
+    { (yyval.stype) = StandardUInt8; }
+#line 1392 "DPD.tab.cpp" /* yacc.c:1648  */
+    break;
+
+  case 24:
+#line 105 "DPD.y" /* yacc.c:1648  */
+    { (yyval.stype) = StandardUInt16; }
+#line 1398 "DPD.tab.cpp" /* yacc.c:1648  */
+    break;
+
+  case 25:
+#line 106 "DPD.y" /* yacc.c:1648  */
+    { (yyval.stype) = StandardUInt32; }
+#line 1404 "DPD.tab.cpp" /* yacc.c:1648  */
+    break;
+
+  case 26:
+#line 107 "DPD.y" /* yacc.c:1648  */
+    { (yyval.stype) = StandardInt8; }
+#line 1410 "DPD.tab.cpp" /* yacc.c:1648  */
+    break;
+
+  case 27:
+#line 108 "DPD.y" /* yacc.c:1648  */
+    { (yyval.stype) = StandardInt16; }
+#line 1416 "DPD.tab.cpp" /* yacc.c:1648  */
+    break;
+
+  case 28:
+#line 109 "DPD.y" /* yacc.c:1648  */
+    { (yyval.stype) = StandardInt32; }
+#line 1422 "DPD.tab.cpp" /* yacc.c:1648  */
+    break;
+
+  case 29:
+#line 110 "DPD.y" /* yacc.c:1648  */
+    { (yyval.stype) = StandardDouble; }
+#line 1428 "DPD.tab.cpp" /* yacc.c:1648  */
+    break;
+
+  case 30:
+#line 111 "DPD.y" /* yacc.c:1648  */
+    { (yyval.stype) = StandardFloat; }
+#line 1434 "DPD.tab.cpp" /* yacc.c:1648  */
+    break;
+
+  case 31:
+#line 112 "DPD.y" /* yacc.c:1648  */
+    { (yyval.stype) = StandardBoolean; }
+#line 1440 "DPD.tab.cpp" /* yacc.c:1648  */
+    break;
+
+  case 32:
+#line 113 "DPD.y" /* yacc.c:1648  */
+    { (yyval.stype) = StandardCRC; }
+#line 1446 "DPD.tab.cpp" /* yacc.c:1648  */
+    break;
+
+  case 33:
+#line 114 "DPD.y" /* yacc.c:1648  */
+    { (yyval.stype) = StandardArray; }
+#line 1452 "DPD.tab.cpp" /* yacc.c:1648  */
+    break;
+
+  case 34:
+#line 115 "DPD.y" /* yacc.c:1648  */
+    { (yyval.stype) = StandardString; }
+#line 1458 "DPD.tab.cpp" /* yacc.c:1648  */
+    break;
+
+  case 35:
+#line 116 "DPD.y" /* yacc.c:1648  */
+    { (yyval.stype) = StandardBlock; }
+#line 1464 "DPD.tab.cpp" /* yacc.c:1648  */
+    break;
+
+  case 36:
+#line 117 "DPD.y" /* yacc.c:1648  */
+    { (yyval.stype) = StatndartBuffer; }
+#line 1470 "DPD.tab.cpp" /* yacc.c:1648  */
     break;
 
 
-#line 1271 "DPD.tab.cpp" /* yacc.c:1648  */
+#line 1474 "DPD.tab.cpp" /* yacc.c:1648  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1495,13 +1698,41 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 79 "DPD.y" /* yacc.c:1907  */
+#line 120 "DPD.y" /* yacc.c:1907  */
 
-int main() {
-	yyin = stdin;
+int main(int argc, char **argv) {
+	FILE* fs=0;
+	if(argc >1)
+	{
+		errno_t err;
+		err = fopen_s(&fs, argv[1], "r");
+		if (err != 0)
+		{
+			perror(argv[1]);
+		}
+		else
+		{
+			yyin = fs;
+		}
+	}
+	else
+	{
+		yyin = stdin;
+	}
+
 	do { 
 		yyparse();
 	} while(!feof(yyin));
+
+	if(fs) 
+	{
+		fclose (fs);
+		yyin = stdin;
+		do { 
+		yyparse();
+	} while(!feof(yyin));
+	}
+
 	return 0;
 }
 

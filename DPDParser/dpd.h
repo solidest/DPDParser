@@ -3,19 +3,19 @@ void outerror(int errcode, int lineno, const char *s);
 void yyerror(const char *s);
 extern int yylineno;
 
-struct ast {
-	int nodetype;
-	struct ast *l;
-	struct ast *r;
-};
 
-struct dpd {
-	int nodetype;
-	struct protocol *prolist;
+struct comment *new_comment(char* v);
+struct comment *union_comment(struct comment* list, struct comment* line);
+
+struct property *new_property(enum valuetype vt, char* pname, char* pvalue, int lno);
+struct property *union_property(struct property* list, struct property* p);
+
+struct comment {
+	char* line;
+	struct comment* nextline;
 };
 
 struct protocol {
-	int nodetype;
 	int lineno;
 	char *name;
 	char *notes;
@@ -24,37 +24,50 @@ struct protocol {
 };
 
 struct segmeng {
-	int nodetype;
+	enum segmenttype segtype;
 	int lineno;
 	char *name;
 	char *notes;
-	char *segtype;
 	struct property *properlist;
 	struct segment *next;
 };
 
 struct property {
-	int nodetype;
-	int lineno;
+	enum valuetype vtype;
 	char *name;
 	char *value;
-	enum valuetype vtype;
+	int lineno;
 	struct property *next;
 };
 
-struct value {
-	enum valuetype vtype;
-	int lineno;
-	char* v;
-};
 
 enum valuetype {
-	value_int = 1,
-	value_float,
-	value_str,
-	value_range,
-	value_property,
-	value_id
+	v_int = 1,
+	v_float,
+	v_str,
+	v_range,
+	v_property,
+	v_id,
+	v_case_int,
+	v_case_str,
+	v_switch_default
+};
+
+enum segmenttype {
+	StandardUInt8 = 1,
+	StandardUInt16,
+	StandardUInt32,
+	StandardInt8,
+	StandardInt16,
+	StandardInt32,
+	StandardDouble,
+	StandardFloat,
+	StandardBoolean,
+	StandardCRC,
+	StandardArray,
+	StandardString,
+	StandardBlock,
+	StatndartBuffer
 };
 
 
