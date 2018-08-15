@@ -18,7 +18,9 @@ CHS (\xE9\xBE[\x80-\xA5]|(\xE4[\xB8-\xBF]|\xE9[\x80-\xBD]|[\xE5-\xE8][\x80-\xBF]
 
 %%
 
-"#".*\n					{ yylval.commentlist = new_comment(yytext); return COMMENT; }
+^("#"|([ \t]+"#")).*\n				{ yylval.commentlist = new_comment(yytext); return COMMENT; }
+"#".*\n					{ ; }
+
 
 \'([^'\\]|\\['"?\\abfnrtv]|\\[0-7]{1,3}|\\[xX][0-9a-fA-F]+|{UCN})*\'	{  return VALUE_STRING; }
 
@@ -37,7 +39,7 @@ CHS (\xE9\xBE[\x80-\xA5]|(\xE4[\xB8-\xBF]|\xE9[\x80-\xBD]|[\xE5-\xE8][\x80-\xBF]
 "StandardInt8"			{ return SEGMENT_TYPE_I8; }
 "StandardInt16"			{ return SEGMENT_TYPE_I16; }
 "StandardInt32"			{ return SEGMENT_TYPE_I32; }
-"RandomInt"				{ return SEGMENT_TYPE_RI; }
+"RandomInt"				{ return SEGMENT_TYPE_IR; }
 "StandardDouble"		{ return SEGMENT_TYPE_DOUBLE; }
 "StandardFloat"			{ return SEGMENT_TYPE_FLOAT; }
 "Boolean"				{ return SEGMENT_TYPE_BOOLEAN; }
@@ -46,6 +48,7 @@ CHS (\xE9\xBE[\x80-\xA5]|(\xE4[\xB8-\xBF]|\xE9[\x80-\xBD]|[\xE5-\xE8][\x80-\xBF]
 "String"				{ return SEGMENT_TYPE_STRING; }
 "Block"					{ return SEGMENT_TYPE_BLOCK; }
 "Buffer"				{ return SEGMENT_TYPE_BUFFER; }
+"Switch"				{ return SEGMENT_TYPE_SWITCH; }
 
 "ByteOrder" |
 "Format" |
@@ -55,37 +58,37 @@ CHS (\xE9\xBE[\x80-\xA5]|(\xE4[\xB8-\xBF]|\xE9[\x80-\xBD]|[\xE5-\xE8][\x80-\xBF]
 "Child" |
 "Algorithm" |
 "BitCount" |
-"Range"					{ yylval.propertyname = _strdup(yytext); return SEGMENT_PROPERTY; }
+"Range"					{ yylval.s = _strdup(yytext); return SEGMENT_PROPERTY; }
 
 "True" |
-"False"	|
+"False"					{ yylval.s = _strdup(yytext);  return VALUE_BOOL; }
+
 "Small" |
 "Big" |
 "Primitive" |
 "Inversion" |
-"Complement"			{ yylval.propertyvalue = _strdup(yytext); yylval.lineno = yylineno; return VALUE_PROPERTY; }
+"Complement"			{ yylval.s = _strdup(yytext);  return VALUE_PROPERTY; }
 
 
-"Switch"				{ yylval.propertyname = _strdup(yytext); return SWITCH; }
-"Case"					{ yylval.propertyname = _strdup(yytext); return CASE; }
-"Default"				{ yylval.propertyname = _strdup(yytext); return DEFAULT; }
+
+"Case"					{ yylval.s = _strdup(yytext); return CASE; }
+"Default"				{ yylval.s = _strdup(yytext); return DEFAULT; }
 
 "End"					{ return END; }
 
 0[0-7]* |
 [1-9][0-9]* |
-0[Xx][0-9a-fA-F]+		{ yylval.propertyvalue = _strdup(yytext); yylval.lineno = yylineno; return VALUE_INT; }
+0[Xx][0-9a-fA-F]+		{ yylval.s = _strdup(yytext); return VALUE_INT; }
 
 -?([0-9]*\.[0-9]+|[0-9]+\.){EXP}? |
-[0-9]+{EXP}				{ yylval.propertyvalue = _strdup(yytext); yylval.lineno = yylineno; return VALUE_FLOAT; }
+[0-9]+{EXP}				{ yylval.s = _strdup(yytext); return VALUE_FLOAT; }
 
-"("[ \t]*(0|[1-9][0-9]*)[ \t]*,[ \t]*(0|[1-9][0-9]*)[ \t]*")"	{ yylval.propertyvalue = _strdup(yytext); yylval.lineno = yylineno; return VALUE_RANGE; }
+"("[ \t]*(0|[1-9][0-9]*)[ \t]*,[ \t]*(0|[1-9][0-9]*)[ \t]*")"	{ yylval.s = _strdup(yytext); return VALUE_RANGE; }
 
-([a-zA-Z_]|{CHS})([a-zA-Z0-9_]|{CHS})*	{ yylval.id = _strdup(yytext); yylval.lineno = yylineno; return IDENTIFIER; }
+([a-zA-Z_]|{CHS})([a-zA-Z0-9_]|{CHS})*	{ yylval.s = _strdup(yytext); return IDENTIFIER; }
 
 \r\n					{ ; }
-\n						{ ; }
-[ \t]					{ ;	}
+[ \t\n]					{ ; }
 
 [\xEF\xBB\xBF]			{ ; }
 .						{ outerror(1, yylineno, yytext); }

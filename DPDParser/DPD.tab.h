@@ -53,29 +53,30 @@ extern int yydebug;
     SEGMENT_TYPE_I8 = 263,
     SEGMENT_TYPE_I16 = 264,
     SEGMENT_TYPE_I32 = 265,
-    SEGMENT_TYPE_RI = 266,
-    SEGMENT_TYPE_DOUBLE = 267,
-    SEGMENT_TYPE_FLOAT = 268,
+    SEGMENT_TYPE_IR = 266,
+    SEGMENT_TYPE_FLOAT = 267,
+    SEGMENT_TYPE_DOUBLE = 268,
     SEGMENT_TYPE_BOOLEAN = 269,
     SEGMENT_TYPE_CRC = 270,
     SEGMENT_TYPE_ARRAY = 271,
-    SEGMENT_TYPE_STRING = 272,
-    SEGMENT_TYPE_BLOCK = 273,
-    SEGMENT_TYPE_BUFFER = 274,
-    EQUAL = 275,
-    CMP = 276,
-    SEGMENT_PROPERTY = 277,
-    VALUE_PROPERTY = 278,
-    VALUE_INT = 279,
-    VALUE_FLOAT = 280,
-    VALUE_STRING = 281,
-    VALUE_RANGE = 282,
-    DEFAULT = 283,
-    SWITCH = 284,
+    SEGMENT_TYPE_SWITCH = 272,
+    SEGMENT_TYPE_STRING = 273,
+    SEGMENT_TYPE_BLOCK = 274,
+    SEGMENT_TYPE_BUFFER = 275,
+    EQUAL = 276,
+    CMP = 277,
+    SEGMENT_PROPERTY = 278,
+    VALUE_PROPERTY = 279,
+    VALUE_INT = 280,
+    VALUE_FLOAT = 281,
+    VALUE_STRING = 282,
+    VALUE_RANGE = 283,
+    DEFAULT = 284,
     CASE = 285,
-    IDENTIFIER = 286,
-    COMMENT = 287,
-    END = 288
+    VALUE_BOOL = 286,
+    IDENTIFIER = 287,
+    COMMENT = 288,
+    END = 289
   };
 #endif
 
@@ -84,19 +85,16 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 13 "DPD.y" /* yacc.c:1910  */
+#line 15 "DPD.y" /* yacc.c:1910  */
 
-	int lineno;
-	char* propertyname;
-	char* propertyvalue;
-	char* id;
+	char* s;
 	enum segmenttype stype;
 	struct comment* commentlist;
 	struct protocol *protocollist;
 	struct segment *segmentlist;
 	struct property *propertylist;
 
-#line 100 "DPD.tab.h" /* yacc.c:1910  */
+#line 98 "DPD.tab.h" /* yacc.c:1910  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -104,9 +102,23 @@ typedef union YYSTYPE YYSTYPE;
 # define YYSTYPE_IS_DECLARED 1
 #endif
 
+/* Location type.  */
+#if ! defined YYLTYPE && ! defined YYLTYPE_IS_DECLARED
+typedef struct YYLTYPE YYLTYPE;
+struct YYLTYPE
+{
+  int first_line;
+  int first_column;
+  int last_line;
+  int last_column;
+};
+# define YYLTYPE_IS_DECLARED 1
+# define YYLTYPE_IS_TRIVIAL 1
+#endif
+
 
 extern YYSTYPE yylval;
-
+extern YYLTYPE yylloc;
 int yyparse (void);
 
 #endif /* !YY_YY_DPD_TAB_H_INCLUDED  */

@@ -48,8 +48,10 @@ enum valuetype {
 	v_range,
 	v_property,
 	v_id,
+	v_bool,
 	v_case_int,
 	v_case_str,
+	v_case_bool,
 	v_switch_default
 };
 
@@ -60,6 +62,7 @@ enum segmenttype {
 	StandardInt8,
 	StandardInt16,
 	StandardInt32,
+	StandardIntRandom,
 	StandardDouble,
 	StandardFloat,
 	StandardBoolean,
@@ -67,7 +70,8 @@ enum segmenttype {
 	StandardArray,
 	StandardString,
 	StandardBlock,
-	StatndartBuffer
+	StatndartBuffer,
+	StatndartSwitch
 };
 
 
