@@ -47,36 +47,41 @@ extern int yydebug;
   {
     PROTOCOL = 258,
     SEGMENT = 259,
-    SEGMENT_TYPE_U8 = 260,
-    SEGMENT_TYPE_U16 = 261,
-    SEGMENT_TYPE_U32 = 262,
-    SEGMENT_TYPE_I8 = 263,
-    SEGMENT_TYPE_I16 = 264,
-    SEGMENT_TYPE_I32 = 265,
-    SEGMENT_TYPE_IR = 266,
-    SEGMENT_TYPE_FLOAT = 267,
-    SEGMENT_TYPE_DOUBLE = 268,
-    SEGMENT_TYPE_BOOLEAN = 269,
-    SEGMENT_TYPE_CRC = 270,
-    SEGMENT_TYPE_ARRAY = 271,
-    SEGMENT_TYPE_SWITCH = 272,
-    SEGMENT_TYPE_STRING = 273,
-    SEGMENT_TYPE_BLOCK = 274,
-    SEGMENT_TYPE_BUFFER = 275,
-    EQUAL = 276,
-    CMP = 277,
-    SEGMENT_PROPERTY = 278,
-    VALUE_PROPERTY = 279,
-    VALUE_INT = 280,
-    VALUE_FLOAT = 281,
-    VALUE_STRING = 282,
-    VALUE_RANGE = 283,
+    END = 260,
+    ENDALL = 261,
+    SEGMENT_TYPE_U8 = 262,
+    SEGMENT_TYPE_U16 = 263,
+    SEGMENT_TYPE_U32 = 264,
+    SEGMENT_TYPE_I8 = 265,
+    SEGMENT_TYPE_I16 = 266,
+    SEGMENT_TYPE_I32 = 267,
+    SEGMENT_TYPE_IR = 268,
+    SEGMENT_TYPE_UR = 269,
+    SEGMENT_TYPE_FLOAT = 270,
+    SEGMENT_TYPE_DOUBLE = 271,
+    SEGMENT_TYPE_BOOLEAN = 272,
+    SEGMENT_TYPE_CRC = 273,
+    SEGMENT_TYPE_ARRAY = 274,
+    SEGMENT_TYPE_STRING = 275,
+    SEGMENT_TYPE_BLOCK = 276,
+    SEGMENT_TYPE_BUFFER = 277,
+    EQUAL = 278,
+    SWITCH = 279,
+    CASE = 280,
+    IF = 281,
+    THEN = 282,
+    ELSE = 283,
     DEFAULT = 284,
-    CASE = 285,
-    VALUE_BOOL = 286,
-    IDENTIFIER = 287,
-    COMMENT = 288,
-    END = 289
+    CMP = 285,
+    IDENTIFIER = 286,
+    SEGMENT_PROPERTY = 287,
+    VALUE_PROPERTY = 288,
+    VALUE_INT = 289,
+    VALUE_FLOAT = 290,
+    VALUE_STRING = 291,
+    VALUE_RANGE = 292,
+    VALUE_BOOL = 293,
+    COMMENT = 294
   };
 #endif
 
@@ -85,16 +90,16 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 15 "DPD.y" /* yacc.c:1910  */
+#line 14 "DPD.y" /* yacc.c:1910  */
 
 	char* s;
-	enum segmenttype stype;
+	enum segmenttype segtype;
 	struct comment* commentlist;
 	struct protocol *protocollist;
 	struct segment *segmentlist;
 	struct property *propertylist;
 
-#line 98 "DPD.tab.h" /* yacc.c:1910  */
+#line 103 "DPD.tab.h" /* yacc.c:1910  */
 };
 
 typedef union YYSTYPE YYSTYPE;
