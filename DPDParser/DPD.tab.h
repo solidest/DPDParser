@@ -71,17 +71,17 @@ extern int yydebug;
     IF = 281,
     THEN = 282,
     ELSE = 283,
-    DEFAULT = 284,
-    CMP = 285,
-    IDENTIFIER = 286,
-    SEGMENT_PROPERTY = 287,
-    VALUE_PROPERTY = 288,
-    VALUE_INT = 289,
-    VALUE_FLOAT = 290,
-    VALUE_STRING = 291,
-    VALUE_RANGE = 292,
-    VALUE_BOOL = 293,
-    COMMENT = 294
+    COMMENT = 284,
+    DEFAULT = 285,
+    CMP = 286,
+    IDENTIFIER = 287,
+    SEGMENT_PROPERTY = 288,
+    VALUE_PROPERTY = 289,
+    VALUE_INT = 290,
+    VALUE_FLOAT = 291,
+    VALUE_STRING = 292,
+    VALUE_RANGE = 293,
+    VALUE_BOOL = 294
   };
 #endif
 
@@ -94,10 +94,10 @@ union YYSTYPE
 
 	char* s;
 	enum segmenttype segtype;
-	struct comment* commentlist;
-	struct protocol *protocollist;
-	struct segment *segmentlist;
-	struct property *propertylist;
+	struct comment * commentlist;
+	struct protocol * protocollist;
+	struct segment * segmentlist;
+	struct property * propertylist;
 
 #line 103 "DPD.tab.h" /* yacc.c:1910  */
 };

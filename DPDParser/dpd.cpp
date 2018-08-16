@@ -5,34 +5,113 @@
 #include "dpd.h"
 
 
-void free_protocol(struct protocol* list)
+void free_commentlist(struct comment* list)
 {
+	struct comment* next = NULL;
 
+	while (list)
+	{
+		next = list->nextline;
+		free(list->line);
+		free(list);
+		list = next;
+	}
+}
+void free_protocollist(struct protocol* list)
+{
+	struct protocol* next = NULL;
+	while (list)
+	{
+		next = list->next;
+		free_segmentlist(list->seglist);
+		free_commentlist(list->notes);
+		free(list->name);
+		free(list);
+		list = next;
+	}
+
+}
+void free_segmentlist(struct segment* list)
+{
+	struct segment* next = NULL;
+	while (list)
+	{
+		next = list->next;
+		free_propertylist(list->properlist);
+		free_commentlist(list->notes);
+		free(list->name);
+		free(list);
+		list = next;
+	}
+
+}
+
+void free_propertylist(struct property* list)
+{
+	struct property* next = NULL;
+	while (list)
+	{
+		next = list->next;
+		free( list->name );
+		free( list->value );
+		free( list );
+		list = next;
+	}
 
 }
 
 
 struct protocol *new_protocol(char* pname, struct segment* seglist, struct comment* notes, int lino)
 {
-	struct protocol * ret=NULL;
+	struct protocol * ret= (struct protocol*)malloc(sizeof(struct protocol));
+	ret->name = pname;
+	ret->lineno = lino;
+	ret->next = NULL;
+	ret->notes = notes;
+	ret->seglist = seglist;
 	return ret;
 }
 
 struct protocol *union_protocol(struct protocol* list, struct protocol* p)
 {
-	struct protocol * ret=NULL;
-	return ret;
+	if (!list)
+	{
+		return p;
+	}
+	struct protocol* n = list;
+	while (n->next)
+	{
+		n = n->next;
+	}
+	n->next = p;
+	return list;
 }
 
-struct segment *new_segment(char* pname, enum segmenttype stype, struct property* seglist, struct comment* notes, int lino)
+struct segment *new_segment(char* pname, enum segmenttype stype, struct property* properlist, struct comment* notes, int lino)
 {
-	struct segment* ret = NULL;
+	struct segment * ret = (struct segment*)malloc(sizeof(struct segment));
+	ret->lineno = lino;
+	ret->name = pname;
+	ret->next = NULL;
+	ret->notes = notes;
+	ret->properlist = properlist;
+	ret->segtype = stype;
 	return ret;
 }
 
 struct segment *union_segment(struct segment* list, struct segment* seg)
 {
-	return NULL;
+	if (!list)
+	{
+		return seg;
+	}
+	struct segment* n = list;
+	while (n->next)
+	{
+		n = n->next;
+	}
+	n->next = seg;
+	return list;
 }
 
 struct property *new_property(enum valuetype vt, char* pname, char* pvalue, int lno)
@@ -44,6 +123,21 @@ struct property *new_property(enum valuetype vt, char* pname, char* pvalue, int 
 	r->lineno = lno;
 	r->next = NULL;
 	return r;
+}
+
+struct property *union_property(struct property* list, struct property* p)
+{
+	if (list == NULL)
+	{
+		return p;
+	}
+	struct property* n = list;
+	while (n->next)
+	{
+		n = n->next;
+	}
+	n->next = p;
+	return list;
 }
 
 //IF IDENTIFIER CMP cmpvalue THEN IDENTIFIER ELSE IDENTIFIER
@@ -66,22 +160,6 @@ struct property *new_switchproperty(char* switchseg, int switchlno, struct prope
 	return ret;
 }
 
-
-struct property *union_property(struct property* list, struct property* p)
-{
-	if (list == NULL)
-	{
-		return p;
-	}
-	struct property* n = list;
-	while (n->next)
-	{
-		n = n->next;
-	}
-	n->next = p;
-	return list;
-}
-
 struct comment *new_comment(char* v)
 {
 	struct comment* r = (struct comment*)malloc(sizeof(struct comment));
@@ -96,6 +174,7 @@ struct comment *union_comment(struct comment* list, struct comment* line)
 	{
 		return line;
 	}
+
 	struct comment* n = list;
 	while (n->nextline)
 	{

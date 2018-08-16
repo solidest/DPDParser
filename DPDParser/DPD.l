@@ -17,11 +17,11 @@ CHS (\xE9\xBE[\x80-\xA5]|(\xE4[\xB8-\xBF]|\xE9[\x80-\xBD]|[\xE5-\xE8][\x80-\xBF]
 
 %%
 
-^("#"|([ \t]+"#")).*\n	{ return COMMENT; }
+^("#"|([ \t]+"#")).*\n	{ yylval.s = _strdup(yytext); return COMMENT; }
 "#".*\n					{ ; }
 
 
-\'([^'\\]|\\['"?\\abfnrtv]|\\[0-7]{1,3}|\\[xX][0-9a-fA-F]+|{UCN})*\'	{ yylval.s = _strdup(yytext); return VALUE_STRING; }
+\'([^'\\]|\\['"?\\abfnrtv]|\\[0-7]{1,3}|\\[xX][0-9a-fA-F]+|{UCN}|{CHS})*\'	{ yylval.s = _strdup(yytext); return VALUE_STRING; }
 
 "==" |
 "!=" |

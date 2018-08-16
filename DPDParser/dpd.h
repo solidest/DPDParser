@@ -10,7 +10,7 @@ struct comment *union_comment(struct comment* list, struct comment* line);
 struct protocol *new_protocol(char* pname, struct segment* seglist, struct comment* notes, int lino);
 struct protocol *union_protocol(struct protocol* list, struct protocol* p);
 
-struct segment *new_segment(char* pname, enum segmenttype stype, struct property* seglist, struct comment* notes, int lino);
+struct segment *new_segment(char* pname, enum segmenttype stype, struct property* properlist, struct comment* notes, int lino);
 struct segment *union_segment(struct segment* list, struct segment* seg);
 
 struct property *new_switchproperty(char* switchseg, int switchlno, struct property * caselist, char* defaultvalue, int defaultlno);
@@ -18,7 +18,10 @@ struct property *new_ifproperty(char* ifid, int iflno, char* cmp, enum valuetype
 struct property *new_property(enum valuetype vt, char* pname, char* pvalue, int lno);
 struct property *union_property(struct property* list, struct property* p);
 
-void free_protocol(struct protocol* list);
+void free_commentlist(struct comment* list);
+void free_protocollist(struct protocol* list);
+void free_segmentlist(struct segment* list);
+void free_propertylist(struct property* list);
 
 struct comment {
 	char* line;
@@ -28,16 +31,16 @@ struct comment {
 struct protocol {
 	int lineno;
 	char *name;
-	char *notes;
+	struct comment  *notes;
 	struct protocol *next;
 	struct segment *seglist;
 };
 
-struct segmeng {
+struct segment {
 	enum segmenttype segtype;
 	int lineno;
 	char *name;
-	char *notes;
+	struct comment  *notes;
 	struct property *properlist;
 	struct segment *next;
 };
