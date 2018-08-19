@@ -27,6 +27,12 @@
     <ClInclude Include="DPD.tab.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="DpdParserDB.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sqlite3.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -39,6 +45,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="dpd.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DpdParserDB.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

@@ -20,6 +20,7 @@ extern char* yytext;
 	struct property * propertylist;
 }
 
+%token PARSEPROTOCOL PARSESEGMENT
 %token PROTOCOL SEGMENT END ENDALL
 %token SEGMENT_TYPE_U8 SEGMENT_TYPE_U16 SEGMENT_TYPE_U32 SEGMENT_TYPE_I8 SEGMENT_TYPE_I16 SEGMENT_TYPE_I32 SEGMENT_TYPE_IR SEGMENT_TYPE_UR
 %token SEGMENT_TYPE_FLOAT SEGMENT_TYPE_DOUBLE SEGMENT_TYPE_BOOLEAN SEGMENT_TYPE_CRC SEGMENT_TYPE_ARRAY SEGMENT_TYPE_STRING SEGMENT_TYPE_BLOCK SEGMENT_TYPE_BUFFER
@@ -33,7 +34,7 @@ extern char* yytext;
 %type <segmentlist>		segment segmentlist
 %type <propertylist>	property propertylist ifbranch switchbranch caseitem caselist
 
-%start protocollist
+%start firstparse
 
 %destructor { free($$); } <s>
 %destructor { free_commentlist($$); $$=NULL;} <commentlist>
@@ -42,6 +43,10 @@ extern char* yytext;
 %destructor { free_propertylist($$); $$=NULL;} <propertylist>
 
 %%
+
+firstparse: PARSEPROTOCOL protocollist
+	| PARSESEGMENT segmentlist
+;
 
 protocollist:											{ $$ = NULL; }
 	| protocollist error protocol						{ $$ = union_protocol($1, $3); }
@@ -127,6 +132,52 @@ property: SEGMENT_PROPERTY EQUAL VALUE_PROPERTY		{ $$ = new_property(v_property,
 
 
 %%
+
+int errorcount = 0;
+int first_tok = 0;
+
+
+
+extern "C" void _declspec(dllexport)
+ ParseFile(char* filename)
+{
+	first_tok = PARSEPROTOCOL;
+	FILE* fs=0;
+	errorcount = 0;
+	errno_t err;
+
+	err = fopen_s(&fs, filename, "r");
+	if (err != 0)
+	{
+		errorcount = -1;
+	}
+	else
+	{
+		yyin = fs;
+		do { 
+				yyparse();
+			} while(!feof(yyin));
+	}
+	if(fs) fclose (fs);
+
+}
+
+extern "C" void _declspec(dllexport)
+ SegmentParse(char* str)
+{
+	;
+}
+
+void outerror(int errcode, int lineno, const char *s) {
+	printf( "Error%d on line(%d) %s (%s)\n", errcode, lineno, s, yytext);
+	//exit(1);
+}
+
+void yyerror(const char* s) {
+	outerror(-1, yylineno, s);
+}
+
+/*
 int main(int argc, char **argv) {
 	FILE* fs=0;
 	if(argc >1)
@@ -161,13 +212,5 @@ int main(int argc, char **argv) {
 	}
 
 	return 0;
-}
+}*/
 
-void outerror(int errcode, int lineno, const char *s) {
-	printf( "Error%d on line(%d) %s (%s)\n", errcode, lineno, s, yytext);
-	//exit(1);
-}
-
-void yyerror(const char* s) {
-	outerror(-1, yylineno, s);
-}

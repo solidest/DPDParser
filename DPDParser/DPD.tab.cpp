@@ -109,43 +109,45 @@ extern int yydebug;
 # define YYTOKENTYPE
   enum yytokentype
   {
-    PROTOCOL = 258,
-    SEGMENT = 259,
-    END = 260,
-    ENDALL = 261,
-    SEGMENT_TYPE_U8 = 262,
-    SEGMENT_TYPE_U16 = 263,
-    SEGMENT_TYPE_U32 = 264,
-    SEGMENT_TYPE_I8 = 265,
-    SEGMENT_TYPE_I16 = 266,
-    SEGMENT_TYPE_I32 = 267,
-    SEGMENT_TYPE_IR = 268,
-    SEGMENT_TYPE_UR = 269,
-    SEGMENT_TYPE_FLOAT = 270,
-    SEGMENT_TYPE_DOUBLE = 271,
-    SEGMENT_TYPE_BOOLEAN = 272,
-    SEGMENT_TYPE_CRC = 273,
-    SEGMENT_TYPE_ARRAY = 274,
-    SEGMENT_TYPE_STRING = 275,
-    SEGMENT_TYPE_BLOCK = 276,
-    SEGMENT_TYPE_BUFFER = 277,
-    EQUAL = 278,
-    SWITCH = 279,
-    CASE = 280,
-    IF = 281,
-    THEN = 282,
-    ELSE = 283,
-    COMMENT = 284,
-    DEFAULT = 285,
-    CMP = 286,
-    IDENTIFIER = 287,
-    SEGMENT_PROPERTY = 288,
-    VALUE_PROPERTY = 289,
-    VALUE_INT = 290,
-    VALUE_FLOAT = 291,
-    VALUE_STRING = 292,
-    VALUE_RANGE = 293,
-    VALUE_BOOL = 294
+    PARSEPROTOCOL = 258,
+    PARSESEGMENT = 259,
+    PROTOCOL = 260,
+    SEGMENT = 261,
+    END = 262,
+    ENDALL = 263,
+    SEGMENT_TYPE_U8 = 264,
+    SEGMENT_TYPE_U16 = 265,
+    SEGMENT_TYPE_U32 = 266,
+    SEGMENT_TYPE_I8 = 267,
+    SEGMENT_TYPE_I16 = 268,
+    SEGMENT_TYPE_I32 = 269,
+    SEGMENT_TYPE_IR = 270,
+    SEGMENT_TYPE_UR = 271,
+    SEGMENT_TYPE_FLOAT = 272,
+    SEGMENT_TYPE_DOUBLE = 273,
+    SEGMENT_TYPE_BOOLEAN = 274,
+    SEGMENT_TYPE_CRC = 275,
+    SEGMENT_TYPE_ARRAY = 276,
+    SEGMENT_TYPE_STRING = 277,
+    SEGMENT_TYPE_BLOCK = 278,
+    SEGMENT_TYPE_BUFFER = 279,
+    EQUAL = 280,
+    SWITCH = 281,
+    CASE = 282,
+    IF = 283,
+    THEN = 284,
+    ELSE = 285,
+    COMMENT = 286,
+    DEFAULT = 287,
+    CMP = 288,
+    IDENTIFIER = 289,
+    SEGMENT_PROPERTY = 290,
+    VALUE_PROPERTY = 291,
+    VALUE_INT = 292,
+    VALUE_FLOAT = 293,
+    VALUE_STRING = 294,
+    VALUE_RANGE = 295,
+    VALUE_BOOL = 296
   };
 #endif
 
@@ -163,7 +165,7 @@ union YYSTYPE
 	struct segment * segmentlist;
 	struct property * propertylist;
 
-#line 167 "DPD.tab.cpp" /* yacc.c:355  */
+#line 169 "DPD.tab.cpp" /* yacc.c:355  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -194,7 +196,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 198 "DPD.tab.cpp" /* yacc.c:358  */
+#line 200 "DPD.tab.cpp" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -436,23 +438,23 @@ union yyalloc
 #endif /* !YYCOPY_NEEDED */
 
 /* YYFINAL -- State number of the termination state.  */
-#define YYFINAL  2
+#define YYFINAL  6
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   86
+#define YYLAST   89
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  40
+#define YYNTOKENS  42
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  13
+#define YYNNTS  14
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  51
+#define YYNRULES  53
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  82
+#define YYNSTATES  86
 
 /* YYTRANSLATE[YYX] -- Symbol number corresponding to YYX as returned
    by yylex, with out-of-bounds checking.  */
 #define YYUNDEFTOK  2
-#define YYMAXUTOK   294
+#define YYMAXUTOK   296
 
 #define YYTRANSLATE(YYX)                                                \
   ((unsigned int) (YYX) <= YYMAXUTOK ? yytranslate[YYX] : YYUNDEFTOK)
@@ -490,19 +492,19 @@ static const yytype_uint8 yytranslate[] =
        5,     6,     7,     8,     9,    10,    11,    12,    13,    14,
       15,    16,    17,    18,    19,    20,    21,    22,    23,    24,
       25,    26,    27,    28,    29,    30,    31,    32,    33,    34,
-      35,    36,    37,    38,    39
+      35,    36,    37,    38,    39,    40,    41
 };
 
 #if YYDEBUG
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    46,    46,    47,    48,    49,    53,    54,    57,    58,
-      61,    62,    66,    67,    68,    72,    73,    74,    78,    79,
-      83,    87,    88,    92,    93,    97,    98,    99,   100,   101,
-     102,   103,   104,   105,   106,   107,   108,   109,   110,   111,
-     112,   115,   116,   117,   118,   119,   120,   121,   122,   123,
-     124,   125
+       0,    47,    47,    48,    51,    52,    53,    54,    58,    59,
+      62,    63,    66,    67,    71,    72,    73,    77,    78,    79,
+      83,    84,    88,    92,    93,    97,    98,   102,   103,   104,
+     105,   106,   107,   108,   109,   110,   111,   112,   113,   114,
+     115,   116,   117,   120,   121,   122,   123,   124,   125,   126,
+     127,   128,   129,   130
 };
 #endif
 
@@ -511,18 +513,19 @@ static const yytype_uint8 yyrline[] =
    First, the terminals, then, starting at YYNTOKENS, nonterminals.  */
 static const char *const yytname[] =
 {
-  "$end", "error", "$undefined", "PROTOCOL", "SEGMENT", "END", "ENDALL",
-  "SEGMENT_TYPE_U8", "SEGMENT_TYPE_U16", "SEGMENT_TYPE_U32",
-  "SEGMENT_TYPE_I8", "SEGMENT_TYPE_I16", "SEGMENT_TYPE_I32",
-  "SEGMENT_TYPE_IR", "SEGMENT_TYPE_UR", "SEGMENT_TYPE_FLOAT",
-  "SEGMENT_TYPE_DOUBLE", "SEGMENT_TYPE_BOOLEAN", "SEGMENT_TYPE_CRC",
-  "SEGMENT_TYPE_ARRAY", "SEGMENT_TYPE_STRING", "SEGMENT_TYPE_BLOCK",
-  "SEGMENT_TYPE_BUFFER", "EQUAL", "SWITCH", "CASE", "IF", "THEN", "ELSE",
-  "COMMENT", "DEFAULT", "CMP", "IDENTIFIER", "SEGMENT_PROPERTY",
-  "VALUE_PROPERTY", "VALUE_INT", "VALUE_FLOAT", "VALUE_STRING",
-  "VALUE_RANGE", "VALUE_BOOL", "$accept", "protocollist", "protocol",
-  "commentlist", "segmentlist", "segment", "propertylist", "ifbranch",
-  "switchbranch", "caselist", "caseitem", "segment_type", "property", YY_NULLPTR
+  "$end", "error", "$undefined", "PARSEPROTOCOL", "PARSESEGMENT",
+  "PROTOCOL", "SEGMENT", "END", "ENDALL", "SEGMENT_TYPE_U8",
+  "SEGMENT_TYPE_U16", "SEGMENT_TYPE_U32", "SEGMENT_TYPE_I8",
+  "SEGMENT_TYPE_I16", "SEGMENT_TYPE_I32", "SEGMENT_TYPE_IR",
+  "SEGMENT_TYPE_UR", "SEGMENT_TYPE_FLOAT", "SEGMENT_TYPE_DOUBLE",
+  "SEGMENT_TYPE_BOOLEAN", "SEGMENT_TYPE_CRC", "SEGMENT_TYPE_ARRAY",
+  "SEGMENT_TYPE_STRING", "SEGMENT_TYPE_BLOCK", "SEGMENT_TYPE_BUFFER",
+  "EQUAL", "SWITCH", "CASE", "IF", "THEN", "ELSE", "COMMENT", "DEFAULT",
+  "CMP", "IDENTIFIER", "SEGMENT_PROPERTY", "VALUE_PROPERTY", "VALUE_INT",
+  "VALUE_FLOAT", "VALUE_STRING", "VALUE_RANGE", "VALUE_BOOL", "$accept",
+  "firstparse", "protocollist", "protocol", "commentlist", "segmentlist",
+  "segment", "propertylist", "ifbranch", "switchbranch", "caselist",
+  "caseitem", "segment_type", "property", YY_NULLPTR
 };
 #endif
 
@@ -534,16 +537,17 @@ static const yytype_uint16 yytoknum[] =
        0,   256,   257,   258,   259,   260,   261,   262,   263,   264,
      265,   266,   267,   268,   269,   270,   271,   272,   273,   274,
      275,   276,   277,   278,   279,   280,   281,   282,   283,   284,
-     285,   286,   287,   288,   289,   290,   291,   292,   293,   294
+     285,   286,   287,   288,   289,   290,   291,   292,   293,   294,
+     295,   296
 };
 # endif
 
-#define YYPACT_NINF -24
+#define YYPACT_NINF -19
 
 #define yypact_value_is_default(Yystate) \
-  (!!((Yystate) == (-24)))
+  (!!((Yystate) == (-19)))
 
-#define YYTABLE_NINF -13
+#define YYTABLE_NINF -15
 
 #define yytable_value_is_error(Yytable_value) \
   0
@@ -552,15 +556,15 @@ static const yytype_uint16 yytoknum[] =
      STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-     -24,     5,   -24,   -24,   -24,   -24,    -2,   -24,   -17,   -24,
-       8,    20,    26,   -24,   -24,     6,   -24,     4,    31,   -24,
-     -24,   -24,   -24,   -24,   -24,   -24,   -24,   -24,   -24,   -24,
-     -24,   -24,   -24,   -24,   -24,    27,    29,   -24,   -24,   -24,
-      37,    32,    -1,    19,   -23,   -24,    23,     0,    41,    42,
-     -24,    34,    35,    36,   -24,    43,    44,   -24,   -13,   -18,
-     -24,   -24,   -24,    40,    45,   -24,   -24,   -24,   -24,   -24,
-     -24,   -24,   -24,   -24,   -24,   -24,    46,    47,    48,    49,
-     -24,   -24
+      33,   -19,   -19,    13,     3,    29,   -19,   -19,   -19,   -19,
+      -3,    -1,   -19,   -19,     4,   -19,    32,     8,    31,    60,
+      61,   -19,   -19,   -19,   -19,   -19,   -19,   -19,   -19,   -19,
+     -19,   -19,   -19,   -19,   -19,   -19,   -19,    35,    36,   -19,
+     -19,   -19,   -19,   -19,     6,    -7,     0,    19,   -15,   -19,
+      26,    -8,    46,    47,   -19,    39,    40,    41,   -19,    48,
+      49,   -19,    23,   -18,   -19,   -19,   -19,    42,    45,   -19,
+     -19,   -19,   -19,   -19,   -19,   -19,   -19,   -19,   -19,   -19,
+      50,    51,    52,    53,   -19,   -19
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -568,29 +572,29 @@ static const yytype_int8 yypact[] =
      means the default is an error.  */
 static const yytype_uint8 yydefact[] =
 {
-       2,     0,     1,     8,     5,     4,     0,     3,     0,     9,
-       0,     0,     8,     7,     6,     0,    11,     0,     0,    25,
-      26,    27,    28,    29,    30,    31,    32,    34,    33,    35,
-      36,    37,    38,    39,    40,     0,     0,    13,    14,    15,
-       0,     0,     0,     0,     0,    21,     0,     0,     0,     0,
-      17,     0,     0,     0,    22,     0,     0,    16,     0,     0,
-      23,    24,    20,     0,     0,    48,    49,    50,    51,    47,
-      41,    42,    44,    45,    46,    43,     0,     0,     0,     0,
-      18,    19
+       0,     4,    12,     0,     0,    10,     1,    10,     7,     6,
+       0,     0,    13,     5,     0,    11,     0,     0,     0,     0,
+      10,    27,    28,    29,    30,    31,    32,    33,    34,    36,
+      35,    37,    38,    39,    40,    41,    42,     0,     0,    15,
+      16,    17,     9,     8,     0,     0,     0,     0,     0,    23,
+       0,     0,     0,     0,    19,     0,     0,     0,    24,     0,
+       0,    18,     0,     0,    25,    26,    22,     0,     0,    50,
+      51,    52,    53,    49,    43,    44,    46,    47,    48,    45,
+       0,     0,     0,     0,    20,    21
 };
 
   /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -24,   -24,    66,    61,   -24,   -24,   -24,   -24,   -24,   -24,
-      38,   -24,    39
+     -19,   -19,   -19,    75,     5,    66,   -19,   -19,   -19,   -19,
+     -19,    37,   -19,    38
 };
 
   /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-      -1,     1,     5,     6,    12,    16,    42,    37,    38,    44,
-      45,    39,    50
+      -1,     3,     4,     9,    10,     5,    12,    46,    39,    40,
+      48,    49,    41,    54
 };
 
   /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -598,65 +602,65 @@ static const yytype_int8 yydefgoto[] =
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-      47,     8,    43,   -12,   -12,     2,     3,    53,    -8,    11,
-      17,     4,   -10,   -10,    69,    10,    70,    71,    72,    73,
-      74,    75,    65,    66,    67,    13,    68,     9,   -12,    48,
-      48,    14,    49,    49,    -8,     9,    18,   -10,    19,    20,
+     -14,    51,    14,    -2,     7,    16,   -14,   -14,   -10,    19,
+      11,     8,    47,     6,   -12,   -12,    73,    57,    74,    75,
+      76,    77,    78,    79,    52,    11,    50,    53,    15,    -3,
+      15,   -14,    52,    47,   -10,    53,     1,     2,    17,   -12,
       21,    22,    23,    24,    25,    26,    27,    28,    29,    30,
-      31,    32,    33,    34,    51,    35,    52,    36,    55,    40,
-      56,    41,    43,    46,    58,    59,    60,    61,    62,     7,
-      63,    64,    76,    15,    78,    79,     0,    77,     0,     0,
-      80,    81,    54,     0,     0,     0,    57
+      31,    32,    33,    34,    35,    36,    55,    37,    56,    38,
+      69,    70,    71,    59,    72,    60,    18,    42,    43,    44,
+      45,    62,    63,    64,    65,    66,    80,    67,    68,    81,
+      82,    83,    13,    20,     0,    58,    84,    85,     0,    61
 };
 
 static const yytype_int8 yycheck[] =
 {
-       1,     3,    25,     4,     5,     0,     1,    30,     3,     1,
-       4,     6,     4,     5,    32,    32,    34,    35,    36,    37,
-      38,    39,    35,    36,    37,     5,    39,    29,    29,    30,
-      30,     5,    33,    33,    29,    29,    32,    29,     7,     8,
+       0,     1,     5,     0,     1,     6,     6,     7,     5,     1,
+       5,     8,    27,     0,     6,     7,    34,    32,    36,    37,
+      38,    39,    40,    41,    32,    20,    33,    35,    31,     0,
+      31,    31,    32,    27,    31,    35,     3,     4,    34,    31,
        9,    10,    11,    12,    13,    14,    15,    16,    17,    18,
-      19,    20,    21,    22,    35,    24,    37,    26,    35,    32,
-      37,    32,    25,    31,    23,    23,    32,    32,    32,     3,
-      27,    27,    32,    12,    28,    28,    -1,    32,    -1,    -1,
-      32,    32,    44,    -1,    -1,    -1,    47
+      19,    20,    21,    22,    23,    24,    37,    26,    39,    28,
+      37,    38,    39,    37,    41,    39,    34,     7,     7,    34,
+      34,    25,    25,    34,    34,    34,    34,    29,    29,    34,
+      30,    30,     7,    17,    -1,    48,    34,    34,    -1,    51
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
      symbol of state STATE-NUM.  */
 static const yytype_uint8 yystos[] =
 {
-       0,    41,     0,     1,     6,    42,    43,    42,     3,    29,
-      32,     1,    44,     5,     5,    43,    45,     4,    32,     7,
-       8,     9,    10,    11,    12,    13,    14,    15,    16,    17,
-      18,    19,    20,    21,    22,    24,    26,    47,    48,    51,
-      32,    32,    46,    25,    49,    50,    31,     1,    30,    33,
-      52,    35,    37,    30,    50,    35,    37,    52,    23,    23,
-      32,    32,    32,    27,    27,    35,    36,    37,    39,    32,
-      34,    35,    36,    37,    38,    39,    32,    32,    28,    28,
-      32,    32
+       0,     3,     4,    43,    44,    47,     0,     1,     8,    45,
+      46,    46,    48,    45,     5,    31,     6,    34,    34,     1,
+      47,     9,    10,    11,    12,    13,    14,    15,    16,    17,
+      18,    19,    20,    21,    22,    23,    24,    26,    28,    50,
+      51,    54,     7,     7,    34,    34,    49,    27,    52,    53,
+      33,     1,    32,    35,    55,    37,    39,    32,    53,    37,
+      39,    55,    25,    25,    34,    34,    34,    29,    29,    37,
+      38,    39,    41,    34,    36,    37,    38,    39,    40,    41,
+      34,    34,    30,    30,    34,    34
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_uint8 yyr1[] =
 {
-       0,    40,    41,    41,    41,    41,    42,    42,    43,    43,
-      44,    44,    45,    45,    45,    46,    46,    46,    47,    47,
-      48,    49,    49,    50,    50,    51,    51,    51,    51,    51,
-      51,    51,    51,    51,    51,    51,    51,    51,    51,    51,
-      51,    52,    52,    52,    52,    52,    52,    52,    52,    52,
-      52,    52
+       0,    42,    43,    43,    44,    44,    44,    44,    45,    45,
+      46,    46,    47,    47,    48,    48,    48,    49,    49,    49,
+      50,    50,    51,    52,    52,    53,    53,    54,    54,    54,
+      54,    54,    54,    54,    54,    54,    54,    54,    54,    54,
+      54,    54,    54,    55,    55,    55,    55,    55,    55,    55,
+      55,    55,    55,    55
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
 static const yytype_uint8 yyr2[] =
 {
-       0,     2,     0,     3,     2,     2,     5,     5,     0,     2,
-       0,     2,     5,     4,     4,     0,     3,     2,     8,     8,
-       5,     1,     2,     3,     3,     1,     1,     1,     1,     1,
+       0,     2,     2,     2,     0,     3,     2,     2,     5,     5,
+       0,     2,     0,     2,     5,     4,     4,     0,     3,     2,
+       8,     8,     5,     1,     2,     3,     3,     1,     1,     1,
        1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-       1,     3,     3,     3,     3,     3,     3,     3,     3,     3,
-       3,     3
+       1,     1,     1,     3,     3,     3,     3,     3,     3,     3,
+       3,     3,     3,     3
 };
 
 
@@ -1149,136 +1153,136 @@ yydestruct (const char *yymsg, int yytype, YYSTYPE *yyvaluep, YYLTYPE *yylocatio
   YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN
   switch (yytype)
     {
-          case 29: /* COMMENT  */
-#line 38 "DPD.y" /* yacc.c:1258  */
-      { free(((*yyvaluep).s)); }
-#line 1156 "DPD.tab.cpp" /* yacc.c:1258  */
-        break;
-
-    case 30: /* DEFAULT  */
-#line 38 "DPD.y" /* yacc.c:1258  */
-      { free(((*yyvaluep).s)); }
-#line 1162 "DPD.tab.cpp" /* yacc.c:1258  */
-        break;
-
-    case 31: /* CMP  */
-#line 38 "DPD.y" /* yacc.c:1258  */
-      { free(((*yyvaluep).s)); }
-#line 1168 "DPD.tab.cpp" /* yacc.c:1258  */
-        break;
-
-    case 32: /* IDENTIFIER  */
-#line 38 "DPD.y" /* yacc.c:1258  */
-      { free(((*yyvaluep).s)); }
-#line 1174 "DPD.tab.cpp" /* yacc.c:1258  */
-        break;
-
-    case 33: /* SEGMENT_PROPERTY  */
-#line 38 "DPD.y" /* yacc.c:1258  */
-      { free(((*yyvaluep).s)); }
-#line 1180 "DPD.tab.cpp" /* yacc.c:1258  */
-        break;
-
-    case 34: /* VALUE_PROPERTY  */
-#line 38 "DPD.y" /* yacc.c:1258  */
-      { free(((*yyvaluep).s)); }
-#line 1186 "DPD.tab.cpp" /* yacc.c:1258  */
-        break;
-
-    case 35: /* VALUE_INT  */
-#line 38 "DPD.y" /* yacc.c:1258  */
-      { free(((*yyvaluep).s)); }
-#line 1192 "DPD.tab.cpp" /* yacc.c:1258  */
-        break;
-
-    case 36: /* VALUE_FLOAT  */
-#line 38 "DPD.y" /* yacc.c:1258  */
-      { free(((*yyvaluep).s)); }
-#line 1198 "DPD.tab.cpp" /* yacc.c:1258  */
-        break;
-
-    case 37: /* VALUE_STRING  */
-#line 38 "DPD.y" /* yacc.c:1258  */
-      { free(((*yyvaluep).s)); }
-#line 1204 "DPD.tab.cpp" /* yacc.c:1258  */
-        break;
-
-    case 38: /* VALUE_RANGE  */
-#line 38 "DPD.y" /* yacc.c:1258  */
-      { free(((*yyvaluep).s)); }
-#line 1210 "DPD.tab.cpp" /* yacc.c:1258  */
-        break;
-
-    case 39: /* VALUE_BOOL  */
-#line 38 "DPD.y" /* yacc.c:1258  */
-      { free(((*yyvaluep).s)); }
-#line 1216 "DPD.tab.cpp" /* yacc.c:1258  */
-        break;
-
-    case 41: /* protocollist  */
-#line 40 "DPD.y" /* yacc.c:1258  */
-      { free_protocollist(((*yyvaluep).protocollist)); ((*yyvaluep).protocollist)=NULL;}
-#line 1222 "DPD.tab.cpp" /* yacc.c:1258  */
-        break;
-
-    case 42: /* protocol  */
-#line 40 "DPD.y" /* yacc.c:1258  */
-      { free_protocollist(((*yyvaluep).protocollist)); ((*yyvaluep).protocollist)=NULL;}
-#line 1228 "DPD.tab.cpp" /* yacc.c:1258  */
-        break;
-
-    case 43: /* commentlist  */
+          case 31: /* COMMENT  */
 #line 39 "DPD.y" /* yacc.c:1258  */
+      { free(((*yyvaluep).s)); }
+#line 1160 "DPD.tab.cpp" /* yacc.c:1258  */
+        break;
+
+    case 32: /* DEFAULT  */
+#line 39 "DPD.y" /* yacc.c:1258  */
+      { free(((*yyvaluep).s)); }
+#line 1166 "DPD.tab.cpp" /* yacc.c:1258  */
+        break;
+
+    case 33: /* CMP  */
+#line 39 "DPD.y" /* yacc.c:1258  */
+      { free(((*yyvaluep).s)); }
+#line 1172 "DPD.tab.cpp" /* yacc.c:1258  */
+        break;
+
+    case 34: /* IDENTIFIER  */
+#line 39 "DPD.y" /* yacc.c:1258  */
+      { free(((*yyvaluep).s)); }
+#line 1178 "DPD.tab.cpp" /* yacc.c:1258  */
+        break;
+
+    case 35: /* SEGMENT_PROPERTY  */
+#line 39 "DPD.y" /* yacc.c:1258  */
+      { free(((*yyvaluep).s)); }
+#line 1184 "DPD.tab.cpp" /* yacc.c:1258  */
+        break;
+
+    case 36: /* VALUE_PROPERTY  */
+#line 39 "DPD.y" /* yacc.c:1258  */
+      { free(((*yyvaluep).s)); }
+#line 1190 "DPD.tab.cpp" /* yacc.c:1258  */
+        break;
+
+    case 37: /* VALUE_INT  */
+#line 39 "DPD.y" /* yacc.c:1258  */
+      { free(((*yyvaluep).s)); }
+#line 1196 "DPD.tab.cpp" /* yacc.c:1258  */
+        break;
+
+    case 38: /* VALUE_FLOAT  */
+#line 39 "DPD.y" /* yacc.c:1258  */
+      { free(((*yyvaluep).s)); }
+#line 1202 "DPD.tab.cpp" /* yacc.c:1258  */
+        break;
+
+    case 39: /* VALUE_STRING  */
+#line 39 "DPD.y" /* yacc.c:1258  */
+      { free(((*yyvaluep).s)); }
+#line 1208 "DPD.tab.cpp" /* yacc.c:1258  */
+        break;
+
+    case 40: /* VALUE_RANGE  */
+#line 39 "DPD.y" /* yacc.c:1258  */
+      { free(((*yyvaluep).s)); }
+#line 1214 "DPD.tab.cpp" /* yacc.c:1258  */
+        break;
+
+    case 41: /* VALUE_BOOL  */
+#line 39 "DPD.y" /* yacc.c:1258  */
+      { free(((*yyvaluep).s)); }
+#line 1220 "DPD.tab.cpp" /* yacc.c:1258  */
+        break;
+
+    case 44: /* protocollist  */
+#line 41 "DPD.y" /* yacc.c:1258  */
+      { free_protocollist(((*yyvaluep).protocollist)); ((*yyvaluep).protocollist)=NULL;}
+#line 1226 "DPD.tab.cpp" /* yacc.c:1258  */
+        break;
+
+    case 45: /* protocol  */
+#line 41 "DPD.y" /* yacc.c:1258  */
+      { free_protocollist(((*yyvaluep).protocollist)); ((*yyvaluep).protocollist)=NULL;}
+#line 1232 "DPD.tab.cpp" /* yacc.c:1258  */
+        break;
+
+    case 46: /* commentlist  */
+#line 40 "DPD.y" /* yacc.c:1258  */
       { free_commentlist(((*yyvaluep).commentlist)); ((*yyvaluep).commentlist)=NULL;}
-#line 1234 "DPD.tab.cpp" /* yacc.c:1258  */
+#line 1238 "DPD.tab.cpp" /* yacc.c:1258  */
         break;
 
-    case 44: /* segmentlist  */
-#line 41 "DPD.y" /* yacc.c:1258  */
+    case 47: /* segmentlist  */
+#line 42 "DPD.y" /* yacc.c:1258  */
       { free_segmentlist(((*yyvaluep).segmentlist)); ((*yyvaluep).segmentlist)=NULL;}
-#line 1240 "DPD.tab.cpp" /* yacc.c:1258  */
+#line 1244 "DPD.tab.cpp" /* yacc.c:1258  */
         break;
 
-    case 45: /* segment  */
-#line 41 "DPD.y" /* yacc.c:1258  */
+    case 48: /* segment  */
+#line 42 "DPD.y" /* yacc.c:1258  */
       { free_segmentlist(((*yyvaluep).segmentlist)); ((*yyvaluep).segmentlist)=NULL;}
-#line 1246 "DPD.tab.cpp" /* yacc.c:1258  */
+#line 1250 "DPD.tab.cpp" /* yacc.c:1258  */
         break;
 
-    case 46: /* propertylist  */
-#line 42 "DPD.y" /* yacc.c:1258  */
+    case 49: /* propertylist  */
+#line 43 "DPD.y" /* yacc.c:1258  */
       { free_propertylist(((*yyvaluep).propertylist)); ((*yyvaluep).propertylist)=NULL;}
-#line 1252 "DPD.tab.cpp" /* yacc.c:1258  */
+#line 1256 "DPD.tab.cpp" /* yacc.c:1258  */
         break;
 
-    case 47: /* ifbranch  */
-#line 42 "DPD.y" /* yacc.c:1258  */
+    case 50: /* ifbranch  */
+#line 43 "DPD.y" /* yacc.c:1258  */
       { free_propertylist(((*yyvaluep).propertylist)); ((*yyvaluep).propertylist)=NULL;}
-#line 1258 "DPD.tab.cpp" /* yacc.c:1258  */
+#line 1262 "DPD.tab.cpp" /* yacc.c:1258  */
         break;
 
-    case 48: /* switchbranch  */
-#line 42 "DPD.y" /* yacc.c:1258  */
+    case 51: /* switchbranch  */
+#line 43 "DPD.y" /* yacc.c:1258  */
       { free_propertylist(((*yyvaluep).propertylist)); ((*yyvaluep).propertylist)=NULL;}
-#line 1264 "DPD.tab.cpp" /* yacc.c:1258  */
+#line 1268 "DPD.tab.cpp" /* yacc.c:1258  */
         break;
 
-    case 49: /* caselist  */
-#line 42 "DPD.y" /* yacc.c:1258  */
+    case 52: /* caselist  */
+#line 43 "DPD.y" /* yacc.c:1258  */
       { free_propertylist(((*yyvaluep).propertylist)); ((*yyvaluep).propertylist)=NULL;}
-#line 1270 "DPD.tab.cpp" /* yacc.c:1258  */
+#line 1274 "DPD.tab.cpp" /* yacc.c:1258  */
         break;
 
-    case 50: /* caseitem  */
-#line 42 "DPD.y" /* yacc.c:1258  */
+    case 53: /* caseitem  */
+#line 43 "DPD.y" /* yacc.c:1258  */
       { free_propertylist(((*yyvaluep).propertylist)); ((*yyvaluep).propertylist)=NULL;}
-#line 1276 "DPD.tab.cpp" /* yacc.c:1258  */
+#line 1280 "DPD.tab.cpp" /* yacc.c:1258  */
         break;
 
-    case 52: /* property  */
-#line 42 "DPD.y" /* yacc.c:1258  */
+    case 55: /* property  */
+#line 43 "DPD.y" /* yacc.c:1258  */
       { free_propertylist(((*yyvaluep).propertylist)); ((*yyvaluep).propertylist)=NULL;}
-#line 1282 "DPD.tab.cpp" /* yacc.c:1258  */
+#line 1286 "DPD.tab.cpp" /* yacc.c:1258  */
         break;
 
 
@@ -1564,308 +1568,308 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-        case 2:
-#line 46 "DPD.y" /* yacc.c:1648  */
+        case 4:
+#line 51 "DPD.y" /* yacc.c:1648  */
     { (yyval.protocollist) = NULL; }
-#line 1571 "DPD.tab.cpp" /* yacc.c:1648  */
-    break;
-
-  case 3:
-#line 47 "DPD.y" /* yacc.c:1648  */
-    { (yyval.protocollist) = union_protocol((yyvsp[-2].protocollist), (yyvsp[0].protocollist)); }
-#line 1577 "DPD.tab.cpp" /* yacc.c:1648  */
-    break;
-
-  case 4:
-#line 48 "DPD.y" /* yacc.c:1648  */
-    { (yyval.protocollist) = union_protocol((yyvsp[-1].protocollist), (yyvsp[0].protocollist)); }
-#line 1583 "DPD.tab.cpp" /* yacc.c:1648  */
+#line 1575 "DPD.tab.cpp" /* yacc.c:1648  */
     break;
 
   case 5:
-#line 49 "DPD.y" /* yacc.c:1648  */
-    { free_protocollist((yyvsp[-1].protocollist)); printf( "Parse End.\n"); return 0; }
-#line 1589 "DPD.tab.cpp" /* yacc.c:1648  */
+#line 52 "DPD.y" /* yacc.c:1648  */
+    { (yyval.protocollist) = union_protocol((yyvsp[-2].protocollist), (yyvsp[0].protocollist)); }
+#line 1581 "DPD.tab.cpp" /* yacc.c:1648  */
     break;
 
   case 6:
 #line 53 "DPD.y" /* yacc.c:1648  */
-    { (yyval.protocollist) = new_protocol((yyvsp[-2].s), (yyvsp[-1].segmentlist), (yyvsp[-4].commentlist),  (yylsp[-2]).first_line); }
-#line 1595 "DPD.tab.cpp" /* yacc.c:1648  */
+    { (yyval.protocollist) = union_protocol((yyvsp[-1].protocollist), (yyvsp[0].protocollist)); }
+#line 1587 "DPD.tab.cpp" /* yacc.c:1648  */
     break;
 
   case 7:
 #line 54 "DPD.y" /* yacc.c:1648  */
-    { (yyval.protocollist) = new_protocol((yyvsp[-2].s), NULL, (yyvsp[-4].commentlist), (yylsp[-2]).first_line); }
-#line 1601 "DPD.tab.cpp" /* yacc.c:1648  */
+    { free_protocollist((yyvsp[-1].protocollist)); printf( "Parse End.\n"); return 0; }
+#line 1593 "DPD.tab.cpp" /* yacc.c:1648  */
     break;
 
   case 8:
-#line 57 "DPD.y" /* yacc.c:1648  */
-    { (yyval.commentlist) = NULL; }
-#line 1607 "DPD.tab.cpp" /* yacc.c:1648  */
+#line 58 "DPD.y" /* yacc.c:1648  */
+    { (yyval.protocollist) = new_protocol((yyvsp[-2].s), (yyvsp[-1].segmentlist), (yyvsp[-4].commentlist),  (yylsp[-2]).first_line); }
+#line 1599 "DPD.tab.cpp" /* yacc.c:1648  */
     break;
 
   case 9:
-#line 58 "DPD.y" /* yacc.c:1648  */
-    { (yyval.commentlist) = union_comment((yyvsp[-1].commentlist), new_comment((yyvsp[0].s))); }
-#line 1613 "DPD.tab.cpp" /* yacc.c:1648  */
+#line 59 "DPD.y" /* yacc.c:1648  */
+    { (yyval.protocollist) = new_protocol((yyvsp[-2].s), NULL, (yyvsp[-4].commentlist), (yylsp[-2]).first_line); }
+#line 1605 "DPD.tab.cpp" /* yacc.c:1648  */
     break;
 
   case 10:
-#line 61 "DPD.y" /* yacc.c:1648  */
-    { (yyval.segmentlist) = NULL; }
-#line 1619 "DPD.tab.cpp" /* yacc.c:1648  */
+#line 62 "DPD.y" /* yacc.c:1648  */
+    { (yyval.commentlist) = NULL; }
+#line 1611 "DPD.tab.cpp" /* yacc.c:1648  */
     break;
 
   case 11:
-#line 62 "DPD.y" /* yacc.c:1648  */
-    { (yyval.segmentlist) = union_segment((yyvsp[-1].segmentlist), (yyvsp[0].segmentlist)); }
-#line 1625 "DPD.tab.cpp" /* yacc.c:1648  */
+#line 63 "DPD.y" /* yacc.c:1648  */
+    { (yyval.commentlist) = union_comment((yyvsp[-1].commentlist), new_comment((yyvsp[0].s))); }
+#line 1617 "DPD.tab.cpp" /* yacc.c:1648  */
     break;
 
   case 12:
 #line 66 "DPD.y" /* yacc.c:1648  */
-    { (yyval.segmentlist) = new_segment((yyvsp[-2].s), (yyvsp[-1].segtype), (yyvsp[0].propertylist), (yyvsp[-4].commentlist), (yylsp[-2]).first_line); }
-#line 1631 "DPD.tab.cpp" /* yacc.c:1648  */
+    { (yyval.segmentlist) = NULL; }
+#line 1623 "DPD.tab.cpp" /* yacc.c:1648  */
     break;
 
   case 13:
 #line 67 "DPD.y" /* yacc.c:1648  */
-    { (yyval.segmentlist) = new_segment((yyvsp[-1].s), DPDIfElse, (yyvsp[0].propertylist), (yyvsp[-3].commentlist), (yylsp[-1]).first_line); }
-#line 1637 "DPD.tab.cpp" /* yacc.c:1648  */
+    { (yyval.segmentlist) = union_segment((yyvsp[-1].segmentlist), (yyvsp[0].segmentlist)); }
+#line 1629 "DPD.tab.cpp" /* yacc.c:1648  */
     break;
 
   case 14:
-#line 68 "DPD.y" /* yacc.c:1648  */
-    { (yyval.segmentlist) = new_segment((yyvsp[-1].s), DPDSwitch, (yyvsp[0].propertylist), (yyvsp[-3].commentlist), (yylsp[-1]).first_line); }
-#line 1643 "DPD.tab.cpp" /* yacc.c:1648  */
+#line 71 "DPD.y" /* yacc.c:1648  */
+    { (yyval.segmentlist) = new_segment((yyvsp[-2].s), (yyvsp[-1].segtype), (yyvsp[0].propertylist), (yyvsp[-4].commentlist), (yylsp[-2]).first_line); }
+#line 1635 "DPD.tab.cpp" /* yacc.c:1648  */
     break;
 
   case 15:
 #line 72 "DPD.y" /* yacc.c:1648  */
-    { (yyval.propertylist) = NULL; }
-#line 1649 "DPD.tab.cpp" /* yacc.c:1648  */
+    { (yyval.segmentlist) = new_segment((yyvsp[-1].s), DPDIfElse, (yyvsp[0].propertylist), (yyvsp[-3].commentlist), (yylsp[-1]).first_line); }
+#line 1641 "DPD.tab.cpp" /* yacc.c:1648  */
     break;
 
   case 16:
 #line 73 "DPD.y" /* yacc.c:1648  */
-    { (yyval.propertylist) = union_property((yyvsp[-2].propertylist), (yyvsp[0].propertylist)); }
-#line 1655 "DPD.tab.cpp" /* yacc.c:1648  */
+    { (yyval.segmentlist) = new_segment((yyvsp[-1].s), DPDSwitch, (yyvsp[0].propertylist), (yyvsp[-3].commentlist), (yylsp[-1]).first_line); }
+#line 1647 "DPD.tab.cpp" /* yacc.c:1648  */
     break;
 
   case 17:
-#line 74 "DPD.y" /* yacc.c:1648  */
-    { (yyval.propertylist) = union_property((yyvsp[-1].propertylist), (yyvsp[0].propertylist)); }
-#line 1661 "DPD.tab.cpp" /* yacc.c:1648  */
+#line 77 "DPD.y" /* yacc.c:1648  */
+    { (yyval.propertylist) = NULL; }
+#line 1653 "DPD.tab.cpp" /* yacc.c:1648  */
     break;
 
   case 18:
 #line 78 "DPD.y" /* yacc.c:1648  */
-    { (yyval.propertylist) = new_ifproperty((yyvsp[-6].s), (yylsp[-6]).first_line, (yyvsp[-5].s), v_int,(yyvsp[-4].s), (yylsp[-4]).first_line, (yyvsp[-2].s), (yylsp[-2]).first_line, (yyvsp[0].s), (yylsp[0]).first_line); }
-#line 1667 "DPD.tab.cpp" /* yacc.c:1648  */
+    { (yyval.propertylist) = union_property((yyvsp[-2].propertylist), (yyvsp[0].propertylist)); }
+#line 1659 "DPD.tab.cpp" /* yacc.c:1648  */
     break;
 
   case 19:
 #line 79 "DPD.y" /* yacc.c:1648  */
-    { (yyval.propertylist) = new_ifproperty((yyvsp[-6].s), (yylsp[-6]).first_line, (yyvsp[-5].s), v_str,(yyvsp[-4].s), (yylsp[-4]).first_line, (yyvsp[-2].s), (yylsp[-2]).first_line, (yyvsp[0].s), (yylsp[0]).first_line); }
-#line 1673 "DPD.tab.cpp" /* yacc.c:1648  */
+    { (yyval.propertylist) = union_property((yyvsp[-1].propertylist), (yyvsp[0].propertylist)); }
+#line 1665 "DPD.tab.cpp" /* yacc.c:1648  */
     break;
 
   case 20:
 #line 83 "DPD.y" /* yacc.c:1648  */
-    { (yyval.propertylist) = new_switchproperty((yyvsp[-3].s), (yylsp[-3]).first_line, (yyvsp[-2].propertylist), (yyvsp[0].s), (yylsp[0]).first_line); free((yyvsp[-1].s));}
-#line 1679 "DPD.tab.cpp" /* yacc.c:1648  */
+    { (yyval.propertylist) = new_ifproperty((yyvsp[-6].s), (yylsp[-6]).first_line, (yyvsp[-5].s), v_int,(yyvsp[-4].s), (yylsp[-4]).first_line, (yyvsp[-2].s), (yylsp[-2]).first_line, (yyvsp[0].s), (yylsp[0]).first_line); }
+#line 1671 "DPD.tab.cpp" /* yacc.c:1648  */
     break;
 
   case 21:
-#line 87 "DPD.y" /* yacc.c:1648  */
-    { (yyval.propertylist) = (yyvsp[0].propertylist); }
-#line 1685 "DPD.tab.cpp" /* yacc.c:1648  */
+#line 84 "DPD.y" /* yacc.c:1648  */
+    { (yyval.propertylist) = new_ifproperty((yyvsp[-6].s), (yylsp[-6]).first_line, (yyvsp[-5].s), v_str,(yyvsp[-4].s), (yylsp[-4]).first_line, (yyvsp[-2].s), (yylsp[-2]).first_line, (yyvsp[0].s), (yylsp[0]).first_line); }
+#line 1677 "DPD.tab.cpp" /* yacc.c:1648  */
     break;
 
   case 22:
 #line 88 "DPD.y" /* yacc.c:1648  */
-    { (yyval.propertylist) = union_property((yyvsp[-1].propertylist), (yyvsp[0].propertylist)); }
-#line 1691 "DPD.tab.cpp" /* yacc.c:1648  */
+    { (yyval.propertylist) = new_switchproperty((yyvsp[-3].s), (yylsp[-3]).first_line, (yyvsp[-2].propertylist), (yyvsp[0].s), (yylsp[0]).first_line); free((yyvsp[-1].s));}
+#line 1683 "DPD.tab.cpp" /* yacc.c:1648  */
     break;
 
   case 23:
 #line 92 "DPD.y" /* yacc.c:1648  */
-    { (yyval.propertylist) = new_property(v_caseint, (yyvsp[-1].s), (yyvsp[0].s), (yylsp[0]).first_line); }
-#line 1697 "DPD.tab.cpp" /* yacc.c:1648  */
+    { (yyval.propertylist) = (yyvsp[0].propertylist); }
+#line 1689 "DPD.tab.cpp" /* yacc.c:1648  */
     break;
 
   case 24:
 #line 93 "DPD.y" /* yacc.c:1648  */
-    { (yyval.propertylist) = new_property(v_casestr, (yyvsp[-1].s), (yyvsp[0].s), (yylsp[0]).first_line); }
-#line 1703 "DPD.tab.cpp" /* yacc.c:1648  */
+    { (yyval.propertylist) = union_property((yyvsp[-1].propertylist), (yyvsp[0].propertylist)); }
+#line 1695 "DPD.tab.cpp" /* yacc.c:1648  */
     break;
 
   case 25:
 #line 97 "DPD.y" /* yacc.c:1648  */
-    { (yyval.segtype) = DPDUInt8; }
-#line 1709 "DPD.tab.cpp" /* yacc.c:1648  */
+    { (yyval.propertylist) = new_property(v_caseint, (yyvsp[-1].s), (yyvsp[0].s), (yylsp[0]).first_line); }
+#line 1701 "DPD.tab.cpp" /* yacc.c:1648  */
     break;
 
   case 26:
 #line 98 "DPD.y" /* yacc.c:1648  */
-    { (yyval.segtype) = DPDUInt16; }
-#line 1715 "DPD.tab.cpp" /* yacc.c:1648  */
+    { (yyval.propertylist) = new_property(v_casestr, (yyvsp[-1].s), (yyvsp[0].s), (yylsp[0]).first_line); }
+#line 1707 "DPD.tab.cpp" /* yacc.c:1648  */
     break;
 
   case 27:
-#line 99 "DPD.y" /* yacc.c:1648  */
-    { (yyval.segtype) = DPDUInt32; }
-#line 1721 "DPD.tab.cpp" /* yacc.c:1648  */
+#line 102 "DPD.y" /* yacc.c:1648  */
+    { (yyval.segtype) = DPDUInt8; }
+#line 1713 "DPD.tab.cpp" /* yacc.c:1648  */
     break;
 
   case 28:
-#line 100 "DPD.y" /* yacc.c:1648  */
-    { (yyval.segtype) = DPDInt8; }
-#line 1727 "DPD.tab.cpp" /* yacc.c:1648  */
+#line 103 "DPD.y" /* yacc.c:1648  */
+    { (yyval.segtype) = DPDUInt16; }
+#line 1719 "DPD.tab.cpp" /* yacc.c:1648  */
     break;
 
   case 29:
-#line 101 "DPD.y" /* yacc.c:1648  */
-    { (yyval.segtype) = DPDInt16; }
-#line 1733 "DPD.tab.cpp" /* yacc.c:1648  */
+#line 104 "DPD.y" /* yacc.c:1648  */
+    { (yyval.segtype) = DPDUInt32; }
+#line 1725 "DPD.tab.cpp" /* yacc.c:1648  */
     break;
 
   case 30:
-#line 102 "DPD.y" /* yacc.c:1648  */
-    { (yyval.segtype) = DPDInt32; }
-#line 1739 "DPD.tab.cpp" /* yacc.c:1648  */
+#line 105 "DPD.y" /* yacc.c:1648  */
+    { (yyval.segtype) = DPDInt8; }
+#line 1731 "DPD.tab.cpp" /* yacc.c:1648  */
     break;
 
   case 31:
-#line 103 "DPD.y" /* yacc.c:1648  */
-    { (yyval.segtype) = DPDIntRandom; }
-#line 1745 "DPD.tab.cpp" /* yacc.c:1648  */
+#line 106 "DPD.y" /* yacc.c:1648  */
+    { (yyval.segtype) = DPDInt16; }
+#line 1737 "DPD.tab.cpp" /* yacc.c:1648  */
     break;
 
   case 32:
-#line 104 "DPD.y" /* yacc.c:1648  */
-    { (yyval.segtype) = DPDUIntRandom; }
-#line 1751 "DPD.tab.cpp" /* yacc.c:1648  */
+#line 107 "DPD.y" /* yacc.c:1648  */
+    { (yyval.segtype) = DPDInt32; }
+#line 1743 "DPD.tab.cpp" /* yacc.c:1648  */
     break;
 
   case 33:
-#line 105 "DPD.y" /* yacc.c:1648  */
-    { (yyval.segtype) = DPDDouble; }
-#line 1757 "DPD.tab.cpp" /* yacc.c:1648  */
+#line 108 "DPD.y" /* yacc.c:1648  */
+    { (yyval.segtype) = DPDIntRandom; }
+#line 1749 "DPD.tab.cpp" /* yacc.c:1648  */
     break;
 
   case 34:
-#line 106 "DPD.y" /* yacc.c:1648  */
-    { (yyval.segtype) = DPDFloat; }
-#line 1763 "DPD.tab.cpp" /* yacc.c:1648  */
+#line 109 "DPD.y" /* yacc.c:1648  */
+    { (yyval.segtype) = DPDUIntRandom; }
+#line 1755 "DPD.tab.cpp" /* yacc.c:1648  */
     break;
 
   case 35:
-#line 107 "DPD.y" /* yacc.c:1648  */
-    { (yyval.segtype) = DPDBoolean; }
-#line 1769 "DPD.tab.cpp" /* yacc.c:1648  */
+#line 110 "DPD.y" /* yacc.c:1648  */
+    { (yyval.segtype) = DPDDouble; }
+#line 1761 "DPD.tab.cpp" /* yacc.c:1648  */
     break;
 
   case 36:
-#line 108 "DPD.y" /* yacc.c:1648  */
-    { (yyval.segtype) = DPDCRC; }
-#line 1775 "DPD.tab.cpp" /* yacc.c:1648  */
+#line 111 "DPD.y" /* yacc.c:1648  */
+    { (yyval.segtype) = DPDFloat; }
+#line 1767 "DPD.tab.cpp" /* yacc.c:1648  */
     break;
 
   case 37:
-#line 109 "DPD.y" /* yacc.c:1648  */
-    { (yyval.segtype) = DPDArray; }
-#line 1781 "DPD.tab.cpp" /* yacc.c:1648  */
+#line 112 "DPD.y" /* yacc.c:1648  */
+    { (yyval.segtype) = DPDBoolean; }
+#line 1773 "DPD.tab.cpp" /* yacc.c:1648  */
     break;
 
   case 38:
-#line 110 "DPD.y" /* yacc.c:1648  */
-    { (yyval.segtype) = DPDString; }
-#line 1787 "DPD.tab.cpp" /* yacc.c:1648  */
+#line 113 "DPD.y" /* yacc.c:1648  */
+    { (yyval.segtype) = DPDCRC; }
+#line 1779 "DPD.tab.cpp" /* yacc.c:1648  */
     break;
 
   case 39:
-#line 111 "DPD.y" /* yacc.c:1648  */
-    { (yyval.segtype) = DPDBlock; }
-#line 1793 "DPD.tab.cpp" /* yacc.c:1648  */
+#line 114 "DPD.y" /* yacc.c:1648  */
+    { (yyval.segtype) = DPDArray; }
+#line 1785 "DPD.tab.cpp" /* yacc.c:1648  */
     break;
 
   case 40:
-#line 112 "DPD.y" /* yacc.c:1648  */
-    { (yyval.segtype) = DPDBuffer; }
-#line 1799 "DPD.tab.cpp" /* yacc.c:1648  */
+#line 115 "DPD.y" /* yacc.c:1648  */
+    { (yyval.segtype) = DPDString; }
+#line 1791 "DPD.tab.cpp" /* yacc.c:1648  */
     break;
 
   case 41:
-#line 115 "DPD.y" /* yacc.c:1648  */
-    { (yyval.propertylist) = new_property(v_property, (yyvsp[-2].s), (yyvsp[0].s), (yylsp[0]).first_line); }
-#line 1805 "DPD.tab.cpp" /* yacc.c:1648  */
+#line 116 "DPD.y" /* yacc.c:1648  */
+    { (yyval.segtype) = DPDBlock; }
+#line 1797 "DPD.tab.cpp" /* yacc.c:1648  */
     break;
 
   case 42:
-#line 116 "DPD.y" /* yacc.c:1648  */
-    { (yyval.propertylist) = new_property(v_int, (yyvsp[-2].s), (yyvsp[0].s), (yylsp[0]).first_line); }
-#line 1811 "DPD.tab.cpp" /* yacc.c:1648  */
+#line 117 "DPD.y" /* yacc.c:1648  */
+    { (yyval.segtype) = DPDBuffer; }
+#line 1803 "DPD.tab.cpp" /* yacc.c:1648  */
     break;
 
   case 43:
-#line 117 "DPD.y" /* yacc.c:1648  */
-    { (yyval.propertylist) = new_property(v_bool, (yyvsp[-2].s), (yyvsp[0].s), (yylsp[0]).first_line); }
-#line 1817 "DPD.tab.cpp" /* yacc.c:1648  */
+#line 120 "DPD.y" /* yacc.c:1648  */
+    { (yyval.propertylist) = new_property(v_property, (yyvsp[-2].s), (yyvsp[0].s), (yylsp[0]).first_line); }
+#line 1809 "DPD.tab.cpp" /* yacc.c:1648  */
     break;
 
   case 44:
-#line 118 "DPD.y" /* yacc.c:1648  */
-    { (yyval.propertylist) = new_property(v_float, (yyvsp[-2].s), (yyvsp[0].s), (yylsp[0]).first_line); }
-#line 1823 "DPD.tab.cpp" /* yacc.c:1648  */
+#line 121 "DPD.y" /* yacc.c:1648  */
+    { (yyval.propertylist) = new_property(v_int, (yyvsp[-2].s), (yyvsp[0].s), (yylsp[0]).first_line); }
+#line 1815 "DPD.tab.cpp" /* yacc.c:1648  */
     break;
 
   case 45:
-#line 119 "DPD.y" /* yacc.c:1648  */
-    { (yyval.propertylist) = new_property(v_str, (yyvsp[-2].s), (yyvsp[0].s), (yylsp[0]).first_line); }
-#line 1829 "DPD.tab.cpp" /* yacc.c:1648  */
+#line 122 "DPD.y" /* yacc.c:1648  */
+    { (yyval.propertylist) = new_property(v_bool, (yyvsp[-2].s), (yyvsp[0].s), (yylsp[0]).first_line); }
+#line 1821 "DPD.tab.cpp" /* yacc.c:1648  */
     break;
 
   case 46:
-#line 120 "DPD.y" /* yacc.c:1648  */
-    { (yyval.propertylist) = new_property(v_range, (yyvsp[-2].s), (yyvsp[0].s), (yylsp[0]).first_line); }
-#line 1835 "DPD.tab.cpp" /* yacc.c:1648  */
+#line 123 "DPD.y" /* yacc.c:1648  */
+    { (yyval.propertylist) = new_property(v_float, (yyvsp[-2].s), (yyvsp[0].s), (yylsp[0]).first_line); }
+#line 1827 "DPD.tab.cpp" /* yacc.c:1648  */
     break;
 
   case 47:
-#line 121 "DPD.y" /* yacc.c:1648  */
-    { (yyval.propertylist) = new_property(v_range, (yyvsp[-2].s), (yyvsp[0].s), (yylsp[0]).first_line); }
-#line 1841 "DPD.tab.cpp" /* yacc.c:1648  */
+#line 124 "DPD.y" /* yacc.c:1648  */
+    { (yyval.propertylist) = new_property(v_str, (yyvsp[-2].s), (yyvsp[0].s), (yylsp[0]).first_line); }
+#line 1833 "DPD.tab.cpp" /* yacc.c:1648  */
     break;
 
   case 48:
-#line 122 "DPD.y" /* yacc.c:1648  */
-    { (yyval.propertylist) = new_property(v_int, (yyvsp[-2].s), (yyvsp[0].s), (yylsp[0]).first_line); }
-#line 1847 "DPD.tab.cpp" /* yacc.c:1648  */
+#line 125 "DPD.y" /* yacc.c:1648  */
+    { (yyval.propertylist) = new_property(v_range, (yyvsp[-2].s), (yyvsp[0].s), (yylsp[0]).first_line); }
+#line 1839 "DPD.tab.cpp" /* yacc.c:1648  */
     break;
 
   case 49:
-#line 123 "DPD.y" /* yacc.c:1648  */
-    { (yyval.propertylist) = new_property(v_float, (yyvsp[-2].s), (yyvsp[0].s), (yylsp[0]).first_line); }
-#line 1853 "DPD.tab.cpp" /* yacc.c:1648  */
+#line 126 "DPD.y" /* yacc.c:1648  */
+    { (yyval.propertylist) = new_property(v_range, (yyvsp[-2].s), (yyvsp[0].s), (yylsp[0]).first_line); }
+#line 1845 "DPD.tab.cpp" /* yacc.c:1648  */
     break;
 
   case 50:
-#line 124 "DPD.y" /* yacc.c:1648  */
-    { (yyval.propertylist) = new_property(v_str, (yyvsp[-2].s), (yyvsp[0].s), (yylsp[0]).first_line); }
-#line 1859 "DPD.tab.cpp" /* yacc.c:1648  */
+#line 127 "DPD.y" /* yacc.c:1648  */
+    { (yyval.propertylist) = new_property(v_int, (yyvsp[-2].s), (yyvsp[0].s), (yylsp[0]).first_line); }
+#line 1851 "DPD.tab.cpp" /* yacc.c:1648  */
     break;
 
   case 51:
-#line 125 "DPD.y" /* yacc.c:1648  */
+#line 128 "DPD.y" /* yacc.c:1648  */
+    { (yyval.propertylist) = new_property(v_float, (yyvsp[-2].s), (yyvsp[0].s), (yylsp[0]).first_line); }
+#line 1857 "DPD.tab.cpp" /* yacc.c:1648  */
+    break;
+
+  case 52:
+#line 129 "DPD.y" /* yacc.c:1648  */
+    { (yyval.propertylist) = new_property(v_str, (yyvsp[-2].s), (yyvsp[0].s), (yylsp[0]).first_line); }
+#line 1863 "DPD.tab.cpp" /* yacc.c:1648  */
+    break;
+
+  case 53:
+#line 130 "DPD.y" /* yacc.c:1648  */
     { (yyval.propertylist) = new_property(v_bool, (yyvsp[-2].s), (yyvsp[0].s), (yylsp[0]).first_line); }
-#line 1865 "DPD.tab.cpp" /* yacc.c:1648  */
+#line 1869 "DPD.tab.cpp" /* yacc.c:1648  */
     break;
 
 
-#line 1869 "DPD.tab.cpp" /* yacc.c:1648  */
+#line 1873 "DPD.tab.cpp" /* yacc.c:1648  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -2099,8 +2103,54 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 129 "DPD.y" /* yacc.c:1907  */
+#line 134 "DPD.y" /* yacc.c:1907  */
 
+
+int errorcount = 0;
+int first_tok = 0;
+
+
+
+extern "C" void _declspec(dllexport)
+ ParseFile(char* filename)
+{
+	first_tok = PARSEPROTOCOL;
+	FILE* fs=0;
+	errorcount = 0;
+	errno_t err;
+
+	err = fopen_s(&fs, filename, "r");
+	if (err != 0)
+	{
+		errorcount = -1;
+	}
+	else
+	{
+		yyin = fs;
+		do { 
+				yyparse();
+			} while(!feof(yyin));
+	}
+	if(fs) fclose (fs);
+
+}
+
+extern "C" void _declspec(dllexport)
+ SegmentParse(char* str)
+{
+	;
+}
+
+void outerror(int errcode, int lineno, const char *s) {
+	printf( "Error%d on line(%d) %s (%s)\n", errcode, lineno, s, yytext);
+	//exit(1);
+}
+
+void yyerror(const char* s) {
+	outerror(-1, yylineno, s);
+}
+
+/*
 int main(int argc, char **argv) {
 	FILE* fs=0;
 	if(argc >1)
@@ -2135,13 +2185,5 @@ int main(int argc, char **argv) {
 	}
 
 	return 0;
-}
+}*/
 
-void outerror(int errcode, int lineno, const char *s) {
-	printf( "Error%d on line(%d) %s (%s)\n", errcode, lineno, s, yytext);
-	//exit(1);
-}
-
-void yyerror(const char* s) {
-	outerror(-1, yylineno, s);
-}

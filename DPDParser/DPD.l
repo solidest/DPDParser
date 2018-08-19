@@ -12,10 +12,19 @@ CHS (\xE9\xBE[\x80-\xA5]|(\xE4[\xB8-\xBF]|\xE9[\x80-\xBD]|[\xE5-\xE8][\x80-\xBF]
 #include "dpd.h"
 #include "DPD.tab.h"
 
-
 %}
 
 %%
+
+%{
+	extern int first_tok;
+
+	if(first_tok!=0) {
+		int holdtok = first_tok;
+		first_tok = 0;
+		return holdtok;
+	}
+%}
 
 ^("#"|([ \t]+"#")).*\n	{ yylval.s = _strdup(yytext); return COMMENT; }
 "#".*\n					{ ; }
@@ -102,3 +111,4 @@ CHS (\xE9\xBE[\x80-\xA5]|(\xE4[\xB8-\xBF]|\xE9[\x80-\xBD]|[\xE5-\xE8][\x80-\xBF]
 <<EOF>>					{ return ENDALL; }
 .						{ outerror(1, yylineno, yytext); }
 %%
+
