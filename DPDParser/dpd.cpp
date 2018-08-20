@@ -274,3 +274,62 @@ struct comment *union_comment(struct comment* list, struct comment* line)
 
 }
 #pragma endregion
+
+#pragma region --Helper--
+
+unsigned char utf8_look_for_table[] =
+{
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+	2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+	2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+	3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+	4, 4, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 1, 1
+};
+
+
+
+#define UTFLEN(x)  utf8_look_for_table[(x)]
+
+
+//计算str字符数目
+int GetUtf8Length(char *str, int clen)
+{
+	int len = 0;
+	for (char *ptr = str;
+		*ptr != 0 && len < clen;
+		len++, ptr += UTFLEN((unsigned char)*ptr));
+	return len;
+}
+
+
+
+//get子串
+char* SubUtfString(char *str, unsigned int start, unsigned int end)
+{
+	unsigned int len = GetUtf8Length(str, (int)strlen(str));
+	if (start >= len) return NULL;
+	if (end > len) end = len;
+	char *sptr = str;
+	for (unsigned int i = 0; i < start; ++i, sptr += UTFLEN((unsigned char)*sptr));
+	char *eptr = sptr;
+	for (unsigned int i = start; i < end; ++i, eptr += UTFLEN((unsigned char)*eptr));
+	int retLen = (int)(eptr - sptr);
+	char *retStr = (char*)malloc(retLen + 1);
+	memcpy(retStr, sptr, retLen);
+	retStr[retLen] = 0;
+	return retStr;
+}
+
+#pragma endregion
+

@@ -71,9 +71,15 @@ int DpdParserDB::SaveSegment(struct segment* seg, int protolid)
 	return -1;
 }
 
-void DpdParserDB::SaveProperty(struct property* proper, int segid)
+int DpdParserDB::SaveProperty(struct property* proper, int segid)
 {
+	return -1;
+}
 
+
+int DpdParserDB::SaveSymbol(char* symbol, int lineno, int firstcolumn, int lastcolumn)
+{
+	return -1;
 }
 
 void DpdParserDB::UpdateTaskState(int state)

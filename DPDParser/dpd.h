@@ -20,7 +20,7 @@ bool ParseSegments(char* code);
 bool ParseSemantics();
 void SaveProtocolList(struct protocol * protolist);
 void SaveSegmentList(struct segment * seglist, int protoid);
-
+int GetUtf8Length(char *str, int clen);
 
 struct comment *new_comment(char* v);
 struct comment *union_comment(struct comment* list, struct comment* line);

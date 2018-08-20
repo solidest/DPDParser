@@ -1,5 +1,5 @@
 
-%option noyywrap yylineno
+%option noyywrap yylineno HEADER-FILE="flex.h" 
 
 
 EXP ([Ee][-+]?[0-9]+)
@@ -8,12 +8,16 @@ CHS (\xE9\xBE[\x80-\xA5]|(\xE4[\xB8-\xBF]|\xE9[\x80-\xBD]|[\xE5-\xE8][\x80-\xBF]
 
 %{
 #include "stdafx.h"
-
 #include "dpd.h"
 #include "DPD.tab.h"
 
-%}
+int yycolumn = 1;
+int utf8len = 0;
 
+#define YY_USER_ACTION utf8len = GetUtf8Length(yytext, yyleng); yylloc.first_line = yylloc.last_line = yylineno; \
+	yylloc.first_column = yycolumn; yylloc.last_column = yycolumn + utf8len - 1; \
+	yycolumn += utf8len;
+%}
 %%
 
 %{
@@ -26,8 +30,8 @@ CHS (\xE9\xBE[\x80-\xA5]|(\xE4[\xB8-\xBF]|\xE9[\x80-\xBD]|[\xE5-\xE8][\x80-\xBF]
 	}
 %}
 
-^("#"|([ \t]+"#")).*\n	{ yylval.s = _strdup(yytext); return COMMENT; }
-"#".*\n					{ ; }
+^("#"|([ \t]+"#")).*\n	{ yycolumn = 1; yylval.s = _strdup(yytext); return COMMENT; }
+"#".*\n					{ yycolumn = 1; }
 
 
 \'([^'\\]|\\['"?\\abfnrtv]|\\[0-7]{1,3}|\\[xX][0-9a-fA-F]+|{UCN}|{CHS})*\'	{ yylval.s = _strdup(yytext); return VALUE_STRING; }
@@ -104,11 +108,11 @@ CHS (\xE9\xBE[\x80-\xA5]|(\xE4[\xB8-\xBF]|\xE9[\x80-\xBD]|[\xE5-\xE8][\x80-\xBF]
 
 ([a-zA-Z_]|{CHS})([a-zA-Z0-9_]|{CHS})*	{ yylval.s = _strdup(yytext); return IDENTIFIER; }
 
-\r\n					{ ; }
-[ \t\n]					{ ; }
+\r\n					{ yycolumn=1; }
+\n						{ yycolumn=1; }
+[ \t]					{ ; }
 
-[\xEF\xBB\xBF]			{ ; }
+[\xEF\xBB\xBF]			{ yycolumn=1; }
 <<EOF>>					{ return ENDALL; }
 .						{ OutError(ERROR_CODE_SYMBOL, yylineno, yytext); }
 %%
-

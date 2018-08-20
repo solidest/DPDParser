@@ -3,12 +3,7 @@
 #include <stdlib.h>
 #include "stdafx.h"
 #include "dpd.h"
-
-extern int yylex();
-extern int yyparse();
-extern FILE* yyin;
-extern char* yytext;
-extern int yylineno;
+#include "flex.h"
 
 void yyerror(const char *s);
 bool isParseSegment = false;
@@ -55,7 +50,7 @@ firstparse: PARSEPROTOCOL protocollist
 protocollist:											{ $$ = NULL; }
 	| protocollist error protocol						{ $$ = union_protocol($1, $3); }
 	| protocollist protocol								{ $$ = union_protocol($1, $2); }
-	| protocollist ENDALL								{ SaveProtocolList($1); free_protocollist($1); return 0; }
+	| protocollist commentlist ENDALL					{ SaveProtocolList($1); free_protocollist($1); return 0; }
 ;
 
 protocol:  
@@ -69,7 +64,7 @@ commentlist:											{ $$ = NULL; }
 
 segmentlist:											{ $$ = NULL; }
 	| segmentlist segment								{ $$ = union_segment($1, $2); }
-	| segmentlist ENDALL								{ if(isParseSegment) { SaveSegmentList($1, -1); free_segmentlist($1); return 0; } }
+	| segmentlist commentlist ENDALL					{ if(isParseSegment) { SaveSegmentList($1, -1); free_segmentlist($1); return 0; } }
 ;
 
 segment: 
@@ -167,15 +162,21 @@ bool ParseProtocols(char* code)
 {
 	first_tok = PARSEPROTOCOL;
 	isParseSegment = false;
-
-	return false;
+	YY_BUFFER_STATE bp = yy_scan_bytes(code,(int)strlen(code));
+	yy_switch_to_buffer(bp);
+	yyparse();
+	yy_delete_buffer(bp);
+	return true;
 }
 
 bool ParseSegments(char* code)
 {
 	first_tok = PARSESEGMENT;
 	isParseSegment = true;
-
+	YY_BUFFER_STATE bp = yy_scan_bytes(code,(int)strlen(code));
+	yy_switch_to_buffer(bp);
+	yyparse();
+	yy_delete_buffer(bp);
 	return false;
 }
 

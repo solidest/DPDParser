@@ -22,7 +22,8 @@ public:
 
 	int SaveProtocol(struct protocol* proto);
 	int SaveSegment(struct segment* seg, int protolid);
-	void SaveProperty(struct property* proper, int segid);
+	int SaveProperty(struct property* proper, int segid);
+	int SaveSymbol(char* symbol, int lineno, int firstcolumn, int lastcolumn);
 
 	void SaveError(int errcode, int lineno, const char *s);
 	void UpdateTaskState(int state);

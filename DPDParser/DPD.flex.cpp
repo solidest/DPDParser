@@ -374,8 +374,8 @@ static void yynoreturn yy_fatal_error ( const char* msg  );
 	(yy_hold_char) = *yy_cp; \
 	*yy_cp = '\0'; \
 	(yy_c_buf_p) = yy_cp;
-#define YY_NUM_RULES 65
-#define YY_END_OF_BUFFER 66
+#define YY_NUM_RULES 66
+#define YY_END_OF_BUFFER 67
 /* This struct is not used in this scanner,
    but its presence is necessary. */
 struct yy_trans_info
@@ -385,10 +385,10 @@ struct yy_trans_info
 	};
 static const flex_int16_t yy_accept[307] =
     {   0,
-        0,    0,   66,   64,   62,   62,   64,   64,   64,   64,
-       64,   64,   64,   54,   55,    9,   10,    8,   60,   60,
+        0,    0,   67,   65,   63,   62,   65,   65,   65,   65,
+       65,   65,   65,   54,   55,    9,   10,    8,   60,   60,
        60,   60,   60,   60,   60,   60,   60,   60,   60,   60,
-       60,   63,   64,   64,   64,   62,   64,   61,    5,    0,
+       60,   64,   65,   65,   65,   63,   65,   61,    5,    0,
         2,    0,    3,    0,    0,    0,    0,    0,    0,    0,
         0,    0,   57,   57,   54,    0,    0,    0,   55,    7,
         4,    6,   60,   60,   60,    0,    0,    0,   60,   60,
@@ -888,12 +888,12 @@ static const flex_int16_t yy_chk[1519] =
     } ;
 
 /* Table of booleans, true if rule could match eol. */
-static const flex_int32_t yy_rule_can_match_eol[66] =
+static const flex_int32_t yy_rule_can_match_eol[67] =
     {   0,
 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-    0, 1, 1, 0, 0, 0,     };
+    0, 1, 1, 0, 0, 0, 0,     };
 
 static yy_state_type yy_last_accepting_state;
 static char *yy_last_accepting_cpos;
@@ -912,12 +912,17 @@ char *yytext;
 #line 1 "DPD.l"
 #line 10 "DPD.l"
 #include "stdafx.h"
-
 #include "dpd.h"
 #include "DPD.tab.h"
 
-#line 919 "DPD.flex.cpp"
-#line 920 "DPD.flex.cpp"
+int yycolumn = 1;
+int utf8len = 0;
+
+#define YY_USER_ACTION utf8len = GetUtf8Length(yytext, yyleng); yylloc.first_line = yylloc.last_line = yylineno; \
+	yylloc.first_column = yycolumn; yylloc.last_column = yycolumn + utf8len - 1; \
+	yycolumn += utf8len;
+#line 924 "DPD.flex.cpp"
+#line 925 "DPD.flex.cpp"
 
 #define INITIAL 0
 
@@ -1134,11 +1139,11 @@ YY_DECL
 		}
 
 	{
-#line 17 "DPD.l"
-
-
-
 #line 21 "DPD.l"
+
+
+
+#line 25 "DPD.l"
 	extern int first_tok;
 
 	if(first_tok!=0) {
@@ -1148,7 +1153,7 @@ YY_DECL
 	}
 
 
-#line 1151 "DPD.flex.cpp"
+#line 1156 "DPD.flex.cpp"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -1219,269 +1224,274 @@ do_action:	/* This label is used only to access EOF actions. */
 case 1:
 /* rule 1 can match eol */
 YY_RULE_SETUP
-#line 30 "DPD.l"
-{ yylval.s = _strdup(yytext); return COMMENT; }
+#line 34 "DPD.l"
+{ yycolumn = 1; yylval.s = _strdup(yytext); return COMMENT; }
 	YY_BREAK
 case 2:
 /* rule 2 can match eol */
 YY_RULE_SETUP
-#line 31 "DPD.l"
-{ ; }
+#line 35 "DPD.l"
+{ yycolumn = 1; }
 	YY_BREAK
 case 3:
 /* rule 3 can match eol */
 YY_RULE_SETUP
-#line 34 "DPD.l"
+#line 38 "DPD.l"
 { yylval.s = _strdup(yytext); return VALUE_STRING; }
 	YY_BREAK
 case 4:
-#line 37 "DPD.l"
-case 5:
-#line 38 "DPD.l"
-case 6:
-#line 39 "DPD.l"
-case 7:
-#line 40 "DPD.l"
-case 8:
 #line 41 "DPD.l"
+case 5:
+#line 42 "DPD.l"
+case 6:
+#line 43 "DPD.l"
+case 7:
+#line 44 "DPD.l"
+case 8:
+#line 45 "DPD.l"
 case 9:
 YY_RULE_SETUP
-#line 41 "DPD.l"
+#line 45 "DPD.l"
 { yylval.s = _strdup(yytext); return CMP; }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 42 "DPD.l"
+#line 46 "DPD.l"
 { return EQUAL; }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 44 "DPD.l"
+#line 48 "DPD.l"
 { return PROTOCOL; }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 45 "DPD.l"
+#line 49 "DPD.l"
 { return SEGMENT; }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 48 "DPD.l"
+#line 52 "DPD.l"
 { return SEGMENT_TYPE_U8; }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 49 "DPD.l"
+#line 53 "DPD.l"
 { return SEGMENT_TYPE_U16; }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 50 "DPD.l"
+#line 54 "DPD.l"
 { return SEGMENT_TYPE_U32; }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 51 "DPD.l"
+#line 55 "DPD.l"
 { return SEGMENT_TYPE_I8; }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 52 "DPD.l"
+#line 56 "DPD.l"
 { return SEGMENT_TYPE_I16; }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 53 "DPD.l"
+#line 57 "DPD.l"
 { return SEGMENT_TYPE_I32; }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 54 "DPD.l"
+#line 58 "DPD.l"
 { return SEGMENT_TYPE_IR; }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 55 "DPD.l"
+#line 59 "DPD.l"
 { return SEGMENT_TYPE_UR; }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 56 "DPD.l"
+#line 60 "DPD.l"
 { return SEGMENT_TYPE_DOUBLE; }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 57 "DPD.l"
+#line 61 "DPD.l"
 { return SEGMENT_TYPE_FLOAT; }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 58 "DPD.l"
+#line 62 "DPD.l"
 { return SEGMENT_TYPE_BOOLEAN; }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 59 "DPD.l"
+#line 63 "DPD.l"
 { return SEGMENT_TYPE_CRC; }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 60 "DPD.l"
+#line 64 "DPD.l"
 { return SEGMENT_TYPE_ARRAY; }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 61 "DPD.l"
+#line 65 "DPD.l"
 { return SEGMENT_TYPE_STRING; }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 62 "DPD.l"
+#line 66 "DPD.l"
 { return SEGMENT_TYPE_BLOCK; }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 63 "DPD.l"
+#line 67 "DPD.l"
 { return SEGMENT_TYPE_BUFFER; }
 	YY_BREAK
 case 29:
-#line 66 "DPD.l"
-case 30:
-#line 67 "DPD.l"
-case 31:
-#line 68 "DPD.l"
-case 32:
-#line 69 "DPD.l"
-case 33:
 #line 70 "DPD.l"
-case 34:
+case 30:
 #line 71 "DPD.l"
-case 35:
+case 31:
 #line 72 "DPD.l"
-case 36:
+case 32:
 #line 73 "DPD.l"
-case 37:
+case 33:
 #line 74 "DPD.l"
-case 38:
+case 34:
 #line 75 "DPD.l"
+case 35:
+#line 76 "DPD.l"
+case 36:
+#line 77 "DPD.l"
+case 37:
+#line 78 "DPD.l"
+case 38:
+#line 79 "DPD.l"
 case 39:
 YY_RULE_SETUP
-#line 75 "DPD.l"
+#line 79 "DPD.l"
 { yylval.s = _strdup(yytext); return SEGMENT_PROPERTY; }
 	YY_BREAK
 case 40:
-#line 78 "DPD.l"
+#line 82 "DPD.l"
 case 41:
 YY_RULE_SETUP
-#line 78 "DPD.l"
+#line 82 "DPD.l"
 { yylval.s = _strdup(yytext); return VALUE_BOOL; }
 	YY_BREAK
 case 42:
-#line 81 "DPD.l"
+#line 85 "DPD.l"
 case 43:
-#line 82 "DPD.l"
+#line 86 "DPD.l"
 case 44:
-#line 83 "DPD.l"
+#line 87 "DPD.l"
 case 45:
-#line 84 "DPD.l"
+#line 88 "DPD.l"
 case 46:
 YY_RULE_SETUP
-#line 84 "DPD.l"
+#line 88 "DPD.l"
 { yylval.s = _strdup(yytext); return VALUE_PROPERTY; }
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 88 "DPD.l"
+#line 92 "DPD.l"
 { return SWITCH; }
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 89 "DPD.l"
+#line 93 "DPD.l"
 { return CASE; }
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 90 "DPD.l"
+#line 94 "DPD.l"
 { yylval.s = _strdup(yytext); return DEFAULT; }
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 91 "DPD.l"
+#line 95 "DPD.l"
 { return IF; }
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 92 "DPD.l"
+#line 96 "DPD.l"
 { return THEN; }
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 93 "DPD.l"
+#line 97 "DPD.l"
 { return ELSE; }
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 95 "DPD.l"
+#line 99 "DPD.l"
 { return END; }
 	YY_BREAK
 case 54:
-#line 98 "DPD.l"
+#line 102 "DPD.l"
 case 55:
-#line 99 "DPD.l"
+#line 103 "DPD.l"
 case 56:
 YY_RULE_SETUP
-#line 99 "DPD.l"
+#line 103 "DPD.l"
 {  yylval.s = _strdup(yytext); return VALUE_INT; }
 	YY_BREAK
 case 57:
-#line 102 "DPD.l"
+#line 106 "DPD.l"
 case 58:
 YY_RULE_SETUP
-#line 102 "DPD.l"
+#line 106 "DPD.l"
 {  yylval.s = _strdup(yytext); return VALUE_FLOAT; }
 	YY_BREAK
 case 59:
 YY_RULE_SETUP
-#line 104 "DPD.l"
+#line 108 "DPD.l"
 {  yylval.s = _strdup(yytext); return VALUE_RANGE; }
 	YY_BREAK
 case 60:
 YY_RULE_SETUP
-#line 106 "DPD.l"
+#line 110 "DPD.l"
 { yylval.s = _strdup(yytext); return IDENTIFIER; }
 	YY_BREAK
 case 61:
 /* rule 61 can match eol */
 YY_RULE_SETUP
-#line 108 "DPD.l"
-{ ; }
+#line 112 "DPD.l"
+{ yycolumn=1; }
 	YY_BREAK
 case 62:
 /* rule 62 can match eol */
 YY_RULE_SETUP
-#line 109 "DPD.l"
-{ ; }
+#line 113 "DPD.l"
+{ yycolumn=1; }
 	YY_BREAK
 case 63:
 YY_RULE_SETUP
-#line 111 "DPD.l"
+#line 114 "DPD.l"
 { ; }
-	YY_BREAK
-case YY_STATE_EOF(INITIAL):
-#line 112 "DPD.l"
-{ return ENDALL; }
 	YY_BREAK
 case 64:
 YY_RULE_SETUP
-#line 113 "DPD.l"
-{ OutError(ERROR_CODE_SYMBOL, yylineno, yytext); }
+#line 116 "DPD.l"
+{ yycolumn=1; }
+	YY_BREAK
+case YY_STATE_EOF(INITIAL):
+#line 117 "DPD.l"
+{ return ENDALL; }
 	YY_BREAK
 case 65:
 YY_RULE_SETUP
-#line 114 "DPD.l"
+#line 118 "DPD.l"
+{ OutError(ERROR_CODE_SYMBOL, yylineno, yytext); }
+	YY_BREAK
+case 66:
+YY_RULE_SETUP
+#line 119 "DPD.l"
 ECHO;
 	YY_BREAK
-#line 1484 "DPD.flex.cpp"
+#line 1494 "DPD.flex.cpp"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -2498,7 +2508,6 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 114 "DPD.l"
-
+#line 119 "DPD.l"
 
 
