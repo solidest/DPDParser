@@ -3,7 +3,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include "dpd.h"
+#include "DpdParserDB.h"
 
+DpdParserDB* g_pDb;
 
 BOOL APIENTRY DllMain(HMODULE hModule,
 	DWORD  ul_reason_for_call,
@@ -13,13 +15,84 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 	switch (ul_reason_for_call)
 	{
 		case DLL_PROCESS_ATTACH:
+			g_pDb = new DpdParserDB();
+			return true;
 		case DLL_THREAD_ATTACH:
 		case DLL_THREAD_DETACH:
 		case DLL_PROCESS_DETACH:
+			delete g_pDb;
+			return true;
 		break;
 	}
 	return TRUE;
 }
+
+//启动taskid指定的分析任务，分析完成返回true，启动失败返回false
+extern "C" bool __declspec(dllexport) StartParse(int taskid)
+{
+	bool result = false;
+	if(!g_pDb->LoadTask(taskid)) return false;
+	g_pDb->UpdateTaskState(TASK_STATE_RUNNING);
+	switch (g_pDb->getTaskId())
+	{
+		case TASK_TYPE_PARSE_FILE:
+			result = ParseUTF8File(g_pDb->getTaskCode());
+			break;
+		case TASK_TYPE_PARSE_PROTOCOLS:
+			result = ParseProtocols(g_pDb->getTaskCode());
+			break;
+		case TASK_TYPE_PARSE_SEGMENTS:
+			result = ParseSegments(g_pDb->getTaskCode());
+			break;
+		default:
+			result = false;
+	}
+	if (result) result = ParseSemantics();
+	g_pDb->UpdateTaskState(TASK_STATE_END);
+
+	return result;
+}
+
+//记录协议分析结果
+void SaveProtocolList(struct protocol * proto)
+{
+	while (proto)
+	{
+		int pid = g_pDb->SaveProtocol(proto);
+		SaveSegmentList(proto->seglist, pid);
+		proto = proto->next;
+	}
+}
+
+//记录字段分析结果
+void  SaveSegmentList(struct segment * seg, int protocolid)
+{
+	while (seg)
+	{
+		int segid = g_pDb->SaveSegment(seg, protocolid);
+		struct property * proper = seg->properlist;
+		while (proper)
+		{
+			g_pDb->SaveProperty(proper, segid);
+			proper = proper->next;
+		}
+		seg = seg->next;
+	}
+}
+
+//语义分析
+bool  ParseSemantics()
+{
+	return false;
+}
+
+//记录错误信息
+void OutError(int errcode, int lineno, const char *s) 
+{
+	g_pDb->SaveError(errcode, lineno, s);
+}
+
+#pragma region --For ast Struct--
 
 void free_commentlist(struct comment* list)
 {
@@ -68,9 +141,9 @@ void free_propertylist(struct property* list)
 	while (list)
 	{
 		next = list->next;
-		free( list->name );
-		free( list->value );
-		free( list );
+		free(list->name);
+		free(list->value);
+		free(list);
 		list = next;
 	}
 
@@ -79,7 +152,7 @@ void free_propertylist(struct property* list)
 
 struct protocol *new_protocol(char* pname, struct segment* seglist, struct comment* notes, int lino)
 {
-	struct protocol * ret= (struct protocol*)malloc(sizeof(struct protocol));
+	struct protocol * ret = (struct protocol*)malloc(sizeof(struct protocol));
 	ret->name = pname;
 	ret->lineno = lino;
 	ret->next = NULL;
@@ -186,7 +259,7 @@ struct comment *new_comment(char* v)
 
 struct comment *union_comment(struct comment* list, struct comment* line)
 {
-	if (list==NULL)
+	if (list == NULL)
 	{
 		return line;
 	}
@@ -200,3 +273,4 @@ struct comment *union_comment(struct comment* list, struct comment* line)
 	return list;
 
 }
+#pragma endregion

@@ -8,6 +8,10 @@ extern int yylex();
 extern int yyparse();
 extern FILE* yyin;
 extern char* yytext;
+extern int yylineno;
+
+void yyerror(const char *s);
+bool isParseSegment = false;
 
 %}
 
@@ -51,7 +55,7 @@ firstparse: PARSEPROTOCOL protocollist
 protocollist:											{ $$ = NULL; }
 	| protocollist error protocol						{ $$ = union_protocol($1, $3); }
 	| protocollist protocol								{ $$ = union_protocol($1, $2); }
-	| protocollist ENDALL								{ free_protocollist($1); printf( "Parse End.\n"); return 0; }
+	| protocollist ENDALL								{ SaveProtocolList($1); free_protocollist($1); return 0; }
 ;
 
 protocol:  
@@ -65,6 +69,7 @@ commentlist:											{ $$ = NULL; }
 
 segmentlist:											{ $$ = NULL; }
 	| segmentlist segment								{ $$ = union_segment($1, $2); }
+	| segmentlist ENDALL								{ if(isParseSegment) { SaveSegmentList($1, -1); free_segmentlist($1); return 0; } }
 ;
 
 segment: 
@@ -133,23 +138,19 @@ property: SEGMENT_PROPERTY EQUAL VALUE_PROPERTY		{ $$ = new_property(v_property,
 
 %%
 
-int errorcount = 0;
 int first_tok = 0;
 
-
-
-extern "C" void _declspec(dllexport)
- ParseFile(char* filename)
+bool ParseUTF8File(char* filename)
 {
 	first_tok = PARSEPROTOCOL;
+	isParseSegment = false;
 	FILE* fs=0;
-	errorcount = 0;
 	errno_t err;
 
 	err = fopen_s(&fs, filename, "r");
 	if (err != 0)
 	{
-		errorcount = -1;
+		return false;
 	}
 	else
 	{
@@ -159,58 +160,26 @@ extern "C" void _declspec(dllexport)
 			} while(!feof(yyin));
 	}
 	if(fs) fclose (fs);
-
+	return true;
 }
 
-extern "C" void _declspec(dllexport)
- SegmentParse(char* str)
+bool ParseProtocols(char* code)
 {
-	;
+	first_tok = PARSEPROTOCOL;
+	isParseSegment = false;
+
+	return false;
 }
 
-void outerror(int errcode, int lineno, const char *s) {
-	printf( "Error%d on line(%d) %s (%s)\n", errcode, lineno, s, yytext);
-	//exit(1);
+bool ParseSegments(char* code)
+{
+	first_tok = PARSESEGMENT;
+	isParseSegment = true;
+
+	return false;
 }
 
 void yyerror(const char* s) {
-	outerror(-1, yylineno, s);
+	OutError(ERROR_CODE_SYNTAX, yylineno, s);
 }
-
-/*
-int main(int argc, char **argv) {
-	FILE* fs=0;
-	if(argc >1)
-	{
-		errno_t err;
-		err = fopen_s(&fs, argv[1], "r");
-		if (err != 0)
-		{
-			perror(argv[1]);
-		}
-		else
-		{
-			yyin = fs;
-		}
-	}
-	else
-	{
-		yyin = stdin;
-	}
-
-	do { 
-		yyparse();
-	} while(!feof(yyin));
-
-	if(fs) 
-	{
-		fclose (fs);
-		yyin = stdin;
-		do { 
-		yyparse();
-	} while(!feof(yyin));
-	}
-
-	return 0;
-}*/
 

@@ -1474,7 +1474,7 @@ case YY_STATE_EOF(INITIAL):
 case 64:
 YY_RULE_SETUP
 #line 113 "DPD.l"
-{ outerror(1, yylineno, yytext); }
+{ OutError(ERROR_CODE_SYMBOL, yylineno, yytext); }
 	YY_BREAK
 case 65:
 YY_RULE_SETUP

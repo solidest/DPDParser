@@ -5,6 +5,11 @@
 class DpdParserDB
 {
 private:
+	int m_taskid;
+	int m_tasktype;
+	char* m_taskcode;
+
+
 	sqlite3 * m_pDB;
 	sqlite3_stmt *m_protocol_stmt;
 	sqlite3_stmt *m_segment_stmt;
@@ -13,6 +18,20 @@ private:
 public:
 	DpdParserDB();
 	~DpdParserDB();
-	bool SaveProtocol(struct protocol* proto);
+
+
+	int SaveProtocol(struct protocol* proto);
+	int SaveSegment(struct segment* seg, int protolid);
+	void SaveProperty(struct property* proper, int segid);
+
+	void SaveError(int errcode, int lineno, const char *s);
+	void UpdateTaskState(int state);
+
+
+	bool LoadTask(int taskid);
+	int getTaskId() { return m_taskid; }
+	char* getTaskCode() { return m_taskcode;  }
+
+
 };
 

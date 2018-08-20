@@ -109,6 +109,6 @@ CHS (\xE9\xBE[\x80-\xA5]|(\xE4[\xB8-\xBF]|\xE9[\x80-\xBD]|[\xE5-\xE8][\x80-\xBF]
 
 [\xEF\xBB\xBF]			{ ; }
 <<EOF>>					{ return ENDALL; }
-.						{ outerror(1, yylineno, yytext); }
+.						{ OutError(ERROR_CODE_SYMBOL, yylineno, yytext); }
 %%
 

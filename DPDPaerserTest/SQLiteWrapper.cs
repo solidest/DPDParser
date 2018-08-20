@@ -69,10 +69,14 @@ namespace SQLiteWrapper
         [DllImport("sqlite3")]
         private static extern int sqlite3_finalize(IntPtr handle);
 
+        [DllImport("sqlite3")]
+        private static extern int sqlite3_config(int flag, params int[] args);
+
         // SQLite constants 
         private const int SQL_OK = 0;
         private const int SQL_ROW = 100;
         private const int SQL_DONE = 101;
+        private const int SQLITE_CONFIG_URI = 17;
 
         /// <summary>
         /// SQLite data types.
@@ -125,6 +129,7 @@ namespace SQLiteWrapper
         /// <param name="baseName">Name of database file</param>
         public void OpenDatabase(String baseName)
         {
+            sqlite3_config(SQLITE_CONFIG_URI, 1);
             // opens database 
             if (sqlite3_open(StringToPointer(baseName), out database) != SQL_OK)
             {

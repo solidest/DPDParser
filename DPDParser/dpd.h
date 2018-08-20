@@ -1,7 +1,25 @@
 #pragma once
-void outerror(int errcode, int lineno, const char *s);
-void yyerror(const char *s);
-extern int yylineno;
+
+#define TASK_TYPE_PARSE_FILE		1	//分析文件
+#define TASK_TYPE_PARSE_PROTOCOLS	2	//分析协议字符串
+#define TASK_TYPE_PARSE_SEGMENTS	3	//分析字段字符串
+
+#define TASK_STATE_NOTSTART			1	//任务未启动
+#define TASK_STATE_RUNNING			2	//任务执行中
+#define TASK_STATE_END				3	//任务完成
+
+#define ERROR_CODE_SYMBOL			-1	//词法错误
+#define ERROR_CODE_SYNTAX			-2	//语法错误
+
+
+
+void OutError(int errcode, int lineno, const char *s);
+bool ParseUTF8File(char* filename);
+bool ParseProtocols(char* code);
+bool ParseSegments(char* code);
+bool ParseSemantics();
+void SaveProtocolList(struct protocol * protolist);
+void SaveSegmentList(struct segment * seglist, int protoid);
 
 
 struct comment *new_comment(char* v);
@@ -22,6 +40,8 @@ void free_commentlist(struct comment* list);
 void free_protocollist(struct protocol* list);
 void free_segmentlist(struct segment* list);
 void free_propertylist(struct property* list);
+
+#pragma region --Define ast Structs--
 
 struct comment {
 	char* line;
@@ -86,5 +106,8 @@ enum segmenttype {
 	DPDSwitch,
 	DPDIfElse
 };
+
+#pragma endregion
+
 
 

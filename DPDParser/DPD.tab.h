@@ -92,7 +92,7 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 14 "DPD.y" /* yacc.c:1910  */
+#line 18 "DPD.y" /* yacc.c:1910  */
 
 	char* s;
 	enum segmenttype segtype;
