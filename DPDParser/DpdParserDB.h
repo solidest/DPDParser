@@ -11,9 +11,10 @@ private:
 
 
 	sqlite3 * m_pDB;
-	sqlite3_stmt *m_protocol_stmt;
-	sqlite3_stmt *m_segment_stmt;
-	//sqlite3_stmt *m_property_stmt;
+	sqlite3_stmt *m_predpd_notes_stmt;
+	sqlite3_stmt *m_predpd_protocol_stmt;
+	sqlite3_stmt *m_predpd_property_stmt;
+	sqlite3_stmt *m_predpd_error_stmt;
 
 public:
 	DpdParserDB();
@@ -25,7 +26,7 @@ public:
 	int SaveProperty(struct property* proper, int segid);
 	int SaveSymbol(const char* symbol, int lineno, int firstcolumn, int lastcolumn);
 
-	void SaveError(int errcode, int lineno, const char *s);
+	void SaveError(int errcode, int firstsymbol, int endsymbol);
 	void UpdateTaskState(int state);
 
 

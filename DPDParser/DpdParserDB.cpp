@@ -4,7 +4,7 @@
 
 DpdParserDB::DpdParserDB()
 {
-	int res = sqlite3_open("file:memdb1?mode=memory&cache=shared", &m_pDB);
+	int res = sqlite3_open("file::memory:?cache=shared", &m_pDB);
 	if (res != SQLITE_OK) 
 	{
 		sqlite3_close(m_pDB);
@@ -12,12 +12,31 @@ DpdParserDB::DpdParserDB()
 		return;
 	}
 
-	res = sqlite3_prepare_v2(m_pDB, "insert into pre_protocol values(:name, :lineno);", -1, &m_protocol_stmt, NULL);
+	res = sqlite3_prepare_v2(m_pDB, "INSERT INTO predpd_notes (note, lineno, tokentype, tokenid) VALUES(:note, :lineno, :tokentype, :tokenid);", -1, &m_predpd_notes_stmt, NULL);
 	if (res != SQLITE_OK)
 	{
-		m_protocol_stmt = NULL;
-		return;
+		m_predpd_notes_stmt = NULL;
 	}
+
+	res = sqlite3_prepare_v2(m_pDB, "INSERT INTO predpd_protocol (pretaskid, name, lineno) VALUES(:pretaskid, :name, :lineno);", -1, &m_predpd_protocol_stmt, NULL);
+	if (res != SQLITE_OK)
+	{
+		m_predpd_protocol_stmt = NULL;
+	}
+
+	res = sqlite3_prepare_v2(m_pDB, "INSERT INTO predpd_property (segmentid, propertyname) VALUES(:segmentid, :propertyname);", -1, &m_predpd_property_stmt, NULL);
+	if (res != SQLITE_OK)
+	{
+		m_predpd_property_stmt = NULL;
+	}
+
+	res = sqlite3_prepare_v2(m_pDB, "INSERT INTO predpd_error (taskid, errorcode, firstsymbol, lastsymbol) VALUES(:taskid, :errorcode, :firstsymbol, :lastsymbol);", -1, &m_predpd_error_stmt, NULL);
+	if (res != SQLITE_OK)
+	{
+		m_predpd_error_stmt = NULL;
+	}
+
+
 }
 
 
@@ -29,15 +48,34 @@ DpdParserDB::~DpdParserDB()
 		m_pDB = NULL;
 	}
 
-	if (m_protocol_stmt)
+	if (m_predpd_notes_stmt)
 	{
-		sqlite3_finalize(m_protocol_stmt);
-		m_protocol_stmt = NULL;
+		sqlite3_finalize(m_predpd_notes_stmt);
+		m_predpd_notes_stmt = NULL;
 	}
+
+	if (m_predpd_protocol_stmt)
+	{
+		sqlite3_finalize(m_predpd_protocol_stmt);
+		m_predpd_protocol_stmt = NULL;
+	}
+
+	if (m_predpd_property_stmt)
+	{
+		sqlite3_finalize(m_predpd_property_stmt);
+		m_predpd_property_stmt = NULL;
+	}
+
+	if (m_predpd_error_stmt)
+	{
+		sqlite3_finalize(m_predpd_error_stmt);
+		m_predpd_error_stmt = NULL;
+	}
+
 }
 
 //¼ÇÂ¼´íÎóÐÅÏ¢
-void DpdParserDB::SaveError(int errcode, int lineno, const char *s)
+void DpdParserDB::SaveError(int errcode, int firstsymbol, int endsymbol)
 {
 
 }

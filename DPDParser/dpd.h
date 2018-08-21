@@ -4,7 +4,7 @@
 #define TASK_TYPE_PARSE_PROTOCOLS	2	//分析协议字符串
 #define TASK_TYPE_PARSE_SEGMENTS	3	//分析字段字符串
 
-#define TASK_STATE_NOTSTART			1	//任务未启动
+#define TASK_STATE_READY			1	//任务已生成未启动
 #define TASK_STATE_RUNNING			2	//任务执行中
 #define TASK_STATE_END				3	//任务完成
 
@@ -13,7 +13,7 @@
 
 
 
-void OutError(int errcode, int lineno, const char *s);
+void OutError(int errcode, int firstsymbol, int endsymbol);
 bool ParseUTF8File(char* filename);
 bool ParseProtocols(char* code);
 bool ParseSegments(char* code);

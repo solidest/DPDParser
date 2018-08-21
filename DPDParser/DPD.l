@@ -114,5 +114,5 @@ int utf8len = 0;
 
 [\xEF\xBB\xBF]			{ yycolumn=1; }
 <<EOF>>					{ return ENDALL; }
-.						{ OutError(ERROR_CODE_SYMBOL, yylineno, yytext); }
+.						{ yylval.symbol = SaveSymbol(yytext, yylloc.first_line, yylloc.first_column, yylloc.last_column); OutError(ERROR_CODE_SYMBOL, yylval.symbol, yylval.symbol); }
 %%

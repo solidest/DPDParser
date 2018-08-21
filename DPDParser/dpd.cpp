@@ -80,7 +80,7 @@ void  SaveSegmentList(struct segment * seg, int protocolid)
 	}
 }
 
-//
+//±£´æ·ûºÅ ·µ»Ø·ûºÅid
 int SaveSymbol(const char* symbol, int lineno, int firstcol, int lastcol)
 {
 	return g_pDb->SaveSymbol(symbol, lineno, firstcol, lastcol);
@@ -94,9 +94,9 @@ bool  ParseSemantics()
 }
 
 //¼ÇÂ¼´íÎóÐÅÏ¢
-void OutError(int errcode, int lineno, const char *s) 
+void OutError(int errcode, int firstsymbol, int endsymbol)
 {
-	g_pDb->SaveError(errcode, lineno, s);
+	g_pDb->SaveError(errcode, firstsymbol, endsymbol);
 }
 
 #pragma region --For ast Struct--

@@ -1484,7 +1484,7 @@ case YY_STATE_EOF(INITIAL):
 case 65:
 YY_RULE_SETUP
 #line 118 "DPD.l"
-{ OutError(ERROR_CODE_SYMBOL, yylineno, yytext); }
+{ yylval.symbol = SaveSymbol(yytext, yylloc.first_line, yylloc.first_column, yylloc.last_column); OutError(ERROR_CODE_SYMBOL, yylval.symbol, yylval.symbol); }
 	YY_BREAK
 case 66:
 YY_RULE_SETUP

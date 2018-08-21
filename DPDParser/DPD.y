@@ -180,7 +180,7 @@ bool ParseSegments(char* code)
 	return false;
 }
 
-void yyerror(const char* s) {
-	OutError(ERROR_CODE_SYNTAX, yylineno, s);
+void yyerror(char const * s) {
+	OutError(ERROR_CODE_SYNTAX, yylval.symbol, yylval.symbol);
 }
 
