@@ -20,20 +20,22 @@ bool ParseSegments(char* code);
 bool ParseSemantics();
 void SaveProtocolList(struct protocol * protolist);
 void SaveSegmentList(struct segment * seglist, int protoid);
+int SaveSymbol(const char* symbol, int lineno, int firstcol, int lastcol);
 int GetUtf8Length(char *str, int clen);
 
-struct comment *new_comment(char* v);
+
+struct comment *new_comment(int line);
 struct comment *union_comment(struct comment* list, struct comment* line);
 
-struct protocol *new_protocol(char* pname, struct segment* seglist, struct comment* notes, int lino);
+struct protocol *new_protocol(int name, struct segment* seglist, struct comment* notes);
 struct protocol *union_protocol(struct protocol* list, struct protocol* p);
 
-struct segment *new_segment(char* pname, enum segmenttype stype, struct property* properlist, struct comment* notes, int lino);
+struct segment *new_segment(int name, enum segmenttype stype, struct property* properlist, struct comment* notes);
 struct segment *union_segment(struct segment* list, struct segment* seg);
 
-struct property *new_switchproperty(char* switchseg, int switchlno, struct property * caselist, char* defaultvalue, int defaultlno);
-struct property *new_ifproperty(char* ifid, int iflno, char* cmp, enum valuetype vtype, char* cmpvalue, int cmplino, char* thenvalue, int thenlno, char* elsevalue, int elselno);
-struct property *new_property(enum valuetype vt, char* pname, char* pvalue, int lno);
+struct property *new_switchproperty(int switchid, int switchsegment, struct property * caselist, int defaultid, int defaultproto);
+struct property *new_ifproperty(int ifid, int ifsegname, int cmp, enum valuetype vtype, int cmpvalue, int thenid, int thenproto, int elseid, int elseproto);
+struct property *new_property(int name, enum valuetype vt, int value);
 struct property *union_property(struct property* list, struct property* p);
 
 void free_commentlist(struct comment* list);
@@ -44,32 +46,29 @@ void free_propertylist(struct property* list);
 #pragma region --Define ast Structs--
 
 struct comment {
-	char* line;
+	int line;
 	struct comment* nextline;
 };
 
 struct protocol {
-	int lineno;
-	char *name;
+	int name;
 	struct comment  *notes;
-	struct protocol *next;
 	struct segment *seglist;
+	struct protocol *next;
 };
 
 struct segment {
+	int name;
 	enum segmenttype segtype;
-	int lineno;
-	char *name;
 	struct comment  *notes;
 	struct property *properlist;
 	struct segment *next;
 };
 
 struct property {
+	int name;
+	int value;
 	enum valuetype vtype;
-	char *name;
-	char *value;
-	int lineno;
 	struct property *next;
 };
 

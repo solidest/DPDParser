@@ -73,9 +73,9 @@ extern int yydebug;
     IF = 283,
     THEN = 284,
     ELSE = 285,
-    COMMENT = 286,
-    DEFAULT = 287,
-    CMP = 288,
+    DEFAULT = 286,
+    CMP = 287,
+    COMMENT = 288,
     IDENTIFIER = 289,
     SEGMENT_PROPERTY = 290,
     VALUE_PROPERTY = 291,
@@ -92,9 +92,9 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 13 "DPD.y" /* yacc.c:1910  */
+#line 14 "DPD.y" /* yacc.c:1910  */
 
-	char* s;
+	int symbol;
 	enum segmenttype segtype;
 	struct comment * commentlist;
 	struct protocol * protocollist;

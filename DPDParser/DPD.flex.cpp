@@ -1225,7 +1225,7 @@ case 1:
 /* rule 1 can match eol */
 YY_RULE_SETUP
 #line 34 "DPD.l"
-{ yycolumn = 1; yylval.s = _strdup(yytext); return COMMENT; }
+{ yycolumn = 1; yylval.symbol = SaveSymbol(yytext, yylloc.first_line, yylloc.first_column, yylloc.last_column); return COMMENT; }
 	YY_BREAK
 case 2:
 /* rule 2 can match eol */
@@ -1237,7 +1237,7 @@ case 3:
 /* rule 3 can match eol */
 YY_RULE_SETUP
 #line 38 "DPD.l"
-{ yylval.s = _strdup(yytext); return VALUE_STRING; }
+{ yylval.symbol = SaveSymbol(yytext, yylloc.first_line, yylloc.first_column, yylloc.last_column); return VALUE_STRING; }
 	YY_BREAK
 case 4:
 #line 41 "DPD.l"
@@ -1252,7 +1252,7 @@ case 8:
 case 9:
 YY_RULE_SETUP
 #line 45 "DPD.l"
-{ yylval.s = _strdup(yytext); return CMP; }
+{ yylval.symbol = SaveSymbol(yytext, yylloc.first_line, yylloc.first_column, yylloc.last_column); return CMP; }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
@@ -1372,14 +1372,14 @@ case 38:
 case 39:
 YY_RULE_SETUP
 #line 79 "DPD.l"
-{ yylval.s = _strdup(yytext); return SEGMENT_PROPERTY; }
+{ yylval.symbol = SaveSymbol(yytext, yylloc.first_line, yylloc.first_column, yylloc.last_column); return SEGMENT_PROPERTY; }
 	YY_BREAK
 case 40:
 #line 82 "DPD.l"
 case 41:
 YY_RULE_SETUP
 #line 82 "DPD.l"
-{ yylval.s = _strdup(yytext); return VALUE_BOOL; }
+{ yylval.symbol = SaveSymbol(yytext, yylloc.first_line, yylloc.first_column, yylloc.last_column); return VALUE_BOOL; }
 	YY_BREAK
 case 42:
 #line 85 "DPD.l"
@@ -1392,37 +1392,37 @@ case 45:
 case 46:
 YY_RULE_SETUP
 #line 88 "DPD.l"
-{ yylval.s = _strdup(yytext); return VALUE_PROPERTY; }
+{ yylval.symbol = SaveSymbol(yytext, yylloc.first_line, yylloc.first_column, yylloc.last_column); return VALUE_PROPERTY; }
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
 #line 92 "DPD.l"
-{ return SWITCH; }
+{ yylval.symbol = SaveSymbol(yytext, yylloc.first_line, yylloc.first_column, yylloc.last_column); return SWITCH; }
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
 #line 93 "DPD.l"
-{ return CASE; }
+{ yylval.symbol = SaveSymbol(yytext, yylloc.first_line, yylloc.first_column, yylloc.last_column); return CASE; }
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
 #line 94 "DPD.l"
-{ yylval.s = _strdup(yytext); return DEFAULT; }
+{ yylval.symbol = SaveSymbol(yytext, yylloc.first_line, yylloc.first_column, yylloc.last_column); return DEFAULT; }
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
 #line 95 "DPD.l"
-{ return IF; }
+{ yylval.symbol = SaveSymbol(yytext, yylloc.first_line, yylloc.first_column, yylloc.last_column); return IF; }
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
 #line 96 "DPD.l"
-{ return THEN; }
+{ yylval.symbol = SaveSymbol(yytext, yylloc.first_line, yylloc.first_column, yylloc.last_column); return THEN; }
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
 #line 97 "DPD.l"
-{ return ELSE; }
+{ yylval.symbol = SaveSymbol(yytext, yylloc.first_line, yylloc.first_column, yylloc.last_column); return ELSE; }
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
@@ -1436,24 +1436,24 @@ case 55:
 case 56:
 YY_RULE_SETUP
 #line 103 "DPD.l"
-{  yylval.s = _strdup(yytext); return VALUE_INT; }
+{ yylval.symbol = SaveSymbol(yytext, yylloc.first_line, yylloc.first_column, yylloc.last_column); return VALUE_INT; }
 	YY_BREAK
 case 57:
 #line 106 "DPD.l"
 case 58:
 YY_RULE_SETUP
 #line 106 "DPD.l"
-{  yylval.s = _strdup(yytext); return VALUE_FLOAT; }
+{ yylval.symbol = SaveSymbol(yytext, yylloc.first_line, yylloc.first_column, yylloc.last_column); return VALUE_FLOAT; }
 	YY_BREAK
 case 59:
 YY_RULE_SETUP
 #line 108 "DPD.l"
-{  yylval.s = _strdup(yytext); return VALUE_RANGE; }
+{ yylval.symbol = SaveSymbol(yytext, yylloc.first_line, yylloc.first_column, yylloc.last_column); return VALUE_RANGE; }
 	YY_BREAK
 case 60:
 YY_RULE_SETUP
 #line 110 "DPD.l"
-{ yylval.s = _strdup(yytext); return IDENTIFIER; }
+{ yylval.symbol = SaveSymbol(yytext, yylloc.first_line, yylloc.first_column, yylloc.last_column); return IDENTIFIER; }
 	YY_BREAK
 case 61:
 /* rule 61 can match eol */

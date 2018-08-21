@@ -52,8 +52,8 @@ bool DpdParserDB::LoadTask(int taskid)
 int DpdParserDB::SaveProtocol(struct protocol* proto)
 {
 
-	sqlite3_bind_text(m_protocol_stmt, 1, proto->name, -1, SQLITE_STATIC);
-	sqlite3_bind_int(m_protocol_stmt, 2, proto->lineno);
+	//sqlite3_bind_text(m_protocol_stmt, 1, proto->name, -1, SQLITE_STATIC);
+	//sqlite3_bind_int(m_protocol_stmt, 2, proto->lineno);
 	int rc = sqlite3_step(m_protocol_stmt);
 	if ((rc != SQLITE_DONE) && (rc != SQLITE_ROW))
 	{
@@ -77,7 +77,7 @@ int DpdParserDB::SaveProperty(struct property* proper, int segid)
 }
 
 
-int DpdParserDB::SaveSymbol(char* symbol, int lineno, int firstcolumn, int lastcolumn)
+int DpdParserDB::SaveSymbol(const char* symbol, int lineno, int firstcolumn, int lastcolumn)
 {
 	return -1;
 }

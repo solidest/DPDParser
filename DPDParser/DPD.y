@@ -1,3 +1,4 @@
+%locations
 
 %{
 #include <stdlib.h>
@@ -11,7 +12,7 @@ bool isParseSegment = false;
 %}
 
 %union {
-	char* s;
+	int symbol;
 	enum segmenttype segtype;
 	struct comment * commentlist;
 	struct protocol * protocollist;
@@ -23,9 +24,10 @@ bool isParseSegment = false;
 %token PROTOCOL SEGMENT END ENDALL
 %token SEGMENT_TYPE_U8 SEGMENT_TYPE_U16 SEGMENT_TYPE_U32 SEGMENT_TYPE_I8 SEGMENT_TYPE_I16 SEGMENT_TYPE_I32 SEGMENT_TYPE_IR SEGMENT_TYPE_UR
 %token SEGMENT_TYPE_FLOAT SEGMENT_TYPE_DOUBLE SEGMENT_TYPE_BOOLEAN SEGMENT_TYPE_CRC SEGMENT_TYPE_ARRAY SEGMENT_TYPE_STRING SEGMENT_TYPE_BLOCK SEGMENT_TYPE_BUFFER
-%token EQUAL SWITCH CASE IF THEN ELSE 
+%token EQUAL
 
-%token <s> COMMENT DEFAULT CMP IDENTIFIER SEGMENT_PROPERTY VALUE_PROPERTY VALUE_INT VALUE_FLOAT VALUE_STRING VALUE_RANGE VALUE_BOOL 
+%token <symbol> SWITCH CASE IF THEN ELSE DEFAULT CMP COMMENT IDENTIFIER SEGMENT_PROPERTY 
+%token <symbol> VALUE_PROPERTY VALUE_INT VALUE_FLOAT VALUE_STRING VALUE_RANGE VALUE_BOOL 
 
 %type <segtype>			segment_type
 %type <commentlist>		commentlist
@@ -35,7 +37,6 @@ bool isParseSegment = false;
 
 %start firstparse
 
-%destructor { free($$); } <s>
 %destructor { free_commentlist($$); $$=NULL;} <commentlist>
 %destructor { free_protocollist($$); $$=NULL;} <protocollist>
 %destructor { free_segmentlist($$); $$=NULL;} <segmentlist>
@@ -54,8 +55,8 @@ protocollist:											{ $$ = NULL; }
 ;
 
 protocol:  
-	  commentlist PROTOCOL IDENTIFIER segmentlist END	{ $$ = new_protocol($3, $4, $1,  @3.first_line); }
-	| commentlist PROTOCOL IDENTIFIER error END			{ $$ = new_protocol($3, NULL, $1, @3.first_line); }
+	  commentlist PROTOCOL IDENTIFIER segmentlist END	{ $$ = new_protocol($3, $4, $1); }
+	| commentlist PROTOCOL IDENTIFIER error END			{ $$ = new_protocol($3, NULL, $1); }
 ;
 
 commentlist:											{ $$ = NULL; }
@@ -68,11 +69,10 @@ segmentlist:											{ $$ = NULL; }
 ;
 
 segment: 
-	commentlist SEGMENT IDENTIFIER segment_type propertylist	{ $$ = new_segment($3, $4, $5, $1, @3.first_line); }
-	| commentlist SEGMENT IDENTIFIER ifbranch					{ $$ = new_segment($3, DPDIfElse, $4, $1, @3.first_line); }
-	| commentlist SEGMENT IDENTIFIER switchbranch				{ $$ = new_segment($3, DPDSwitch, $4, $1, @3.first_line); }
+	commentlist SEGMENT IDENTIFIER segment_type propertylist	{ $$ = new_segment($3, $4, $5, $1); }
+	| commentlist SEGMENT IDENTIFIER ifbranch					{ $$ = new_segment($3, DPDIfElse, $4, $1); }
+	| commentlist SEGMENT IDENTIFIER switchbranch				{ $$ = new_segment($3, DPDSwitch, $4, $1); }
 ;
-
 
 propertylist:													{ $$ = NULL; }
 	| propertylist error property								{ $$ = union_property($1, $3); }
@@ -80,12 +80,12 @@ propertylist:													{ $$ = NULL; }
 ;
 
 ifbranch:
-	IF IDENTIFIER CMP VALUE_INT THEN IDENTIFIER ELSE IDENTIFIER		{ $$ = new_ifproperty($2, @2.first_line, $3, v_int,$4, @4.first_line, $6, @6.first_line, $8, @8.first_line); }
-	|IF IDENTIFIER CMP VALUE_STRING THEN IDENTIFIER ELSE IDENTIFIER	{ $$ = new_ifproperty($2, @2.first_line, $3, v_str,$4, @4.first_line, $6, @6.first_line, $8, @8.first_line); }
+	IF IDENTIFIER CMP VALUE_INT THEN IDENTIFIER ELSE IDENTIFIER		{ $$ = new_ifproperty($1, $2, $3, v_int, $4, $5, $6, $7, $8); }
+	|IF IDENTIFIER CMP VALUE_STRING THEN IDENTIFIER ELSE IDENTIFIER	{ $$ = new_ifproperty($1, $2, $3, v_str, $4, $5, $6, $7, $8); }
 ;
 
 switchbranch:
-	SWITCH IDENTIFIER caselist DEFAULT IDENTIFIER				{ $$ = new_switchproperty($2, @2.first_line, $3, $5, @5.first_line); free($4);}
+	SWITCH IDENTIFIER caselist DEFAULT IDENTIFIER				{ $$ = new_switchproperty($1, $2, $3, $4, $5); }
 ;
 
 caselist:
@@ -94,8 +94,8 @@ caselist:
 ;
 
 caseitem:
-	CASE VALUE_INT IDENTIFIER									{ $$ = new_property(v_caseint, $2, $3, @3.first_line); }
-	| CASE VALUE_STRING IDENTIFIER								{ $$ = new_property(v_casestr, $2, $3, @3.first_line); }
+	CASE VALUE_INT IDENTIFIER									{ $$ = new_property($2, v_caseint, $3); }
+	| CASE VALUE_STRING IDENTIFIER								{ $$ = new_property($2, v_casestr, $3); }
 ;
 
 
@@ -117,17 +117,17 @@ segment_type: SEGMENT_TYPE_U8	{ $$ = DPDUInt8; }
 	| SEGMENT_TYPE_BUFFER		{ $$ = DPDBuffer; }
 ;
 
-property: SEGMENT_PROPERTY EQUAL VALUE_PROPERTY		{ $$ = new_property(v_property, $1, $3, @3.first_line); }
-	| SEGMENT_PROPERTY EQUAL VALUE_INT				{ $$ = new_property(v_int, $1, $3, @3.first_line); }
-	| SEGMENT_PROPERTY EQUAL VALUE_BOOL				{ $$ = new_property(v_bool, $1, $3, @3.first_line); }
-	| SEGMENT_PROPERTY EQUAL VALUE_FLOAT			{ $$ = new_property(v_float, $1, $3, @3.first_line); }
-	| SEGMENT_PROPERTY EQUAL VALUE_STRING			{ $$ = new_property(v_str, $1, $3, @3.first_line); }
-	| SEGMENT_PROPERTY EQUAL VALUE_RANGE			{ $$ = new_property(v_range, $1, $3, @3.first_line); }
-	| SEGMENT_PROPERTY EQUAL IDENTIFIER				{ $$ = new_property(v_range, $1, $3, @3.first_line); }
-	| DEFAULT EQUAL VALUE_INT						{ $$ = new_property(v_int, $1, $3, @3.first_line); }
-	| DEFAULT EQUAL VALUE_FLOAT						{ $$ = new_property(v_float, $1, $3, @3.first_line); }
-	| DEFAULT EQUAL VALUE_STRING					{ $$ = new_property(v_str, $1, $3, @3.first_line); }
-	| DEFAULT EQUAL VALUE_BOOL						{ $$ = new_property(v_bool, $1, $3, @3.first_line); }
+property: SEGMENT_PROPERTY EQUAL VALUE_PROPERTY		{ $$ = new_property($1, v_property, $3); }
+	| SEGMENT_PROPERTY EQUAL VALUE_INT				{ $$ = new_property($1, v_int, $3); }
+	| SEGMENT_PROPERTY EQUAL VALUE_BOOL				{ $$ = new_property($1, v_bool, $3); }
+	| SEGMENT_PROPERTY EQUAL VALUE_FLOAT			{ $$ = new_property($1, v_float, $3); }
+	| SEGMENT_PROPERTY EQUAL VALUE_STRING			{ $$ = new_property($1, v_str, $3); }
+	| SEGMENT_PROPERTY EQUAL VALUE_RANGE			{ $$ = new_property($1, v_range, $3); }
+	| SEGMENT_PROPERTY EQUAL IDENTIFIER				{ $$ = new_property($1, v_range, $3); }
+	| DEFAULT EQUAL VALUE_INT						{ $$ = new_property($1, v_int, $3); }
+	| DEFAULT EQUAL VALUE_FLOAT						{ $$ = new_property($1, v_float, $3); }
+	| DEFAULT EQUAL VALUE_STRING					{ $$ = new_property($1, v_str, $3); }
+	| DEFAULT EQUAL VALUE_BOOL						{ $$ = new_property($1, v_bool, $3); }
 ;
 
 

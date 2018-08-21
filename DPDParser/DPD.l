@@ -30,18 +30,18 @@ int utf8len = 0;
 	}
 %}
 
-^("#"|([ \t]+"#")).*\n	{ yycolumn = 1; yylval.s = _strdup(yytext); return COMMENT; }
+^("#"|([ \t]+"#")).*\n	{ yycolumn = 1; yylval.symbol = SaveSymbol(yytext, yylloc.first_line, yylloc.first_column, yylloc.last_column); return COMMENT; }
 "#".*\n					{ yycolumn = 1; }
 
 
-\'([^'\\]|\\['"?\\abfnrtv]|\\[0-7]{1,3}|\\[xX][0-9a-fA-F]+|{UCN}|{CHS})*\'	{ yylval.s = _strdup(yytext); return VALUE_STRING; }
+\'([^'\\]|\\['"?\\abfnrtv]|\\[0-7]{1,3}|\\[xX][0-9a-fA-F]+|{UCN}|{CHS})*\'	{ yylval.symbol = SaveSymbol(yytext, yylloc.first_line, yylloc.first_column, yylloc.last_column); return VALUE_STRING; }
 
 "==" |
 "!=" |
 ">=" |
 "<=" |
 ">" |
-"<"						{ yylval.s = _strdup(yytext); return CMP; }
+"<"						{ yylval.symbol = SaveSymbol(yytext, yylloc.first_line, yylloc.first_column, yylloc.last_column); return CMP; }
 "="						{ return EQUAL; }
 
 "Protocol"				{ return PROTOCOL; }
@@ -75,38 +75,38 @@ int utf8len = 0;
 "BitCount" |
 "Child" |
 "Length" |
-"Range"					{ yylval.s = _strdup(yytext); return SEGMENT_PROPERTY; }
+"Range"					{ yylval.symbol = SaveSymbol(yytext, yylloc.first_line, yylloc.first_column, yylloc.last_column); return SEGMENT_PROPERTY; }
 
 "True" |
-"False"					{ yylval.s = _strdup(yytext); return VALUE_BOOL; }
+"False"					{ yylval.symbol = SaveSymbol(yytext, yylloc.first_line, yylloc.first_column, yylloc.last_column); return VALUE_BOOL; }
 
 "Small" |
 "Big" |
 "Primitive" |
 "Inversion" |
-"Complement"			{ yylval.s = _strdup(yytext); return VALUE_PROPERTY; }
+"Complement"			{ yylval.symbol = SaveSymbol(yytext, yylloc.first_line, yylloc.first_column, yylloc.last_column); return VALUE_PROPERTY; }
 
 
 
-"Switch"				{ return SWITCH; }
-"Case"					{ return CASE; }
-"Default"				{ yylval.s = _strdup(yytext); return DEFAULT; }
-"If"					{ return IF; }
-"Then"					{ return THEN; }
-"Else"					{ return ELSE; }
+"Switch"				{ yylval.symbol = SaveSymbol(yytext, yylloc.first_line, yylloc.first_column, yylloc.last_column); return SWITCH; }
+"Case"					{ yylval.symbol = SaveSymbol(yytext, yylloc.first_line, yylloc.first_column, yylloc.last_column); return CASE; }
+"Default"				{ yylval.symbol = SaveSymbol(yytext, yylloc.first_line, yylloc.first_column, yylloc.last_column); return DEFAULT; }
+"If"					{ yylval.symbol = SaveSymbol(yytext, yylloc.first_line, yylloc.first_column, yylloc.last_column); return IF; }
+"Then"					{ yylval.symbol = SaveSymbol(yytext, yylloc.first_line, yylloc.first_column, yylloc.last_column); return THEN; }
+"Else"					{ yylval.symbol = SaveSymbol(yytext, yylloc.first_line, yylloc.first_column, yylloc.last_column); return ELSE; }
 
 "End"					{ return END; }
 
 0[0-7]* |
 [1-9][0-9]* |
-0[Xx][0-9a-fA-F]+		{  yylval.s = _strdup(yytext); return VALUE_INT; }
+0[Xx][0-9a-fA-F]+		{ yylval.symbol = SaveSymbol(yytext, yylloc.first_line, yylloc.first_column, yylloc.last_column); return VALUE_INT; }
 
 -?([0-9]*\.[0-9]+|[0-9]+\.){EXP}? |
-[0-9]+{EXP}				{  yylval.s = _strdup(yytext); return VALUE_FLOAT; }
+[0-9]+{EXP}				{ yylval.symbol = SaveSymbol(yytext, yylloc.first_line, yylloc.first_column, yylloc.last_column); return VALUE_FLOAT; }
 
-"("[ \t]*(0|[1-9][0-9]*)[ \t]*,[ \t]*(0|[1-9][0-9]*)[ \t]*")"	{  yylval.s = _strdup(yytext); return VALUE_RANGE; }
+"("[ \t]*(0|[1-9][0-9]*)[ \t]*,[ \t]*(0|[1-9][0-9]*)[ \t]*")"	{ yylval.symbol = SaveSymbol(yytext, yylloc.first_line, yylloc.first_column, yylloc.last_column); return VALUE_RANGE; }
 
-([a-zA-Z_]|{CHS})([a-zA-Z0-9_]|{CHS})*	{ yylval.s = _strdup(yytext); return IDENTIFIER; }
+([a-zA-Z_]|{CHS})([a-zA-Z0-9_]|{CHS})*	{ yylval.symbol = SaveSymbol(yytext, yylloc.first_line, yylloc.first_column, yylloc.last_column); return IDENTIFIER; }
 
 \r\n					{ yycolumn=1; }
 \n						{ yycolumn=1; }

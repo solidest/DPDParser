@@ -80,6 +80,13 @@ void  SaveSegmentList(struct segment * seg, int protocolid)
 	}
 }
 
+//
+int SaveSymbol(const char* symbol, int lineno, int firstcol, int lastcol)
+{
+	return g_pDb->SaveSymbol(symbol, lineno, firstcol, lastcol);
+}
+
+
 //ÓïÒå·ÖÎö
 bool  ParseSemantics()
 {
@@ -101,7 +108,6 @@ void free_commentlist(struct comment* list)
 	while (list)
 	{
 		next = list->nextline;
-		free(list->line);
 		free(list);
 		list = next;
 	}
@@ -114,7 +120,6 @@ void free_protocollist(struct protocol* list)
 		next = list->next;
 		free_segmentlist(list->seglist);
 		free_commentlist(list->notes);
-		free(list->name);
 		free(list);
 		list = next;
 	}
@@ -128,7 +133,6 @@ void free_segmentlist(struct segment* list)
 		next = list->next;
 		free_propertylist(list->properlist);
 		free_commentlist(list->notes);
-		free(list->name);
 		free(list);
 		list = next;
 	}
@@ -141,8 +145,6 @@ void free_propertylist(struct property* list)
 	while (list)
 	{
 		next = list->next;
-		free(list->name);
-		free(list->value);
 		free(list);
 		list = next;
 	}
@@ -150,11 +152,10 @@ void free_propertylist(struct property* list)
 }
 
 
-struct protocol *new_protocol(char* pname, struct segment* seglist, struct comment* notes, int lino)
+struct protocol *new_protocol(int name, struct segment* seglist, struct comment* notes)
 {
 	struct protocol * ret = (struct protocol*)malloc(sizeof(struct protocol));
-	ret->name = pname;
-	ret->lineno = lino;
+	ret->name = name;
 	ret->next = NULL;
 	ret->notes = notes;
 	ret->seglist = seglist;
@@ -176,11 +177,10 @@ struct protocol *union_protocol(struct protocol* list, struct protocol* p)
 	return list;
 }
 
-struct segment *new_segment(char* pname, enum segmenttype stype, struct property* properlist, struct comment* notes, int lino)
+struct segment *new_segment(int name, enum segmenttype stype, struct property* properlist, struct comment* notes)
 {
 	struct segment * ret = (struct segment*)malloc(sizeof(struct segment));
-	ret->lineno = lino;
-	ret->name = pname;
+	ret->name = name;
 	ret->next = NULL;
 	ret->notes = notes;
 	ret->properlist = properlist;
@@ -203,13 +203,12 @@ struct segment *union_segment(struct segment* list, struct segment* seg)
 	return list;
 }
 
-struct property *new_property(enum valuetype vt, char* pname, char* pvalue, int lno)
+struct property *new_property(int name, enum valuetype vt, int value)
 {
 	struct property* r = (struct property*)malloc(sizeof(struct property));
 	r->vtype = vt;
-	r->name = pname;
-	r->value = pvalue;
-	r->lineno = lno;
+	r->name = name;
+	r->value = value;
 	r->next = NULL;
 	return r;
 }
@@ -229,30 +228,28 @@ struct property *union_property(struct property* list, struct property* p)
 	return list;
 }
 
-//IF IDENTIFIER CMP cmpvalue THEN IDENTIFIER ELSE IDENTIFIER
-struct property *new_ifproperty(char* ifid, int iflno, char* cmp, enum valuetype vtype, char* cmpvalue, int cmplino, char* thenvalue, int thenlno, char* elsevalue, int elselno)
-{
 
-	struct property* ret = new_property(v_id, _strdup("If"), ifid, iflno);
-	ret = union_property(ret, new_property(vtype, cmp, cmpvalue, cmplino));
-	ret = union_property(ret, new_property(v_id, _strdup("Then"), thenvalue, thenlno));
-	ret = union_property(ret, new_property(v_id, _strdup("Else"), elsevalue, elselno));
+struct property *new_ifproperty(int ifid, int ifsegname, int cmp, enum valuetype vtype, int cmpvalue, int thenid, int thenproto, int elseid, int elseproto)
+{
+	struct property* ret = new_property(ifid,v_id,  ifsegname);
+	ret = union_property(ret, new_property(cmp, vtype, cmpvalue));
+	ret = union_property(ret, new_property(thenid,v_id, thenproto));
+	ret = union_property(ret, new_property(elseid,v_id, elseproto));
 	return ret;
 }
 
-//SWITCH IDENTIFIER caselist DEFAULT IDENTIFIER
-struct property *new_switchproperty(char* switchseg, int switchlno, struct property * caselist, char* defaultvalue, int defaultlno)
+struct property *new_switchproperty(int switchid, int switchsegment, struct property * caselist, int defaultid, int defaultproto)
 {
-	struct property* ret = new_property(v_id, _strdup("Switch"), switchseg, switchlno);
+	struct property* ret = new_property(switchid, v_id, switchsegment);
 	ret = union_property(ret, caselist);
-	ret = union_property(ret, new_property(v_id, _strdup("Default"), defaultvalue, defaultlno));
+	ret = union_property(ret, new_property(defaultid, v_id, defaultproto));
 	return ret;
 }
 
-struct comment *new_comment(char* v)
+struct comment *new_comment(int line)
 {
 	struct comment* r = (struct comment*)malloc(sizeof(struct comment));
-	r->line = v;
+	r->line = line;
 	r->nextline = NULL;
 	return r;
 }
