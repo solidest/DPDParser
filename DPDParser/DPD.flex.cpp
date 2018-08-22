@@ -398,7 +398,7 @@ static const flex_int16_t yy_accept[307] =
 
         0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
         0,   58,   56,   60,   60,    0,    0,   43,   60,   60,
-       60,   60,   60,   24,   60,   60,   60,   60,   60,   60,
+       60,   60,   60,   28,   60,   60,   60,   60,   60,   60,
        60,   53,   60,   60,   60,   60,   60,   60,   60,   60,
        60,   60,   60,   60,   60,   60,   60,   60,    0,    1,
         0,    0,    0,    0,    0,    0,    0,    0,    0,   57,
@@ -407,16 +407,16 @@ static const flex_int16_t yy_accept[307] =
        60,   60,   60,   60,   60,   60,   60,   31,   51,   40,
         0,    0,    0,    0,    0,   59,    0,   60,   25,   60,
 
-       27,   60,   60,   60,   34,   60,   33,   60,   41,   60,
+       26,   60,   60,   60,   34,   60,   33,   60,   41,   60,
        60,   60,   60,   60,   60,   39,   60,   42,   60,   60,
-       60,    0,    0,   60,   60,   60,   28,   60,   60,   60,
-       30,   60,   38,   60,   60,   60,   60,   60,   26,   47,
+       60,    0,    0,   60,   60,   60,   27,   60,   60,   60,
+       30,   60,   38,   60,   60,   60,   60,   60,   24,   47,
         0,    0,   60,   60,   23,   60,   60,   49,   60,   60,
        60,   60,   60,   12,   60,    0,   60,   36,   60,   60,
        60,   60,   11,   60,   60,   60,    0,   35,   29,   60,
-       45,   44,   19,   60,   60,   60,   60,   60,    0,   46,
-       20,   60,   60,   60,   60,   60,   60,   60,   60,   60,
-       60,   60,   60,   16,   60,   60,   22,   17,   18,   60,
+       45,   44,   20,   60,   60,   60,   60,   60,    0,   46,
+       16,   60,   60,   60,   60,   60,   60,   60,   60,   60,
+       60,   60,   60,   17,   60,   60,   22,   18,   19,   60,
 
        60,   13,   21,   14,   15,    0
     } ;
@@ -918,7 +918,7 @@ char *yytext;
 int yycolumn = 1;
 int utf8len = 0;
 
-#define YY_USER_ACTION utf8len = GetUtf8Length(yytext, yyleng); yylloc.first_line = yylloc.last_line = yylineno; \
+#define YY_USER_ACTION utf8len = get_utf8_length(yytext, yyleng); yylloc.first_line = yylloc.last_line = yylineno; \
 	yylloc.first_column = yycolumn; yylloc.last_column = yycolumn + utf8len - 1; \
 	yycolumn += utf8len;
 #line 924 "DPD.flex.cpp"
@@ -1225,7 +1225,7 @@ case 1:
 /* rule 1 can match eol */
 YY_RULE_SETUP
 #line 34 "DPD.l"
-{ yycolumn = 1; yylval.symbol = SaveSymbol(yytext, yylloc.first_line, yylloc.first_column, yylloc.last_column); return COMMENT; }
+{ yycolumn = 1; yylval.symbol = save_symbol(yytext, yylloc.first_line, yylloc.first_column, yylloc.last_column); return COMMENT; }
 	YY_BREAK
 case 2:
 /* rule 2 can match eol */
@@ -1237,7 +1237,7 @@ case 3:
 /* rule 3 can match eol */
 YY_RULE_SETUP
 #line 38 "DPD.l"
-{ yylval.symbol = SaveSymbol(yytext, yylloc.first_line, yylloc.first_column, yylloc.last_column); return VALUE_STRING; }
+{ yylval.symbol = save_symbol(yytext, yylloc.first_line, yylloc.first_column, yylloc.last_column); return VALUE_STRING; }
 	YY_BREAK
 case 4:
 #line 41 "DPD.l"
@@ -1252,7 +1252,7 @@ case 8:
 case 9:
 YY_RULE_SETUP
 #line 45 "DPD.l"
-{ yylval.symbol = SaveSymbol(yytext, yylloc.first_line, yylloc.first_column, yylloc.last_column); return CMP; }
+{ yylval.symbol = save_symbol(yytext, yylloc.first_line, yylloc.first_column, yylloc.last_column); return CMP; }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
@@ -1287,27 +1287,27 @@ YY_RULE_SETUP
 case 16:
 YY_RULE_SETUP
 #line 55 "DPD.l"
-{ return SEGMENT_TYPE_I8; }
+{ return SEGMENT_TYPE_UR; }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
 #line 56 "DPD.l"
-{ return SEGMENT_TYPE_I16; }
+{ return SEGMENT_TYPE_I8; }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
 #line 57 "DPD.l"
-{ return SEGMENT_TYPE_I32; }
+{ return SEGMENT_TYPE_I16; }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
 #line 58 "DPD.l"
-{ return SEGMENT_TYPE_IR; }
+{ return SEGMENT_TYPE_I32; }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
 #line 59 "DPD.l"
-{ return SEGMENT_TYPE_UR; }
+{ return SEGMENT_TYPE_IR; }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
@@ -1327,7 +1327,7 @@ YY_RULE_SETUP
 case 24:
 YY_RULE_SETUP
 #line 63 "DPD.l"
-{ return SEGMENT_TYPE_CRC; }
+{ return SEGMENT_TYPE_STRING; }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
@@ -1337,17 +1337,17 @@ YY_RULE_SETUP
 case 26:
 YY_RULE_SETUP
 #line 65 "DPD.l"
-{ return SEGMENT_TYPE_STRING; }
+{ return SEGMENT_TYPE_BLOCK; }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
 #line 66 "DPD.l"
-{ return SEGMENT_TYPE_BLOCK; }
+{ return SEGMENT_TYPE_BUFFER; }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
 #line 67 "DPD.l"
-{ return SEGMENT_TYPE_BUFFER; }
+{ return SEGMENT_TYPE_CRC; }
 	YY_BREAK
 case 29:
 #line 70 "DPD.l"
@@ -1372,14 +1372,14 @@ case 38:
 case 39:
 YY_RULE_SETUP
 #line 79 "DPD.l"
-{ yylval.symbol = SaveSymbol(yytext, yylloc.first_line, yylloc.first_column, yylloc.last_column); return SEGMENT_PROPERTY; }
+{ yylval.symbol = save_symbol(yytext, yylloc.first_line, yylloc.first_column, yylloc.last_column); return SEGMENT_PROPERTY; }
 	YY_BREAK
 case 40:
 #line 82 "DPD.l"
 case 41:
 YY_RULE_SETUP
 #line 82 "DPD.l"
-{ yylval.symbol = SaveSymbol(yytext, yylloc.first_line, yylloc.first_column, yylloc.last_column); return VALUE_BOOL; }
+{ yylval.symbol = save_symbol(yytext, yylloc.first_line, yylloc.first_column, yylloc.last_column); return VALUE_BOOL; }
 	YY_BREAK
 case 42:
 #line 85 "DPD.l"
@@ -1392,37 +1392,37 @@ case 45:
 case 46:
 YY_RULE_SETUP
 #line 88 "DPD.l"
-{ yylval.symbol = SaveSymbol(yytext, yylloc.first_line, yylloc.first_column, yylloc.last_column); return VALUE_PROPERTY; }
+{ yylval.symbol = save_symbol(yytext, yylloc.first_line, yylloc.first_column, yylloc.last_column); return VALUE_PROPERTY; }
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
 #line 92 "DPD.l"
-{ yylval.symbol = SaveSymbol(yytext, yylloc.first_line, yylloc.first_column, yylloc.last_column); return SWITCH; }
+{ yylval.symbol = save_symbol(yytext, yylloc.first_line, yylloc.first_column, yylloc.last_column); return SWITCH; }
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
 #line 93 "DPD.l"
-{ yylval.symbol = SaveSymbol(yytext, yylloc.first_line, yylloc.first_column, yylloc.last_column); return CASE; }
+{ yylval.symbol = save_symbol(yytext, yylloc.first_line, yylloc.first_column, yylloc.last_column); return CASE; }
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
 #line 94 "DPD.l"
-{ yylval.symbol = SaveSymbol(yytext, yylloc.first_line, yylloc.first_column, yylloc.last_column); return DEFAULT; }
+{ yylval.symbol = save_symbol(yytext, yylloc.first_line, yylloc.first_column, yylloc.last_column); return DEFAULT; }
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
 #line 95 "DPD.l"
-{ yylval.symbol = SaveSymbol(yytext, yylloc.first_line, yylloc.first_column, yylloc.last_column); return IF; }
+{ yylval.symbol = save_symbol(yytext, yylloc.first_line, yylloc.first_column, yylloc.last_column); return IF; }
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
 #line 96 "DPD.l"
-{ yylval.symbol = SaveSymbol(yytext, yylloc.first_line, yylloc.first_column, yylloc.last_column); return THEN; }
+{ yylval.symbol = save_symbol(yytext, yylloc.first_line, yylloc.first_column, yylloc.last_column); return THEN; }
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
 #line 97 "DPD.l"
-{ yylval.symbol = SaveSymbol(yytext, yylloc.first_line, yylloc.first_column, yylloc.last_column); return ELSE; }
+{ yylval.symbol = save_symbol(yytext, yylloc.first_line, yylloc.first_column, yylloc.last_column); return ELSE; }
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
@@ -1436,24 +1436,24 @@ case 55:
 case 56:
 YY_RULE_SETUP
 #line 103 "DPD.l"
-{ yylval.symbol = SaveSymbol(yytext, yylloc.first_line, yylloc.first_column, yylloc.last_column); return VALUE_INT; }
+{ yylval.symbol = save_symbol(yytext, yylloc.first_line, yylloc.first_column, yylloc.last_column); return VALUE_INT; }
 	YY_BREAK
 case 57:
 #line 106 "DPD.l"
 case 58:
 YY_RULE_SETUP
 #line 106 "DPD.l"
-{ yylval.symbol = SaveSymbol(yytext, yylloc.first_line, yylloc.first_column, yylloc.last_column); return VALUE_FLOAT; }
+{ yylval.symbol = save_symbol(yytext, yylloc.first_line, yylloc.first_column, yylloc.last_column); return VALUE_FLOAT; }
 	YY_BREAK
 case 59:
 YY_RULE_SETUP
 #line 108 "DPD.l"
-{ yylval.symbol = SaveSymbol(yytext, yylloc.first_line, yylloc.first_column, yylloc.last_column); return VALUE_RANGE; }
+{ yylval.symbol = save_symbol(yytext, yylloc.first_line, yylloc.first_column, yylloc.last_column); return VALUE_RANGE; }
 	YY_BREAK
 case 60:
 YY_RULE_SETUP
 #line 110 "DPD.l"
-{ yylval.symbol = SaveSymbol(yytext, yylloc.first_line, yylloc.first_column, yylloc.last_column); return IDENTIFIER; }
+{ yylval.symbol = save_symbol(yytext, yylloc.first_line, yylloc.first_column, yylloc.last_column); return IDENTIFIER; }
 	YY_BREAK
 case 61:
 /* rule 61 can match eol */
@@ -1484,7 +1484,7 @@ case YY_STATE_EOF(INITIAL):
 case 65:
 YY_RULE_SETUP
 #line 118 "DPD.l"
-{ yylval.symbol = SaveSymbol(yytext, yylloc.first_line, yylloc.first_column, yylloc.last_column); OutError(ERROR_CODE_SYMBOL, yylval.symbol, yylval.symbol); }
+{ yylval.symbol = save_symbol(yytext, yylloc.first_line, yylloc.first_column, yylloc.last_column); out_error(ERROR_CODE_SYMBOL, yylval.symbol, yylval.symbol); }
 	YY_BREAK
 case 66:
 YY_RULE_SETUP

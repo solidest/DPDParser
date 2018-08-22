@@ -72,6 +72,9 @@ namespace SQLiteWrapper
         [DllImport("sqlite3")]
         private static extern int sqlite3_config(int flag, params int[] args);
 
+        [DllImport("sqlite3")]
+        private static extern int sqlite3_last_insert_rowid(IntPtr database);
+
         // SQLite constants 
         private const int SQL_OK = 0;
         private const int SQL_ROW = 100;
@@ -137,6 +140,11 @@ namespace SQLiteWrapper
                 database = IntPtr.Zero;
                 throw new Exception("Error with opening database " + baseName + "!");
             }
+        }
+
+        public int GetLastRowId()
+        {
+            return sqlite3_last_insert_rowid(database);
         }
 
         /// <summary>

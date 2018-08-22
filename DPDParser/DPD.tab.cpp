@@ -70,7 +70,7 @@
 #include "flex.h"
 
 void yyerror(const char *s);
-bool isParseSegment = false;
+bool is_parse_segment = false;
 
 
 #line 77 "DPD.tab.cpp" /* yacc.c:339  */
@@ -1523,7 +1523,7 @@ yyreduce:
 
   case 7:
 #line 54 "DPD.y" /* yacc.c:1648  */
-    { SaveProtocolList((yyvsp[-2].protocollist)); free_protocollist((yyvsp[-2].protocollist)); return 0; }
+    { save_protocollist((yyvsp[-2].protocollist)); free_protocollist((yyvsp[-2].protocollist)); return 0; }
 #line 1528 "DPD.tab.cpp" /* yacc.c:1648  */
     break;
 
@@ -1565,7 +1565,7 @@ yyreduce:
 
   case 14:
 #line 68 "DPD.y" /* yacc.c:1648  */
-    { if(isParseSegment) { SaveSegmentList((yyvsp[-2].segmentlist), -1); free_segmentlist((yyvsp[-2].segmentlist)); return 0; } }
+    { if(is_parse_segment) { yylval.protocollist = new_protocol(NULL, (yyvsp[-2].segmentlist), NULL); save_protocollist(yylval.protocollist); free_protocollist(yylval.protocollist); return 0; } }
 #line 1570 "DPD.tab.cpp" /* yacc.c:1648  */
     break;
 
@@ -2049,10 +2049,10 @@ yyreturn:
 
 int first_tok = 0;
 
-bool ParseUTF8File(char* filename)
+bool parse_utf8file(char* filename)
 {
 	first_tok = PARSEPROTOCOL;
-	isParseSegment = false;
+	is_parse_segment = false;
 	FILE* fs=0;
 	errno_t err;
 
@@ -2072,22 +2072,22 @@ bool ParseUTF8File(char* filename)
 	return true;
 }
 
-bool ParseProtocols(char* code)
+bool parse_protocols(char* code, int size)
 {
 	first_tok = PARSEPROTOCOL;
-	isParseSegment = false;
-	YY_BUFFER_STATE bp = yy_scan_bytes(code,(int)strlen(code));
+	is_parse_segment = false;
+	YY_BUFFER_STATE bp = yy_scan_buffer(code, size);
 	yy_switch_to_buffer(bp);
 	yyparse();
 	yy_delete_buffer(bp);
 	return true;
 }
 
-bool ParseSegments(char* code)
+bool parse_segments(char* code, int size)
 {
 	first_tok = PARSESEGMENT;
-	isParseSegment = true;
-	YY_BUFFER_STATE bp = yy_scan_bytes(code,(int)strlen(code));
+	is_parse_segment = true;
+	YY_BUFFER_STATE bp = yy_scan_buffer(code, size);
 	yy_switch_to_buffer(bp);
 	yyparse();
 	yy_delete_buffer(bp);
@@ -2095,6 +2095,6 @@ bool ParseSegments(char* code)
 }
 
 void yyerror(char const * s) {
-	OutError(ERROR_CODE_SYNTAX, yylval.symbol, yylval.symbol);
+	out_error(ERROR_CODE_SYNTAX, yylval.symbol, yylval.symbol);
 }
 

@@ -7,7 +7,7 @@
 #include "flex.h"
 
 void yyerror(const char *s);
-bool isParseSegment = false;
+bool is_parse_segment = false;
 
 %}
 
@@ -51,7 +51,7 @@ firstparse: PARSEPROTOCOL protocollist
 protocollist:											{ $$ = NULL; }
 	| protocollist error protocol						{ $$ = union_protocol($1, $3); }
 	| protocollist protocol								{ $$ = union_protocol($1, $2); }
-	| protocollist commentlist ENDALL					{ SaveProtocolList($1); free_protocollist($1); return 0; }
+	| protocollist commentlist ENDALL					{ save_protocollist($1); free_protocollist($1); return 0; }
 ;
 
 protocol:  
@@ -65,7 +65,7 @@ commentlist:											{ $$ = NULL; }
 
 segmentlist:											{ $$ = NULL; }
 	| segmentlist segment								{ $$ = union_segment($1, $2); }
-	| segmentlist commentlist ENDALL					{ if(isParseSegment) { SaveSegmentList($1, -1); free_segmentlist($1); return 0; } }
+	| segmentlist commentlist ENDALL					{ if(is_parse_segment) { yylval.protocollist = new_protocol(NULL, $1, NULL); save_protocollist(yylval.protocollist); free_protocollist(yylval.protocollist); return 0; } }
 ;
 
 segment: 
@@ -135,10 +135,10 @@ property: SEGMENT_PROPERTY EQUAL VALUE_PROPERTY		{ $$ = new_property($1, v_prope
 
 int first_tok = 0;
 
-bool ParseUTF8File(char* filename)
+bool parse_utf8file(char* filename)
 {
 	first_tok = PARSEPROTOCOL;
-	isParseSegment = false;
+	is_parse_segment = false;
 	FILE* fs=0;
 	errno_t err;
 
@@ -158,22 +158,22 @@ bool ParseUTF8File(char* filename)
 	return true;
 }
 
-bool ParseProtocols(char* code)
+bool parse_protocols(char* code, int size)
 {
 	first_tok = PARSEPROTOCOL;
-	isParseSegment = false;
-	YY_BUFFER_STATE bp = yy_scan_bytes(code,(int)strlen(code));
+	is_parse_segment = false;
+	YY_BUFFER_STATE bp = yy_scan_buffer(code, size);
 	yy_switch_to_buffer(bp);
 	yyparse();
 	yy_delete_buffer(bp);
 	return true;
 }
 
-bool ParseSegments(char* code)
+bool parse_segments(char* code, int size)
 {
 	first_tok = PARSESEGMENT;
-	isParseSegment = true;
-	YY_BUFFER_STATE bp = yy_scan_bytes(code,(int)strlen(code));
+	is_parse_segment = true;
+	YY_BUFFER_STATE bp = yy_scan_buffer(code, size);
 	yy_switch_to_buffer(bp);
 	yyparse();
 	yy_delete_buffer(bp);
@@ -181,6 +181,6 @@ bool ParseSegments(char* code)
 }
 
 void yyerror(char const * s) {
-	OutError(ERROR_CODE_SYNTAX, yylval.symbol, yylval.symbol);
+	out_error(ERROR_CODE_SYNTAX, yylval.symbol, yylval.symbol);
 }
 

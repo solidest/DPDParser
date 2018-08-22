@@ -5,96 +5,82 @@
 #include "dpd.h"
 #include "DpdParserDB.h"
 
-DpdParserDB* g_pDb;
+static DpdParserDB* g_pDb;
 
 BOOL APIENTRY DllMain(HMODULE hModule,
 	DWORD  ul_reason_for_call,
 	LPVOID lpReserved
 )
 {
+	BOOL ret = FALSE;
 	switch (ul_reason_for_call)
 	{
 		case DLL_PROCESS_ATTACH:
 			g_pDb = new DpdParserDB();
-			return true;
+			ret = TRUE;
+			break;
 		case DLL_THREAD_ATTACH:
+			ret = TRUE;
+			break;
 		case DLL_THREAD_DETACH:
+			ret = TRUE;
+			break;
 		case DLL_PROCESS_DETACH:
 			delete g_pDb;
-			return true;
-		break;
+			ret = TRUE;
+			break;
 	}
-	return TRUE;
+	return ret;
 }
 
 //启动taskid指定的分析任务，分析完成返回true，启动失败返回false
-extern "C" bool __declspec(dllexport) StartParse(int taskid)
+extern "C" bool __declspec(dllexport) start_parse(int taskid)
 {
 	bool result = false;
 	if(!g_pDb->LoadTask(taskid)) return false;
 	g_pDb->UpdateTaskState(TASK_STATE_RUNNING);
-	switch (g_pDb->getTaskId())
+	switch (g_pDb->getTaskType())
 	{
 		case TASK_TYPE_PARSE_FILE:
-			result = ParseUTF8File(g_pDb->getTaskCode());
+			result = parse_utf8file(g_pDb->getTaskCode());
 			break;
 		case TASK_TYPE_PARSE_PROTOCOLS:
-			result = ParseProtocols(g_pDb->getTaskCode());
+			result = parse_protocols(g_pDb->getTaskCode(), g_pDb->getCodeSize());
 			break;
 		case TASK_TYPE_PARSE_SEGMENTS:
-			result = ParseSegments(g_pDb->getTaskCode());
+			result = parse_segments(g_pDb->getTaskCode(), g_pDb->getCodeSize());
 			break;
 		default:
 			result = false;
 	}
-	if (result) result = ParseSemantics();
-	g_pDb->UpdateTaskState(TASK_STATE_END);
+	if (result) result = parse_semantics();
+	g_pDb->UpdateTaskState(TASK_STATE_FINISHED);
 
 	return result;
 }
 
 //记录协议分析结果
-void SaveProtocolList(struct protocol * proto)
+void save_protocollist(struct protocol * proto)
 {
-	while (proto)
-	{
-		int pid = g_pDb->SaveProtocol(proto);
-		SaveSegmentList(proto->seglist, pid);
-		proto = proto->next;
-	}
+	 g_pDb->SaveProtocol(proto);
 }
 
-//记录字段分析结果
-void  SaveSegmentList(struct segment * seg, int protocolid)
-{
-	while (seg)
-	{
-		int segid = g_pDb->SaveSegment(seg, protocolid);
-		struct property * proper = seg->properlist;
-		while (proper)
-		{
-			g_pDb->SaveProperty(proper, segid);
-			proper = proper->next;
-		}
-		seg = seg->next;
-	}
-}
 
 //保存符号 返回符号id
-int SaveSymbol(const char* symbol, int lineno, int firstcol, int lastcol)
+int save_symbol(const char* symbol, int lineno, int firstcol, int lastcol)
 {
 	return g_pDb->SaveSymbol(symbol, lineno, firstcol, lastcol);
 }
 
 
 //语义分析
-bool  ParseSemantics()
+bool  parse_semantics()
 {
 	return false;
 }
 
 //记录错误信息
-void OutError(int errcode, int firstsymbol, int endsymbol)
+void out_error(int errcode, int firstsymbol, int endsymbol)
 {
 	g_pDb->SaveError(errcode, firstsymbol, endsymbol);
 }
@@ -300,7 +286,7 @@ unsigned char utf8_look_for_table[] =
 
 
 //计算str字符数目
-int GetUtf8Length(char *str, int clen)
+int get_utf8_length(char *str, int clen)
 {
 	int len = 0;
 	for (char *ptr = str;
@@ -312,9 +298,9 @@ int GetUtf8Length(char *str, int clen)
 
 
 //get子串
-char* SubUtfString(char *str, unsigned int start, unsigned int end)
+char* sub_utfstring(char *str, unsigned int start, unsigned int end)
 {
-	unsigned int len = GetUtf8Length(str, (int)strlen(str));
+	unsigned int len = get_utf8_length(str, (int)strlen(str));
 	if (start >= len) return NULL;
 	if (end > len) end = len;
 	char *sptr = str;

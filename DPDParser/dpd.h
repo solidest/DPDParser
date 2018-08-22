@@ -6,22 +6,21 @@
 
 #define TASK_STATE_READY			1	//任务已生成未启动
 #define TASK_STATE_RUNNING			2	//任务执行中
-#define TASK_STATE_END				3	//任务完成
+#define TASK_STATE_FINISHED			3	//任务完成
 
 #define ERROR_CODE_SYMBOL			-1	//词法错误
 #define ERROR_CODE_SYNTAX			-2	//语法错误
 
 
 
-void OutError(int errcode, int firstsymbol, int endsymbol);
-bool ParseUTF8File(char* filename);
-bool ParseProtocols(char* code);
-bool ParseSegments(char* code);
-bool ParseSemantics();
-void SaveProtocolList(struct protocol * protolist);
-void SaveSegmentList(struct segment * seglist, int protoid);
-int SaveSymbol(const char* symbol, int lineno, int firstcol, int lastcol);
-int GetUtf8Length(char *str, int clen);
+void out_error(int errcode, int firstsymbol, int endsymbol);
+bool parse_utf8file(char* filename);
+bool parse_protocols(char* code, int size);
+bool parse_segments(char* code, int size);
+bool parse_semantics();
+void save_protocollist(struct protocol * protolist);
+int save_symbol(const char* symbol, int lineno, int firstcol, int lastcol);
+int get_utf8_length(char *str, int clen);
 
 
 struct comment *new_comment(int line);
@@ -89,19 +88,19 @@ enum segmenttype {
 	DPDUInt8 = 1,
 	DPDUInt16,
 	DPDUInt32,
+	DPDUIntRandom,
 	DPDInt8,
 	DPDInt16,
 	DPDInt32,
 	DPDIntRandom,
-	DPDUIntRandom,
 	DPDDouble,
 	DPDFloat,
 	DPDBoolean,
-	DPDCRC,
-	DPDArray,
 	DPDString,
+	DPDArray,
 	DPDBlock,
 	DPDBuffer,
+	DPDCRC,
 	DPDSwitch,
 	DPDIfElse
 };
