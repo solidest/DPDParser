@@ -20,8 +20,9 @@ namespace DPDPaerserTest
             var db = CreateParserDB();
 
             //创建分析任务
-            //var taskid = CreateUTF8FileTask(@"C:\Users\solidest\Desktop\pdb.txt", db);
-            var taskid = CreateProtocolTask("Protocol testtest Segment segoftest Array End", db);
+            var taskid = CreateUTF8FileTask(@"C:\Users\solidest\Desktop\pdb.txt", db);
+            Console.WriteLine("Create task:" + taskid.ToString() + "\n");
+            //var taskid = CreateProtocolTask("Protocol testtest Segment segoftest Array End", db);
             //var taskid = CreateSegmentTask("Segment seg1 Array Segment seg2 StandardUInt8 ByteOrder=Big", db);
 
             //调用dll启动分析任务
@@ -29,6 +30,9 @@ namespace DPDPaerserTest
 
             //读取分析结果
             ReadTaskResult(taskid, db);
+
+            //清楚全部任务数据
+            ClearTask(taskid, db);
 
             //释放数据库
             ReleaseParserDB(db);
@@ -76,16 +80,16 @@ namespace DPDPaerserTest
             return db.GetLastRowId();
         }
 
-        //创建一条协议分析任务
-        static int CreateProtocolTask(string protoCode)
+        //清楚任务数据
+        static void ClearTask(int taskid, SQLiteBase db)
         {
-            return -1;
-        }
-
-        //创建一条字段分析任务
-        static int CreateSegmentTask(string segCode)
-        {
-            return -1;
+            db.ExecuteNonQuery("DELETE FROM predpd_error WHERE taskid = " + taskid.ToString());
+            db.ExecuteNonQuery("DELETE FROM predpd_notes WHERE taskid = " + taskid.ToString());
+            db.ExecuteNonQuery("DELETE FROM predpd_property WHERE taskid = " + taskid.ToString());
+            db.ExecuteNonQuery("DELETE FROM predpd_segment WHERE taskid = " + taskid.ToString());
+            db.ExecuteNonQuery("DELETE FROM predpd_symbol WHERE taskid = " + taskid.ToString());
+            db.ExecuteNonQuery("DELETE FROM predpd_protocol WHERE taskid = " + taskid.ToString());
+            db.ExecuteNonQuery("DELETE FROM predpd_task WHERE rowid =" + taskid.ToString());
         }
 
         //关闭数据库
@@ -321,9 +325,9 @@ namespace DPDPaerserTest
             ";
 
             var db = new SQLiteWrapper.SQLiteBase();
-            //db.OpenDatabase(@"file:C:\Users\solidest\Desktop\parser.db");
-            db.OpenDatabase(@"file::memory:?cache=shared");
-            db.ExecuteNonQuery(sqlCmd);
+            db.OpenDatabase(@"file:C:\Users\solidest\Desktop\parser.db");
+            //db.OpenDatabase(@"file::memory:?cache=shared");
+            //db.ExecuteNonQuery(sqlCmd);
             return db;
         }
 

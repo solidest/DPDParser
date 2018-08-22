@@ -6,8 +6,8 @@
 DpdParserDB::DpdParserDB()
 {
 	sqlite3_config(SQLITE_CONFIG_URI, 1);
-	int res = sqlite3_open("file::memory:?cache=shared", &m_pDB);
-	//int res = sqlite3_open("file:C:\\Users\\solidest\\Desktop\\parser.db", &m_pDB);
+	//int res = sqlite3_open("file::memory:?cache=shared", &m_pDB);
+	int res = sqlite3_open("file:C:\\Users\\solidest\\Desktop\\parser.db", &m_pDB);
 	if (res != SQLITE_OK)
 	{
 		sqlite3_close(m_pDB);
@@ -23,7 +23,7 @@ DpdParserDB::DpdParserDB()
 		m_predpd_task_stmt = NULL;
 	}
 
-	res = sqlite3_prepare_v2(m_pDB, "INSERT INTO predpd_property (segment, propertyname, propertyvalue, propertytype) VALUES(:segment, :propertyname, :propertyvalue, :propertytype);", -1, &m_predpd_property_stmt, NULL);
+	res = sqlite3_prepare_v2(m_pDB, "INSERT INTO predpd_property (taskid, segment, propertyname, propertyvalue, propertytype) VALUES(:taskid, :segment, :propertyname, :propertyvalue, :propertytype);", -1, &m_predpd_property_stmt, NULL);
 	if (res != SQLITE_OK)
 	{
 		m_predpd_property_stmt = NULL;
@@ -41,7 +41,7 @@ DpdParserDB::DpdParserDB()
 		m_predpd_symbol_stmt = NULL;
 	}
 
-	res = sqlite3_prepare_v2(m_pDB, "INSERT INTO predpd_notes (notesymbol, aftersymbol) VALUES(:notesymbol, :aftersymbol);", -1, &m_predpd_notes_stmt, NULL);
+	res = sqlite3_prepare_v2(m_pDB, "INSERT INTO predpd_notes (taskid, notesymbol, aftersymbol) VALUES(:taskid, :notesymbol, :aftersymbol);", -1, &m_predpd_notes_stmt, NULL);
 	if (res != SQLITE_OK)
 	{
 		m_predpd_notes_stmt = NULL;
@@ -53,7 +53,7 @@ DpdParserDB::DpdParserDB()
 		m_predpd_protocol_stmt = NULL;
 	}
 
-	res = sqlite3_prepare_v2(m_pDB, "INSERT INTO predpd_segment (protocol, segmentname, segmenttype) VALUES(:protocol, :segmentname, :segmenttype);", -1, &m_predpd_segment_stmt, NULL);
+	res = sqlite3_prepare_v2(m_pDB, "INSERT INTO predpd_segment (taskid, protocol, segmentname, segmenttype) VALUES(:taskid, :protocol, :segmentname, :segmenttype);", -1, &m_predpd_segment_stmt, NULL);
 	if (res != SQLITE_OK)
 	{
 		m_predpd_segment_stmt = NULL;
@@ -181,8 +181,9 @@ int DpdParserDB::SaveError(int errcode, int firstsymbol, int lastsymbol)
 int DpdParserDB::SaveComment(struct comment* notes, int symbol)
 {
 	if (!notes) return -1;
-	sqlite3_bind_int(m_predpd_notes_stmt, 1, notes->line);
-	sqlite3_bind_int(m_predpd_notes_stmt, 2, symbol);
+	sqlite3_bind_int(m_predpd_notes_stmt, 1, m_taskid);
+	sqlite3_bind_int(m_predpd_notes_stmt, 2, notes->line);
+	sqlite3_bind_int(m_predpd_notes_stmt, 3, symbol);
 	int rc = sqlite3_step(m_predpd_notes_stmt);
 	if ((rc != SQLITE_DONE) && (rc != SQLITE_ROW))
 	{
@@ -218,9 +219,10 @@ int DpdParserDB::SaveProtocol(struct protocol* proto)
 int DpdParserDB::SaveSegment(struct segment* seg, int protolid)
 {
 	if (!seg) return -1;
-	sqlite3_bind_int(m_predpd_segment_stmt, 1, protolid);
-	sqlite3_bind_int(m_predpd_segment_stmt, 2, seg->name);
-	sqlite3_bind_int(m_predpd_segment_stmt, 3, seg->segtype);
+	sqlite3_bind_int(m_predpd_segment_stmt, 1, m_taskid);
+	sqlite3_bind_int(m_predpd_segment_stmt, 2, protolid);
+	sqlite3_bind_int(m_predpd_segment_stmt, 3, seg->name);
+	sqlite3_bind_int(m_predpd_segment_stmt, 4, seg->segtype);
 	int rc = sqlite3_step(m_predpd_segment_stmt);
 	if ((rc != SQLITE_DONE) && (rc != SQLITE_ROW))
 	{
@@ -241,10 +243,11 @@ int DpdParserDB::SaveSegment(struct segment* seg, int protolid)
 int DpdParserDB::SaveProperty(struct property* proper, int segid)
 {
 	if (!proper) return -1;
-	sqlite3_bind_int(m_predpd_property_stmt, 1, segid);
-	sqlite3_bind_int(m_predpd_property_stmt, 2, proper->name);
-	sqlite3_bind_int(m_predpd_property_stmt, 3, proper->value);
-	sqlite3_bind_int(m_predpd_property_stmt, 4, proper->vtype);
+	sqlite3_bind_int(m_predpd_property_stmt, 1, m_taskid);
+	sqlite3_bind_int(m_predpd_property_stmt, 2, segid);
+	sqlite3_bind_int(m_predpd_property_stmt, 3, proper->name);
+	sqlite3_bind_int(m_predpd_property_stmt, 4, proper->value);
+	sqlite3_bind_int(m_predpd_property_stmt, 5, proper->vtype);
 	int rc = sqlite3_step(m_predpd_property_stmt);
 	if ((rc != SQLITE_DONE) && (rc != SQLITE_ROW))
 	{
