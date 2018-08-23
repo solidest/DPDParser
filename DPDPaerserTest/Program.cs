@@ -80,7 +80,7 @@ namespace DPDPaerserTest
             return db.GetLastRowId();
         }
 
-        //清楚任务数据
+        //清除任务数据
         static void ClearTask(int taskid, SQLiteBase db)
         {
             db.ExecuteNonQuery("DELETE FROM predpd_error WHERE taskid = " + taskid.ToString());
